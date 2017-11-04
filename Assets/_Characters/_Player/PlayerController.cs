@@ -4,27 +4,69 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    [SerializeField] float damagePerShot = 9f;
-    [SerializeField] float seconsBetweenShot = 0.5f;
-
-    [SerializeField] GameObject projectile;
+    [SerializeField] Weapon weapon;
     [SerializeField] GameObject projectileSpawnPoint;
 
+    int currentWeaponAmmo;
+
+    public delegate void OnShoot(float ammo);
+    public OnShoot notifyOnShoot;
+
+    float lastShoot;
+    private void Start()
+    {
+        currentWeaponAmmo = weapon.GetWeaponMaxAmmo ();
+    }
     private void Update()
     {
         if (Input.GetKey (KeyCode.Mouse0))
-            SpawnProjectile ();
+            Shoot ();
     }
 
-    void SpawnProjectile()
+    void Shoot()
     {
-        GameObject newProjectile = Instantiate (projectile, projectileSpawnPoint.transform.position, Quaternion.identity) as GameObject;
+        //Handle attack speed
+        if(Time.time > lastShoot + weapon.GetWeaponSpeed ())
+        {
+            if (currentWeaponAmmo == 0) return;
+            UpdateAmmo ();
+            SpawnProjectile ();
+           
+            lastShoot = Time.time;
+        }
+    }
+
+    private void UpdateAmmo()
+    {
+        //Default weapon has unlimited ammo
+        if (weapon.GetWeaponProjectile ().name.Contains ("Default")){
+            notifyOnShoot (999);
+        }
+        else{
+            currentWeaponAmmo--;
+            notifyOnShoot (currentWeaponAmmo);
+        }
+
+        
+    }
+
+    private void SpawnProjectile()
+    {
+        //Spawn projectile
+        GameObject newProjectile = Instantiate (weapon.GetWeaponProjectile(), 
+                                                projectileSpawnPoint.transform.position,
+                                                Quaternion.identity) as GameObject;
+
         Projectile projectileComponent = newProjectile.GetComponent<Projectile> ();
 
-       projectileComponent.setDamage (damagePerShot);
-       // projectileComponent.SetShooter (gameObject);
+        //Set shooter,damage,range,projectilespeed
+        projectileComponent.SetShooter (this.gameObject);
+        projectileComponent.SetDamage (weapon.GetWeaponDamage ());
+        projectileComponent.SetDestroyRange (weapon.GetWeaponRange ());
+        projectileComponent.SetProjectileSpeed (weapon.GetWeaponProjectileSpeed ());
 
-        Vector3 unitVector = (this.transform.forward).normalized;
-        newProjectile.GetComponent<Rigidbody> ().velocity = unitVector * projectileComponent.GetDefaultProjectileSpeed ();
+        //Add velocity to rpojectile
+        projectileComponent.GetComponent<Rigidbody> ().velocity = this.transform.forward * weapon.GetWeaponProjectileSpeed ();
+       
     }
 }

@@ -2,43 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu (menuName = ("OBJECTS/WEAPON"))]
 public class Weapon : ScriptableObject {
 
-    [SerializeField] GameObject weaponPrefab;
+    [SerializeField] GameObject weaponProjectile;
 
-    [SerializeField] float weaponDamage;
-    [SerializeField] float weaponMaxAmmo;
-    [SerializeField] float weaponAmmo;
-    [SerializeField] float weaponRange;
-
+    [SerializeField] float damage;
+    [SerializeField] float attackSpeed;
+    [SerializeField] int maxAmmo;
+    [SerializeField] float Range;
+    [SerializeField] float projectileSpeed;
 
     #region Getters
+    public GameObject GetWeaponProjectile(){
+        return weaponProjectile;
+    }
     public float GetWeaponDamage(){
-        return weaponDamage;
+        return damage;
     }
-    public float GetWeaponAmmo(){
-        return weaponAmmo;
+    public float GetWeaponSpeed()
+    {
+        return attackSpeed;
     }
-    public float GetWeaponMaxAmmo(){
-        return weaponMaxAmmo;
+    public int GetWeaponMaxAmmo(){
+        return maxAmmo;
     }
     public float GetWeaponRange(){
-        return weaponRange;
+        return Range;
     }
-    #endregion
-    #region Setters
-    public void SetWeaponDamage(float value){
-         weaponDamage = value;
+    public float GetWeaponProjectileSpeed()
+    {
+        return projectileSpeed;
     }
-    public void SetWeaponAmmo(float value){
-         weaponAmmo = value;
-    }
-    public void SetWeaponMaxAmmo(float value){
-         weaponMaxAmmo = value;
-    }
-    public void SetWeaponRange(float value){
-         weaponRange = value;
-    }
-    #endregion
 
+    #endregion
 }

@@ -4,38 +4,52 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
-	[SerializeField] float projectlieSpeed;
+    GameObject shooter;
+    float damageAmount;
+    float destroyRange;
+    float projectlieSpeed;
 
-	const float DESTROY_DELAY = 0.01f;
-
-	float damageAmount;
-	GameObject shooter;
-
-	public void setDamage(float damage){
+    public void SetDamage(float damage){
 		damageAmount = damage;
 	}
+    public void SetProjectileSpeed(float speed)
+    {
+        projectlieSpeed = speed;
+    }
+    public void SetShooter(GameObject shooter){
+        this.shooter = shooter;
+    }
+    public void SetDestroyRange(float range){
+        destroyRange = range;
+    }
 
-	public float GetDefaultProjectileSpeed(){
-		return projectlieSpeed;
-	}
-
-	public void SetShooter(GameObject _shooter){
-		shooter = _shooter;
-	}
-
-	void OnCollisionEnter(Collision other)
+	void OnTriggerEnter(Collider other)
 	{
+        //Collision with enemy, add damage and destroy projectile
+        var tag = other.gameObject.tag;
+        switch (tag)
+        {
+            case "Enemy":
+                var enemy = other.gameObject.GetComponent<Enemy> ();
+                enemy.TakeDamage (damageAmount);
+                Destroy (gameObject);
+                break;
 
-        //Component damageableComponent = other.gameObject.GetComponent (typeof(IDamageable));
+            case "Enviorment":
+                Destroy (gameObject);
+                break;
 
-        //if (damageableComponent){
-        //	(damageableComponent as IDamageable).TakeDamage (damageAmount);
-        //}
-        if (other.gameObject.CompareTag ("Enemy")) {
-            var enemy = other.gameObject.GetComponent<Enemy> ();
-            enemy.TakeDamage (damageAmount);
-		    Destroy (gameObject, DESTROY_DELAY);
+            default:
+                break;
         }
+    }
+
+    private void Update()
+    {
+        //Check distance to shooter and destroy if above
+        float distance =  (this.transform.position - shooter.transform.position).magnitude;
+        if (distance > destroyRange)
+            Destroy (gameObject);
     }
 
 }

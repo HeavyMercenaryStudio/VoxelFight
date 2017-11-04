@@ -8,15 +8,14 @@ public class Enemy : MonoBehaviour {
 
     GameObject player;
 
-	//AICharacterControl aiController;
+    //AICharacterControl aiController;
 
-	float currentHealthPoints;
+    float currentHealthPoints;
 	public float healthAsPercentage { get { return currentHealthPoints / (float)maxHealthPoints; } }
 
 	void Start()
 	{
 		player = GameObject.FindGameObjectWithTag ("Player");
-	//	aiController = GetComponent<AICharacterControl> ();
 
 		currentHealthPoints = maxHealthPoints;
 	}
