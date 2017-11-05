@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour, IDamageable {
 
     [SerializeField] Weapon weapon;
-    [SerializeField] GameObject projectileSpawnPoint;
+    [SerializeField] GameObject weaponFireSlot;
+    [SerializeField] GameObject shootLine;
 
+    
     int currentWeaponAmmo;
+    AudioSource weaponAudio;
 
     public delegate void OnShoot(float ammo);
     public OnShoot notifyOnShoot;
@@ -16,30 +19,34 @@ public class PlayerController : MonoBehaviour {
     private void Start()
     {
         currentWeaponAmmo = weapon.GetWeaponMaxAmmo ();
+        weaponAudio = GetComponentInChildren<AudioSource> ();
+        weaponAudio.clip = weapon.GetWeaponSound ();
     }
     private void Update()
     {
         if (Input.GetKey (KeyCode.Mouse0))
-            Shoot ();
+            TryShoot ();
     }
 
-    void Shoot()
+    void TryShoot()
     {
         //Handle attack speed
         if(Time.time > lastShoot + weapon.GetWeaponSpeed ())
         {
-            if (currentWeaponAmmo == 0) return;
-            UpdateAmmo ();
-            SpawnProjectile ();
-           
-            lastShoot = Time.time;
+            if (currentWeaponAmmo != 0)
+            {
+                UpdateAmmo ();
+                Shoot ();
+
+                lastShoot = Time.time;
+            }
         }
     }
 
     private void UpdateAmmo()
     {
         //Default weapon has unlimited ammo
-        if (weapon.GetWeaponProjectile ().name.Contains ("Default")){
+        if (weapon.name.Contains ("Default")){
             notifyOnShoot (999);
         }
         else{
@@ -50,23 +57,50 @@ public class PlayerController : MonoBehaviour {
         
     }
 
-    private void SpawnProjectile()
+    private void Shoot()
     {
-        //Spawn projectile
-        GameObject newProjectile = Instantiate (weapon.GetWeaponProjectile(), 
-                                                projectileSpawnPoint.transform.position,
-                                                Quaternion.identity) as GameObject;
+        Ray ray = new Ray (weaponFireSlot.transform.position, weaponFireSlot.transform.forward);
+        RaycastHit hit;
 
-        Projectile projectileComponent = newProjectile.GetComponent<Projectile> ();
+        Vector3 hitPointPosition = transform.forward * weapon.GetWeaponRange () + transform.position;
 
-        //Set shooter,damage,range,projectilespeed
-        projectileComponent.SetShooter (this.gameObject);
-        projectileComponent.SetDamage (weapon.GetWeaponDamage ());
-        projectileComponent.SetDestroyRange (weapon.GetWeaponRange ());
-        projectileComponent.SetProjectileSpeed (weapon.GetWeaponProjectileSpeed ());
+        if (Physics.Raycast (ray, out hit, weapon.GetWeaponRange ()))
+        {
+            var enemy = hit.collider.GetComponent<Enemy> ();
+            if (enemy)
+            {
+                enemy.TakeDamage (weapon.GetWeaponDamage ());
+            }
 
-        //Add velocity to rpojectile
-        projectileComponent.GetComponent<Rigidbody> ().velocity = this.transform.forward * weapon.GetWeaponProjectileSpeed ();
-       
+            hitPointPosition = hit.point;
+        }
+
+        Effects (hitPointPosition);
+
     }
+
+    private void Effects(Vector3 hitPointPosition)
+    {
+        weaponAudio.Play ();
+
+        GameObject line = Instantiate (shootLine) as GameObject;
+        LineRenderer lineRender = line.GetComponent<LineRenderer> ();
+        lineRender.SetPosition (0, weaponFireSlot.transform.position);
+        lineRender.SetPosition (1, hitPointPosition);
+
+        Destroy (line, 0.1f);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Debug.Log ("Trafili mnie");
+    }
+
+
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawRay (weaponFireSlot.transform.position, weaponFireSlot.transform.forward * weapon.GetWeaponRange());
+    //}
 }

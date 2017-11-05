@@ -5,18 +5,13 @@ using UnityEngine;
 [CreateAssetMenu (menuName = ("OBJECTS/WEAPON"))]
 public class Weapon : ScriptableObject {
 
-    [SerializeField] GameObject weaponProjectile;
-
+    [SerializeField] AudioClip soundEffect;
     [SerializeField] float damage;
     [SerializeField] float attackSpeed;
     [SerializeField] int maxAmmo;
     [SerializeField] float Range;
-    [SerializeField] float projectileSpeed;
 
     #region Getters
-    public GameObject GetWeaponProjectile(){
-        return weaponProjectile;
-    }
     public float GetWeaponDamage(){
         return damage;
     }
@@ -30,10 +25,9 @@ public class Weapon : ScriptableObject {
     public float GetWeaponRange(){
         return Range;
     }
-    public float GetWeaponProjectileSpeed()
+    public AudioClip GetWeaponSound()
     {
-        return projectileSpeed;
+        return soundEffect;
     }
-
     #endregion
 }

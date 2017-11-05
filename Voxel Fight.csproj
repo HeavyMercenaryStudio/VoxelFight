@@ -85,11 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Camera&amp;UI\CameraFollow.cs" />
+    <Compile Include="Assets\_Characters\IDamageable.cs" />
     <Compile Include="Assets\_Characters\_Enemy\Enemy.cs" />
     <Compile Include="Assets\_Characters\_Player\GuiPanel.cs" />
     <Compile Include="Assets\_Characters\_Player\Movement.cs" />
     <Compile Include="Assets\_Characters\_Player\PlayerController.cs" />
-    <Compile Include="Assets\_Weapons\Projectile.cs" />
     <Compile Include="Assets\_Weapons\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>

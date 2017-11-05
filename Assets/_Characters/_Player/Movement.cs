@@ -9,12 +9,14 @@ public class Movement : MonoBehaviour {
    [SerializeField] float rotationSpeed = 100f;
 
     Rigidbody rigibody;
+    Animator anim;
 
     [SerializeField] bool alternativeMovement = false;
 
     private void Start()
     {
         rigibody = GetComponent<Rigidbody> ();
+        anim = GetComponent<Animator> ();
     }
 
     // Update is called once per frame
@@ -58,12 +60,20 @@ public class Movement : MonoBehaviour {
                 rigibody.MoveRotation (newRotation);
 
                 Vector3 moveVector = new Vector3(horizontal,0,vertical);
+
+                anim.SetFloat ("Run", moveVector.normalized.magnitude);
+
                 moveVector *= Time.deltaTime * movementSpeed;
                 moveVector += transform.position;
                 rigibody.MovePosition (moveVector);
 
+                
             }
         }
+
+        
+
+
     }
 
 
