@@ -1,51 +1,85 @@
-﻿using System.Collections;
+﻿     using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Movement : MonoBehaviour {
 
+    
+
    [SerializeField] float movementSpeed = 10f;
-   [SerializeField] float rotationSpeed = 100f;
+   [SerializeField] bool alternativeMovement = false;
 
     Rigidbody rigibody;
     Animator anim;
+    PlayerController controller;
 
-    [SerializeField] bool alternativeMovement = false;
+    Quaternion oldRotation = Quaternion.identity;
+    string horizontalAxisName;
+    string verticalAxisName;
 
     private void Start()
     {
         rigibody = GetComponent<Rigidbody> ();
         anim = GetComponent<Animator> ();
+        controller = GetComponent<PlayerController> ();
+
+        horizontalAxisName = "Horizontal" + controller.GetPlayerNumber ();
+        verticalAxisName = "Vertical" + controller.GetPlayerNumber ();
     }
+
 
     // Update is called once per frame
     void FixedUpdate()
     {
 
-        float h = Input.GetAxis ("Horizontal");
-        float v = Input.GetAxis ("Vertical");
+        float h = Input.GetAxis (horizontalAxisName);
+        float v = Input.GetAxis (verticalAxisName);
 
         Move (h, v);
 
     }
 
+   
     void Move(float horizontal, float vertical)
     {
 
         if (alternativeMovement)
         {
-            Vector3 rotationVector = new Vector3 (0, horizontal, 0);
-            rotationVector *= Time.deltaTime * rotationSpeed;
+            //ROTATION
+            Vector3 rotation = new Vector3 (horizontal, 0, vertical){
+                y = 0f
+            };
 
-            Quaternion deltaRotation = Quaternion.Euler (rotationVector);
-            rigibody.MoveRotation (rigibody.rotation * deltaRotation);
+            if (rotation.magnitude > 0){
+                Quaternion newRotation = Quaternion.LookRotation (rotation);
+                oldRotation = newRotation;
+                rigibody.MoveRotation (newRotation);
+            }
+            else{
+                rigibody.MoveRotation (oldRotation);
+            }
 
-            Vector3 moveVector = (vertical) * transform.forward;
+            //MOVEMENT
+            Vector3 moveVector = new Vector3 (horizontal, 0, vertical);
+            anim.SetFloat ("Run", moveVector.normalized.magnitude);
+
             moveVector *= Time.deltaTime * movementSpeed;
-
             moveVector += transform.position;
+
             rigibody.MovePosition (moveVector);
+
+            //Vector3 viewPos = Camera.main.WorldToViewportPoint (transform.position);
+            //if (viewPos.x > 0.9f || viewPos.x < 0.1f || viewPos.y > 0.9f || viewPos.y < 0.1f)
+            //{
+            //    transform.position = oldPostion;
+            //}               
+            //else
+            //{
+            //    
+            //    
+            //}    
+
         }
         else
         {
@@ -66,16 +100,12 @@ public class Movement : MonoBehaviour {
                 moveVector *= Time.deltaTime * movementSpeed;
                 moveVector += transform.position;
                 rigibody.MovePosition (moveVector);
-
-                
             }
         }
 
         
-
-
     }
 
-
+    Vector3 oldPostion;
 
 }

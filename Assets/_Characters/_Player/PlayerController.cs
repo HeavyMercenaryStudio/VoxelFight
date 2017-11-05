@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IDamageable {
 
+    public int playerNumber;
+
     [SerializeField] Weapon weapon;
     [SerializeField] GameObject weaponFireSlot;
     [SerializeField] GameObject shootLine;
 
-    
     int currentWeaponAmmo;
     AudioSource weaponAudio;
 
@@ -24,7 +25,7 @@ public class PlayerController : MonoBehaviour, IDamageable {
     }
     private void Update()
     {
-        if (Input.GetKey (KeyCode.Mouse0))
+        if (Input.GetButton ("Fire" + playerNumber))
             TryShoot ();
     }
 
@@ -54,7 +55,6 @@ public class PlayerController : MonoBehaviour, IDamageable {
             notifyOnShoot (currentWeaponAmmo);
         }
 
-        
     }
 
     private void Shoot()
@@ -96,7 +96,10 @@ public class PlayerController : MonoBehaviour, IDamageable {
         Debug.Log ("Trafili mnie");
     }
 
-
+    public int GetPlayerNumber()
+    {
+        return playerNumber;
+    }
 
     //private void OnDrawGizmos()
     //{
