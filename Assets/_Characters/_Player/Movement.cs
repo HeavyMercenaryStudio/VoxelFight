@@ -53,12 +53,13 @@ public class Movement : MonoBehaviour {
 
             if (rotation.magnitude > 0){
                 Quaternion newRotation = Quaternion.LookRotation (rotation);
-                oldRotation = newRotation;
                 rigibody.MoveRotation (newRotation);
+                oldRotation = transform.rotation;
             }
             else{
-                rigibody.MoveRotation (oldRotation);
+               transform.rotation = oldRotation;
             }
+
 
             //MOVEMENT
             Vector3 moveVector = new Vector3 (horizontal, 0, vertical);
@@ -105,7 +106,4 @@ public class Movement : MonoBehaviour {
 
         
     }
-
-    Vector3 oldPostion;
-
 }

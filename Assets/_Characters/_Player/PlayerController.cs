@@ -6,27 +6,45 @@ public class PlayerController : MonoBehaviour, IDamageable {
 
     public int playerNumber;
 
+    [SerializeField] float maxHealth;
     [SerializeField] Weapon weapon;
+
     [SerializeField] GameObject weaponFireSlot;
     [SerializeField] GameObject shootLine;
 
-    int currentWeaponAmmo;
+    public float currentHealth;
+
     AudioSource weaponAudio;
-
-    public delegate void OnShoot(float ammo);
-    public OnShoot notifyOnShoot;
-
+    int currentWeaponAmmo;
     float lastShoot;
+
+    PlayerGUI playerGUI;
+
+    public float GetHealthAsPercentage()
+    {
+        return currentHealth / maxHealth;
+    }
+    public int GetPlayerNumber()
+    {
+        return playerNumber;
+    }
+
     private void Start()
     {
+        currentHealth = maxHealth;
+
+        playerGUI = GetComponent<PlayerGUI> ();
+
         currentWeaponAmmo = weapon.GetWeaponMaxAmmo ();
         weaponAudio = GetComponentInChildren<AudioSource> ();
         weaponAudio.clip = weapon.GetWeaponSound ();
     }
+    
     private void Update()
     {
         if (Input.GetButton ("Fire" + playerNumber))
             TryShoot ();
+
     }
 
     void TryShoot()
@@ -47,12 +65,12 @@ public class PlayerController : MonoBehaviour, IDamageable {
     private void UpdateAmmo()
     {
         //Default weapon has unlimited ammo
-        if (weapon.name.Contains ("Default")){
-            notifyOnShoot (999);
+        if (weapon.name.Contains ("Default")){ // TODO make this at changing weapon
+            playerGUI.UpdateAmmoInfo (999);
         }
         else{
             currentWeaponAmmo--;
-            notifyOnShoot (currentWeaponAmmo);
+            playerGUI.UpdateAmmoInfo (currentWeaponAmmo);
         }
 
     }
@@ -93,17 +111,11 @@ public class PlayerController : MonoBehaviour, IDamageable {
 
     public void TakeDamage(float damage)
     {
-        Debug.Log ("Trafili mnie");
+        float damagedHealth = currentHealth - damage;
+        currentHealth = Mathf.Clamp (damagedHealth, 0, maxHealth);
+
+        playerGUI.UpdateHealthInfo (GetHealthAsPercentage());
     }
 
-    public int GetPlayerNumber()
-    {
-        return playerNumber;
-    }
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawRay (weaponFireSlot.transform.position, weaponFireSlot.transform.forward * weapon.GetWeaponRange());
-    //}
+    
 }
