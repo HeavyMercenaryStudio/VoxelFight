@@ -36,6 +36,4 @@ public class EnemyTarget : MonoBehaviour {
         if (other == targetCollider)
             agent.isStopped = false;
     }
-
-
 }
