@@ -40,15 +40,15 @@ public class CameraFollow : MonoBehaviour {
 
     public void Move()
     {
-        //check distance to avarage position of player
-        for (int i = 0; i < players.Length; i++)
-        {
-            float distance = (players[i].position - avaragePosition).magnitude;
+        ////check distance to avarage position of player
+        //for (int i = 0; i < players.Length; i++)
+        //{
+        //    float distance = (players[i].position - avaragePosition).magnitude;
 
-            //...if it its bigger than max distance - offset don't calculate new camera position 
-            if (distance > maxAlongDistance - 0.5f)
-                return;
-        }
+        //    //...if it its bigger than max distance - offset don't calculate new camera position 
+        //    if (distance > maxAlongDistance - 0.5f)
+        //        return;
+        //}
 
         //Calculate acarage position of players
         avaragePosition = new Vector3 ();
