@@ -63,4 +63,8 @@ public class CameraFollow : MonoBehaviour {
          
     }
 
+    public Transform[] GetPlayers()
+    {
+        return players;
+    }
 }

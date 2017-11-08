@@ -92,7 +92,13 @@
     <Compile Include="Assets\_Characters\_Player\Movement.cs" />
     <Compile Include="Assets\_Characters\_Player\PlayerController.cs" />
     <Compile Include="Assets\_Characters\_Player\PlayerGUI.cs" />
+    <Compile Include="Assets\_Characters\_Player\RepairSystem.cs" />
+    <Compile Include="Assets\_Weapons\DefaultWeapon.cs" />
     <Compile Include="Assets\_Weapons\Projectile.cs" />
+    <Compile Include="Assets\_Weapons\Riffle.cs" />
+    <Compile Include="Assets\_Weapons\Shotgun.cs" />
+    <Compile Include="Assets\_Weapons\SniperRiffle.cs" />
+    <Compile Include="Assets\_Weapons\SoundMenager.cs" />
     <Compile Include="Assets\_Weapons\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,16 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu (menuName = ("OBJECTS/WEAPON"))]
-public class Weapon : ScriptableObject {
+public class Weapon {
 
-    [SerializeField] AudioClip soundEffect;
-    [SerializeField] float damage;
-    [SerializeField] float attackSpeed;
-    [SerializeField] int maxAmmo;
-    [SerializeField] float Range;
+    public AudioClip soundEffect;
+    public float damage;
+    public float attackSpeed;
+    public int maxAmmo;
+    public float range;
+    public int dispersion;
+    public string name;
+
+    [HideInInspector] public int currentAmmo;
 
     #region Getters
+    public int GetWeaponDispersion()
+    {
+        return dispersion;
+    }
     public float GetWeaponDamage(){
         return damage;
     }
@@ -23,7 +30,7 @@ public class Weapon : ScriptableObject {
         return maxAmmo;
     }
     public float GetWeaponRange(){
-        return Range;
+        return range;
     }
     public AudioClip GetWeaponSound()
     {

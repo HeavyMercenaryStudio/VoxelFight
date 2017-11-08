@@ -32,12 +32,12 @@ public class Movement : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (controller.isDead) return;
 
         float h = Input.GetAxis (horizontalAxisName);
         float v = Input.GetAxis (verticalAxisName);
 
         Move (h, v);
-
     }
 
    
