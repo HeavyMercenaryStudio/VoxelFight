@@ -17,14 +17,15 @@ public abstract class RobotControler : MonoBehaviour {
     [SerializeField] protected float gunDamage;
 
     [SerializeField] protected GameObject gunMuzzeFlash;
+    [SerializeField] AudioClip weaponAudioClip;
 
-    [SerializeField] SoundMenager soundMenager;
-    AudioSource weaponAudio;
+    AudioSource weaponAudioSource;
+    
 
     float lastShoot;
     float currentHealth;
 
-    PlayerGUI playerGUI;
+    protected PlayerGUI playerGUI;
 
     public abstract void Shoot();
 
@@ -46,7 +47,10 @@ public abstract class RobotControler : MonoBehaviour {
     {
         currentHealth = maxHealth;
         playerGUI = GetComponent<PlayerGUI> ();
-        weaponAudio = GetComponentInChildren<AudioSource> ();
+        weaponAudioSource = GetComponentInChildren<AudioSource> ();
+        weaponAudioSource.clip = weaponAudioClip;
+
+         playerGUI.UpdateWeaponInfo (ammunition);
     }
 
     private void Update()
@@ -69,6 +73,12 @@ public abstract class RobotControler : MonoBehaviour {
             if (ammunition != 0)
             {
                 ammunition--;
+                playerGUI.UpdateWeaponInfo (ammunition);
+
+
+                if (!weaponAudioSource.isPlaying)
+                    weaponAudioSource.Play ();
+
                 Shoot ();
 
                 lastShoot = Time.time;

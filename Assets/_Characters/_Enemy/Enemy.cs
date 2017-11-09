@@ -6,9 +6,9 @@ public class Enemy : MonoBehaviour {
 
 	public float maxHealthPoints = 100f;
 
-    GameObject player;
+    [SerializeField] GameObject blood;
 
-    //AICharacterControl aiController;
+    GameObject player;
 
     float currentHealthPoints;
 	public float healthAsPercentage { get { return currentHealthPoints / (float)maxHealthPoints; } }
@@ -23,9 +23,12 @@ public class Enemy : MonoBehaviour {
 
 	public void TakeDamage(float damage)
 	{
-		currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints); 
+		currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
 
-		if (currentHealthPoints == 0)
+        GameObject blood1 = Instantiate (blood, transform.position + new Vector3(0,5f), Quaternion.identity) as GameObject;
+        Destroy (blood1, 0.5f);
+
+        if (currentHealthPoints == 0)
 			Destroy (gameObject);
 	}
 

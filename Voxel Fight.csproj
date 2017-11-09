@@ -91,6 +91,7 @@
     <Compile Include="Assets\_Characters\_Enemy\EnemyTarget.cs" />
     <Compile Include="Assets\_Characters\_Enemy\ZombieCloseAttack.cs" />
     <Compile Include="Assets\_Characters\_Player\BattleBotControler.cs" />
+    <Compile Include="Assets\_Characters\_Player\LittleBotControler.cs" />
     <Compile Include="Assets\_Characters\_Player\Movement.cs" />
     <Compile Include="Assets\_Characters\_Player\PlayerController.cs" />
     <Compile Include="Assets\_Characters\_Player\PlayerGUI.cs" />

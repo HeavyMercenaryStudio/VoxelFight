@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour, IDamageable {
         if(!currentWeapon.GetType().Name.Contains ("Default"))
         { 
             currentWeapon.currentAmmo--;
-            playerGUI.UpdateWeaponInfo (currentWeapon.currentAmmo, currentWeapon.name);
+            playerGUI.UpdateWeaponInfo (currentWeapon.currentAmmo);
         }
 
     }
@@ -180,9 +180,9 @@ public class PlayerController : MonoBehaviour, IDamageable {
     {
         //Default weapon has unlimited ammo
         if (currentWeapon.name == "Pistol")
-            playerGUI.UpdateWeaponInfo (999, currentWeapon.name);
+            playerGUI.UpdateWeaponInfo (999);
         else
-            playerGUI.UpdateWeaponInfo (currentWeapon.currentAmmo, currentWeapon.name);
+            playerGUI.UpdateWeaponInfo (currentWeapon.currentAmmo);
 
         weaponAudio.clip = soundMenager.GetWeaponSound (currentWeapon);
     }
