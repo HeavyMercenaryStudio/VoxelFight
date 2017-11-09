@@ -10,7 +10,7 @@ public class RepairSystem : MonoBehaviour {
     Transform[] players;
     CameraFollow cameraFollow;
     PlayerController playerControler;
-    static float maxRessDistance = 4f;
+    static float maxRessDistance = 6f;
     static float maxRessTime = 2.5f;
 
     float currentRessTime;
@@ -44,6 +44,7 @@ public class RepairSystem : MonoBehaviour {
 
     private void TryRess()
     {
+       
         if (Input.GetButton ("Ress" + playerControler.GetPlayerNumber ()))
         {
             repairBar.transform.parent.parent.gameObject.SetActive (true);
