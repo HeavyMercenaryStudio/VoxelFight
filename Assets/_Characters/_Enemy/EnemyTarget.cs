@@ -5,13 +5,21 @@ using UnityEngine.AI;
 
 public class EnemyTarget : MonoBehaviour {
 
-    private NavMeshAgent agent;
-    public GameObject target;
-    private Collider targetCollider;
+    
+    [SerializeField] GameObject target;
 
-	void Awake () {
+
+    private Collider targetCollider;
+    private NavMeshAgent agent;
+    private IEnumerator coroutine;
+    ZombieCloseAttack zombieCloseAttack;
+
+
+    void Awake () {
         agent = GetComponent<NavMeshAgent>();
-        targetCollider = target.GetComponent<CapsuleCollider>();
+        coroutine = Attack(1.0f);
+        targetCollider = target.GetComponent<Collider>();
+        zombieCloseAttack = GetComponent<ZombieCloseAttack>();
         agent.isStopped = false;
     }
 
@@ -28,12 +36,29 @@ public class EnemyTarget : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         if (other == targetCollider)
-            agent.isStopped=true;
+        {
+            agent.isStopped = true;
+            StartCoroutine(coroutine);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other == targetCollider)
+        {
             agent.isStopped = false;
+            StopCoroutine(coroutine);
+        }
+    }
+
+    private IEnumerator Attack(float waitTime)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            zombieCloseAttack.TakeDamage();
+            Debug.Log("Uderzono");
+        }
     }
 }
+
