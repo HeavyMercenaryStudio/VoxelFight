@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
@@ -31,37 +30,3 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
-=======
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoxelFight.Plugins", "VoxelFight.Plugins.csproj", "{60A2C51C-5730-EF2D-8CC3-1FCC1F807234}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoxelFight", "VoxelFight.csproj", "{B0DEEC2E-283A-81D3-6CBC-5A297B94E683}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoxelFight.Editor.Plugins", "VoxelFight.Editor.Plugins.csproj", "{27C9CE24-7A24-C0D0-8149-B305F9D2039A}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{60A2C51C-5730-EF2D-8CC3-1FCC1F807234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60A2C51C-5730-EF2D-8CC3-1FCC1F807234}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60A2C51C-5730-EF2D-8CC3-1FCC1F807234}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60A2C51C-5730-EF2D-8CC3-1FCC1F807234}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B0DEEC2E-283A-81D3-6CBC-5A297B94E683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0DEEC2E-283A-81D3-6CBC-5A297B94E683}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0DEEC2E-283A-81D3-6CBC-5A297B94E683}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0DEEC2E-283A-81D3-6CBC-5A297B94E683}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27C9CE24-7A24-C0D0-8149-B305F9D2039A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27C9CE24-7A24-C0D0-8149-B305F9D2039A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27C9CE24-7A24-C0D0-8149-B305F9D2039A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27C9CE24-7A24-C0D0-8149-B305F9D2039A}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
->>>>>>> Enemy
