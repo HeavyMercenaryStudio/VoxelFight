@@ -5,14 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Movement : MonoBehaviour {
 
-    
-
    [SerializeField] float movementSpeed = 10f;
-   [SerializeField] bool alternativeMovement = false;
+    [SerializeField] float rotationSpeed = 10f;
+    [SerializeField] bool alternativeMovement = false;
 
     Rigidbody rigibody;
     Animator anim;
-    PlayerController controller;
+    RobotControler controller;
 
     Quaternion oldRotation = Quaternion.identity;
     string horizontalAxisName;
@@ -22,7 +21,7 @@ public class Movement : MonoBehaviour {
     {
         rigibody = GetComponent<Rigidbody> ();
         anim = GetComponent<Animator> ();
-        controller = GetComponent<PlayerController> ();
+        controller = GetComponent<RobotControler> ();
 
         horizontalAxisName = "Horizontal" + controller.GetPlayerNumber ();
         verticalAxisName = "Vertical" + controller.GetPlayerNumber ();
@@ -46,6 +45,23 @@ public class Movement : MonoBehaviour {
 
         if (alternativeMovement)
         {
+
+            float degeres = horizontal * rotationSpeed * Time.deltaTime;
+            transform.RotateAround (transform.position, transform.up, degeres);
+    
+//            if(Mathf.Abs(horizontal) < 0.5f) {
+
+                Vector3 moveVector = transform.forward * vertical * Time.deltaTime * movementSpeed;
+               anim.SetFloat ("Run", moveVector.normalized.magnitude);
+
+                moveVector += transform.position;
+                rigibody.MovePosition (moveVector);
+
+  //          }
+
+
+
+            /*
             //ROTATION
             Vector3 rotation = new Vector3 (horizontal, 0, vertical){
                 y = 0f
@@ -68,19 +84,8 @@ public class Movement : MonoBehaviour {
             moveVector *= Time.deltaTime * movementSpeed;
             moveVector += transform.position;
 
-            rigibody.MovePosition (moveVector);
-
-            //Vector3 viewPos = Camera.main.WorldToViewportPoint (transform.position);
-            //if (viewPos.x > 0.9f || viewPos.x < 0.1f || viewPos.y > 0.9f || viewPos.y < 0.1f)
-            //{
-            //    transform.position = oldPostion;
-            //}               
-            //else
-            //{
-            //    
-            //    
-            //}    
-
+            rigibody.MovePosition (moveVector);   
+            */
         }
         else
         {

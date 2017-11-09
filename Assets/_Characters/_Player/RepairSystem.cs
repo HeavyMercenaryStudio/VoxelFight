@@ -9,7 +9,7 @@ public class RepairSystem : MonoBehaviour {
 
     Transform[] players;
     CameraFollow cameraFollow;
-    PlayerController playerControler;
+    RobotControler controller;
     static float maxRessDistance = 6f;
     static float maxRessTime = 2.5f;
 
@@ -18,7 +18,7 @@ public class RepairSystem : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        playerControler = GetComponent<PlayerController> ();
+        controller = GetComponent<RobotControler> ();
         cameraFollow = FindObjectOfType<CameraFollow> ();
         players = cameraFollow.GetPlayers ();
 
@@ -28,7 +28,7 @@ public class RepairSystem : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (playerControler.isDead) WaitForRes ();
+        if (controller.isDead) WaitForRes ();
 	}
 
     private void WaitForRes()
@@ -45,7 +45,7 @@ public class RepairSystem : MonoBehaviour {
     private void TryRess()
     {
        
-        if (Input.GetButton ("Ress" + playerControler.GetPlayerNumber ()))
+        if (Input.GetButton ("Ress" + controller.GetPlayerNumber ()))
         {
             repairBar.transform.parent.parent.gameObject.SetActive (true);
             currentRessTime += Time.deltaTime;
@@ -54,8 +54,8 @@ public class RepairSystem : MonoBehaviour {
             if (currentRessTime > maxRessTime)
             {
                 repairBar.transform.parent.parent.gameObject.SetActive (false);
-                playerControler.SetHealthAsPercentage (50f);
-                playerControler.isDead = false;
+                controller.SetHealthAsPercentage (50f);
+                controller.isDead = false;
                 //play animation
             }
         }
