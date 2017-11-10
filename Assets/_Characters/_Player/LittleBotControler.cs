@@ -10,20 +10,27 @@ public class LittleBotControler : RobotControler
     {
         MuzzleEffect ();
 
-        //CAST RAY
-        Ray gun1Ray = new Ray (gunEndPoint1.position, gunEndPoint1.forward);
-        RaycastHit hit;
+        GameObject bulet = Instantiate (bullet, gunEndPoint1.position, Quaternion.identity) as GameObject;
+        var proj = bulet.GetComponent<Projectile> ();
+        proj.SetDamage (gunDamage);
+        proj.SetDestroyRange (gunMaxRange);
+        proj.SetShooter (this.gameObject);
+        proj.GetComponent<Rigidbody> ().velocity = gunEndPoint1.forward * bulletSpeed;
 
-        Debug.DrawRay (gun1Ray.origin, gun1Ray.direction * gunMaxRange);
+        ////CAST RAY
+        //Ray gun1Ray = new Ray (gunEndPoint1.position, gunEndPoint1.forward);
+        //RaycastHit hit;
 
-        if (Physics.Raycast (gun1Ray, out hit, gunMaxRange))
-        {
-            var enemy = hit.collider.GetComponent<Enemy> ();
-            if (enemy)
-            {
-                enemy.TakeDamage (gunDamage);
-            }
-        }
+        //Debug.DrawRay (gun1Ray.origin, gun1Ray.direction * gunMaxRange);
+
+        //if (Physics.Raycast (gun1Ray, out hit, gunMaxRange))
+        //{
+        //    var enemy = hit.collider.GetComponent<Enemy> ();
+        //    if (enemy)
+        //    {
+        //        enemy.TakeDamage (gunDamage);
+        //    }
+        //}
     }
 
     private void MuzzleEffect()

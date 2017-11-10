@@ -15,7 +15,10 @@ public abstract class RobotControler : MonoBehaviour {
 
     [SerializeField] protected float gunMaxRange;
     [SerializeField] protected float gunDamage;
+    [SerializeField] protected float bulletSpeed;
 
+
+    [SerializeField] protected GameObject bullet;
     [SerializeField] protected GameObject gunMuzzeFlash;
     [SerializeField] AudioClip weaponAudioClip;
 

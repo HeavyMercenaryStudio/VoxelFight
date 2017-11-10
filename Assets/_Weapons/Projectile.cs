@@ -7,21 +7,17 @@ public class Projectile : MonoBehaviour {
     GameObject shooter;
     float damageAmount;
     float destroyRange;
-    float projectlieSpeed;
 
     public void SetDamage(float damage){
 		damageAmount = damage;
 	}
-    public void SetProjectileSpeed(float speed)
-    {
-        projectlieSpeed = speed;
-    }
     public void SetShooter(GameObject shooter){
         this.shooter = shooter;
     }
     public void SetDestroyRange(float range){
         destroyRange = range;
     }
+
 
 	void OnTriggerEnter(Collider other)
 	{
