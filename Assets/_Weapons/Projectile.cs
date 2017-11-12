@@ -27,6 +27,7 @@ public class Projectile : MonoBehaviour {
         {
             case "Enemy":
                 var enemy = other.gameObject.GetComponent<Enemy> ();
+                if (enemy.isDeath) return;
                 enemy.TakeDamage (damageAmount);
                 Destroy (gameObject);
                 break;

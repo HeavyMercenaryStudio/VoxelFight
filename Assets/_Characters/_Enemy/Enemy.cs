@@ -4,22 +4,37 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-	public float maxHealthPoints = 100f;
+    public Animator animatorControler;
+
+    [SerializeField] float maxHealthPoints = 100f;
+    [SerializeField] float zombieAttackSpeed;
+    [SerializeField] float damagePerSecond;
 
     [SerializeField] GameObject blood;
+    
+    public float healthAsPercentage { get { return currentHealthPoints / (float)maxHealthPoints; } }
+    public float GetZombieAttackSpeed()
+    {
+        return zombieAttackSpeed;
+    }
+    public float GetZombieDamage()
+    {
+        return damagePerSecond;
+    }
+    public bool isDeath;
 
-    GameObject player;
+    public delegate void OnEnemyDeath();
+    public static event OnEnemyDeath onEnemyDeath;
 
     float currentHealthPoints;
-	public float healthAsPercentage { get { return currentHealthPoints / (float)maxHealthPoints; } }
+    float stiffDestroyTime = 20f;
 
-	void Start()
+    void Start()
 	{
-		player = GameObject.FindGameObjectWithTag ("Player");
-
 		currentHealthPoints = maxHealthPoints;
-	}
 
+        animatorControler = GetComponent<Animator> ();
+    }
 
 	public void TakeDamage(float damage)
 	{
@@ -29,8 +44,14 @@ public class Enemy : MonoBehaviour {
         Destroy (blood1, 0.5f);
 
         if (currentHealthPoints == 0)
-			Destroy (gameObject);
-	}
+        {
+            isDeath = true;
+            animatorControler.SetTrigger ("Death");
+            GetComponent<Collider> ().isTrigger = true;
+            onEnemyDeath ();
+			Destroy (gameObject, stiffDestroyTime);
+        }
+    }
 
-
+    
 }

@@ -5,31 +5,42 @@ using UnityEngine.AI;
 
 public class EnemyTarget : MonoBehaviour {
 
-    
     [SerializeField] GameObject target;
 
-
+    private Enemy enemy;
+    private HouseHealth targetHealth;
     private Collider targetCollider;
     private NavMeshAgent agent;
     private IEnumerator coroutine;
-    ZombieCloseAttack zombieCloseAttack;
 
+    void Start () {
 
-    void Awake () {
+        target = GameObject.FindObjectOfType<HouseHealth> ().gameObject;
+
         agent = GetComponent<NavMeshAgent>();
-        coroutine = Attack(1.0f);
         targetCollider = target.GetComponent<Collider>();
-        zombieCloseAttack = GetComponent<ZombieCloseAttack>();
+        targetHealth = target.GetComponent<HouseHealth> ();
+        enemy = GetComponent<Enemy> ();
+
+        agent.destination = target.transform.position;
+        coroutine = Attack (enemy.GetZombieAttackSpeed());
         agent.isStopped = false;
     }
 
     public void MoveToLocation()
     {
         agent.destination = target.transform.position;
+        enemy.animatorControler.SetFloat ("Run", agent.velocity.magnitude);
     }
 
     private void Update()
     {
+        if (enemy.isDeath)
+        {
+            agent.isStopped = true;
+            return;
+        }
+
         MoveToLocation();
     }
 
@@ -38,7 +49,7 @@ public class EnemyTarget : MonoBehaviour {
         if (other == targetCollider)
         {
             agent.isStopped = true;
-            StartCoroutine(coroutine);
+            StartCoroutine (coroutine);
         }
     }
 
@@ -56,8 +67,13 @@ public class EnemyTarget : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(waitTime);
-            zombieCloseAttack.TakeDamage();
-            Debug.Log("Uderzono");
+
+            if (enemy.isDeath){
+                StopCoroutine (coroutine);
+            }   
+
+            enemy.animatorControler.SetTrigger ("Attack");
+            targetHealth.TakeDamage (enemy.GetZombieDamage());
         }
     }
 }

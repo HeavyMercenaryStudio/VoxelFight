@@ -89,7 +89,6 @@
     <Compile Include="Assets\_Characters\IDamageable.cs" />
     <Compile Include="Assets\_Characters\_Enemy\Enemy.cs" />
     <Compile Include="Assets\_Characters\_Enemy\EnemyTarget.cs" />
-    <Compile Include="Assets\_Characters\_Enemy\ZombieCloseAttack.cs" />
     <Compile Include="Assets\_Characters\_Player\BattleBotControler.cs" />
     <Compile Include="Assets\_Characters\_Player\LittleBotControler.cs" />
     <Compile Include="Assets\_Characters\_Player\Movement.cs" />
@@ -97,6 +96,8 @@
     <Compile Include="Assets\_Characters\_Player\PlayerGUI.cs" />
     <Compile Include="Assets\_Characters\_Player\RepairSystem.cs" />
     <Compile Include="Assets\_Characters\_Player\RobotControler.cs" />
+    <Compile Include="Assets\_Core\Wave.cs" />
+    <Compile Include="Assets\_Core\WaveSystem.cs" />
     <Compile Include="Assets\_MainObject\HouseGUI.cs" />
     <Compile Include="Assets\_MainObject\HouseHealth.cs" />
     <Compile Include="Assets\_Weapons\DefaultWeapon.cs" />
