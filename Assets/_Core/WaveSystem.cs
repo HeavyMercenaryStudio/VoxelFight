@@ -12,19 +12,22 @@ public class WaveSystem : MonoBehaviour {
 
     [SerializeField] float timeBetweenWaves;
 
-    public List<Wave> waveList;
+    [SerializeField] List<Wave> waveList;
     Wave currentWave;
     int waveNumber;
+
+    StoreSystem storeSystem;
 
     int enemiesInWave;
     float nextWaveTime;
 
     public void Start()
     {
+        storeSystem = FindObjectOfType<StoreSystem> ();
+        storeSystem.ToogleStore (false);
+
         Enemy.onEnemyDeath += DecreseEnemiesCount;
-
         currentWave = waveList[waveNumber];
-
         StartWave ();
     }
 
@@ -35,7 +38,10 @@ public class WaveSystem : MonoBehaviour {
             var t = (int)(nextWaveTime - Time.time);
             nextWaveText.text = ("Next Wave : " + t);
 
+            storeSystem.ToogleStore (true);
+
             if (t == 0) {
+                storeSystem.ToogleStore (false);
                 nextWaveTime = 0;
                 NextWave ();
             }
@@ -54,7 +60,7 @@ public class WaveSystem : MonoBehaviour {
 
     void StartWave()
     {
-        waveText.text = "Wave : " + waveNumber + 1;
+        waveText.text = "Wave : " + (waveNumber + 1).ToString();
 
         for (int i = 0; i < currentWave.enemiesAmount.Length; i++)
             enemiesInWave += currentWave.enemiesAmount[i];

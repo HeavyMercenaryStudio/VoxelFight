@@ -11,7 +11,7 @@ public abstract class RobotControler : MonoBehaviour {
     //Robot Atributes
     [SerializeField] float maxHealth;
     [SerializeField] float shootingSpeed;
-    [SerializeField] int ammunition;
+    [SerializeField] int maxAmmunition;
 
     [SerializeField] protected float gunMaxRange;
     [SerializeField] protected float gunDamage;
@@ -27,6 +27,7 @@ public abstract class RobotControler : MonoBehaviour {
 
     float lastShoot;
     float currentHealth;
+    int currentAmmo;
 
     protected PlayerGUI playerGUI;
 
@@ -41,6 +42,24 @@ public abstract class RobotControler : MonoBehaviour {
         currentHealth = maxHealth * percentage / 100.0f;
         playerGUI.UpdateHealthInfo (GetHealthAsPercentage ());
     }
+    public void FillPlayerAmmunition()
+    {
+        currentAmmo = maxAmmunition;
+        playerGUI.UpdateWeaponInfo (currentAmmo);
+    }
+    public void SetDamageUp(float damage)
+    {
+        gunDamage += damage;
+    }
+    public void SetMaxHealth(float health)
+    {
+        maxHealth += health;
+    }
+    public void SetMaxAmmo(int ammo)
+    {
+        maxAmmunition += ammo;
+    }
+
     public int GetPlayerNumber()
     {
         return playerNumber;
@@ -49,11 +68,13 @@ public abstract class RobotControler : MonoBehaviour {
     private void Start()
     {
         currentHealth = maxHealth;
+        currentAmmo = maxAmmunition;
+
         playerGUI = GetComponent<PlayerGUI> ();
         weaponAudioSource = GetComponentInChildren<AudioSource> ();
         weaponAudioSource.clip = weaponAudioClip;
 
-         playerGUI.UpdateWeaponInfo (ammunition);
+         playerGUI.UpdateWeaponInfo (currentAmmo);
     }
 
     private void Update()
@@ -73,10 +94,10 @@ public abstract class RobotControler : MonoBehaviour {
         //Handle attack speed
         if (Time.time > lastShoot + shootingSpeed)
         {
-            if (ammunition != 0)
+            if (currentAmmo != 0)
             {
-                ammunition--;
-                playerGUI.UpdateWeaponInfo (ammunition);
+                currentAmmo--;
+                playerGUI.UpdateWeaponInfo (currentAmmo);
 
 
                 if (!weaponAudioSource.isPlaying)
