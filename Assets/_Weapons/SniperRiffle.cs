@@ -11,8 +11,6 @@ public class SniperRiffle : Weapon
 
         dispersion = 0;
         range = 50;
-        maxAmmo = 25;
-        attackSpeed = 1f;
         damage = 25;
 
         //soundEffect = ?;

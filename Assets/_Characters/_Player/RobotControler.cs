@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class RobotControler : MonoBehaviour {
+public abstract class RobotControler : MonoBehaviour, IDamageable {
 
-    public bool isDead;
+    public delegate void OnPlayerDead();
+    public static event OnPlayerDead notifyPlayerDead;
 
     [SerializeField] int playerNumber;
 
@@ -17,17 +18,18 @@ public abstract class RobotControler : MonoBehaviour {
     [SerializeField] protected float gunDamage;
     [SerializeField] protected float bulletSpeed;
 
-
     [SerializeField] protected GameObject bullet;
     [SerializeField] protected GameObject gunMuzzeFlash;
     [SerializeField] AudioClip weaponAudioClip;
 
     AudioSource weaponAudioSource;
-    
+
+    protected Animator shootAnimator;
 
     float lastShoot;
     float currentHealth;
     int currentAmmo;
+    bool isDestroyed;
 
     protected PlayerGUI playerGUI;
 
@@ -72,6 +74,7 @@ public abstract class RobotControler : MonoBehaviour {
 
         playerGUI = GetComponent<PlayerGUI> ();
         weaponAudioSource = GetComponentInChildren<AudioSource> ();
+        shootAnimator = transform.Find ("Gun").GetComponent<Animator> ();
         weaponAudioSource.clip = weaponAudioClip;
 
          playerGUI.UpdateWeaponInfo (currentAmmo);
@@ -79,7 +82,7 @@ public abstract class RobotControler : MonoBehaviour {
 
     private void Update()
     {
-        if (isDead) { return; }
+        if (isDestroyed) { return; }
 
         if (Input.GetButton ("Fire" + playerNumber))
             TryShoot ();
@@ -118,7 +121,19 @@ public abstract class RobotControler : MonoBehaviour {
         playerGUI.UpdateHealthInfo (GetHealthAsPercentage ());
 
         if (currentHealth == 0)
-            isDead = true;
+        {
+            isDestroyed = true;
+            notifyPlayerDead ();
+        }
     }
 
+    public bool IsDestroyed()
+    {
+        return isDestroyed;
+    }
+
+    public void SetDestroyed(bool v)
+    {
+        isDestroyed = v;
+    }
 }

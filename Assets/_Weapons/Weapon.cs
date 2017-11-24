@@ -2,39 +2,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon {
+public  class Weapon : MonoBehaviour{
+    
+    [SerializeField] float secondsBetweenShoot;
+    [SerializeField] int maxAmmo;
+    [SerializeField] protected float damage;
+    [SerializeField] protected float range;
+    [SerializeField] protected int dispersion;
+    [SerializeField] protected int bulletSpeed;
 
-    public AudioClip soundEffect;
-    public float damage;
-    public float attackSpeed;
-    public int maxAmmo;
-    public float range;
-    public int dispersion;
-    public string name;
+    [SerializeField] AudioClip soundEffect;
+    [SerializeField] protected Transform gunEndPoint;
+    [SerializeField] protected GameObject bullet;
+    [SerializeField] protected GameObject muzzle;
 
-    [HideInInspector] public int currentAmmo;
+    int currentAmmo;
+    float lastShoot;
 
-    #region Getters
-    public int GetWeaponDispersion()
+    private void Start()
     {
-        return dispersion;
+        currentAmmo = maxAmmo;
+        // UpdateWeaponGUI ();
     }
-    public float GetWeaponDamage(){
-        return damage;
-    }
-    public float GetWeaponSpeed()
+
+    public  void TryShoot()
     {
-        return attackSpeed;
+        //Handle attack speed
+        if (Time.time > lastShoot + secondsBetweenShoot)
+        {
+            if (currentAmmo != 0)
+            {
+                UpdateAmmo ();
+                Shoot ();
+
+                lastShoot = Time.time;
+            }
+        }
     }
-    public int GetWeaponMaxAmmo(){
-        return maxAmmo;
-    }
-    public float GetWeaponRange(){
-        return range;
-    }
-    public AudioClip GetWeaponSound()
+
+    public virtual void Shoot()
     {
-        return soundEffect;
+        
     }
-    #endregion
+
+    private void UpdateAmmo()
+    {
+            currentAmmo--;
+    }
+
 }

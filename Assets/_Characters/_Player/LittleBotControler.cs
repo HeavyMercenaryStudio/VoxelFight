@@ -10,6 +10,8 @@ public class LittleBotControler : RobotControler
     {
         MuzzleEffect ();
 
+        shootAnimator.SetTrigger ("Shoot");
+
         GameObject bulet = Instantiate (bullet, gunEndPoint1.position, Quaternion.identity) as GameObject;
         var proj = bulet.GetComponent<Projectile> ();
         proj.SetDamage (gunDamage);

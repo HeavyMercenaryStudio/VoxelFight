@@ -21,24 +21,16 @@ public class Projectile : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-        //Collision with enemy, add damage and destroy projectile
-        var tag = other.gameObject.tag;
-        switch (tag)
-        {
-            case "Enemy":
-                var enemy = other.gameObject.GetComponent<Enemy> ();
-                if (enemy.isDeath) return;
-                enemy.TakeDamage (damageAmount);
-                Destroy (gameObject);
-                break;
+        if (other.gameObject.layer == shooter.layer)
+            return;
 
-            case "Enviorment":
-                Destroy (gameObject);
-                break;
+        Component destroyable = other.GetComponent (typeof (IDamageable));
 
-            default:
-                break;
+        if (destroyable){
+            (destroyable as IDamageable).TakeDamage (damageAmount);
         }
+
+        Destroy (gameObject);
     }
 
     private void Update()

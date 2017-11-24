@@ -28,7 +28,7 @@ public class RepairSystem : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (controller.isDead) WaitForRes ();
+       // if (controller.IsDestroyed()) WaitForRes ();
 	}
 
     private void WaitForRes()
@@ -55,7 +55,7 @@ public class RepairSystem : MonoBehaviour {
             {
                 repairBar.transform.parent.parent.gameObject.SetActive (false);
                 controller.SetHealthAsPercentage (50f);
-                controller.isDead = false;
+                controller.SetDestroyed(false);
                 //play animation
             }
         }

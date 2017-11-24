@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2017
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voxel Fight.Plugins", "Voxel Fight.Plugins.csproj", "{88211413-518D-9F1B-A9F1-74252A2DC73C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voxel Fight", "Voxel Fight.csproj", "{B5088EDD-F388-83E6-CEAE-275A78D1B9DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voxel Fight.Editor.Plugins", "Voxel Fight.Editor.Plugins.csproj", "{7C0B64C1-E5F1-10A7-0599-814F26711C6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voxel Fight.Editor", "Voxel Fight.Editor.csproj", "{2F13B2C8-1A15-60F8-F69D-168EE5B4EE13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{88211413-518D-9F1B-A9F1-74252A2DC73C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88211413-518D-9F1B-A9F1-74252A2DC73C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88211413-518D-9F1B-A9F1-74252A2DC73C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88211413-518D-9F1B-A9F1-74252A2DC73C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B5088EDD-F388-83E6-CEAE-275A78D1B9DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5088EDD-F388-83E6-CEAE-275A78D1B9DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5088EDD-F388-83E6-CEAE-275A78D1B9DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -25,6 +21,10 @@ Global
 		{7C0B64C1-E5F1-10A7-0599-814F26711C6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C0B64C1-E5F1-10A7-0599-814F26711C6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C0B64C1-E5F1-10A7-0599-814F26711C6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F13B2C8-1A15-60F8-F69D-168EE5B4EE13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F13B2C8-1A15-60F8-F69D-168EE5B4EE13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F13B2C8-1A15-60F8-F69D-168EE5B4EE13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F13B2C8-1A15-60F8-F69D-168EE5B4EE13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

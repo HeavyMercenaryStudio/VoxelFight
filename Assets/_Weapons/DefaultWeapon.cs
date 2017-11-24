@@ -10,8 +10,6 @@ public class DefaultWeapon : Weapon
 
         dispersion = 5;
         range = 25;
-        maxAmmo = 1;
-        attackSpeed = 0.5f;
         damage = 5;
 
         //soundEffect = ?;

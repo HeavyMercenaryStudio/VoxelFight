@@ -5,110 +5,113 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Movement : MonoBehaviour {
 
-   [SerializeField] float movementSpeed = 10f;
-    [SerializeField] float rotationSpeed = 10f;
-    [SerializeField] bool alternativeMovement = false;
+    [SerializeField] float movementSpeed = 10f;
+    //[SerializeField] float rotationSpeed = 10f;
 
     Rigidbody rigibody;
-    Animator anim;
-    RobotControler controller;
+    Animator animator;
+    PlayerController controller;
 
-    Quaternion oldRotation = Quaternion.identity;
     string horizontalAxisName;
     string verticalAxisName;
 
+    float screenBlockValue = 25f;
     private void Start()
     {
         rigibody = GetComponent<Rigidbody> ();
-        anim = GetComponent<Animator> ();
-        controller = GetComponent<RobotControler> ();
+        controller = GetComponent<PlayerController> ();
 
         horizontalAxisName = "Horizontal" + controller.GetPlayerNumber ();
         verticalAxisName = "Vertical" + controller.GetPlayerNumber ();
     }
 
-
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (controller.isDead) return;
+        if (controller.IsDestroyed()) return;
 
         float h = Input.GetAxis (horizontalAxisName);
         float v = Input.GetAxis (verticalAxisName);
 
-        Move (h, v);
+        ControlPlayer (h, v);
+    }
+   
+    void ControlPlayer(float horizontal, float vertical)
+    {
+        if (controller.GetPlayerNumber() == 1)
+            RotateWithMouse ();
+        else
+            RotateWithJoy (horizontal, vertical);
+
+        MovePlayer (horizontal, vertical);
+
+        CheckScreenEdge (horizontal, vertical);
     }
 
-   
-    void Move(float horizontal, float vertical)
+    private void MovePlayer(float horizontal, float vertical)
     {
-
-        if (alternativeMovement)
-        {
-
-            float degeres = horizontal * rotationSpeed * Time.deltaTime;
-            transform.RotateAround (transform.position, transform.up, degeres);
-    
-//            if(Mathf.Abs(horizontal) < 0.5f) {
-
-                Vector3 moveVector = transform.forward * vertical * Time.deltaTime * movementSpeed;
-               anim.SetFloat ("Run", moveVector.normalized.magnitude);
-
-                moveVector += transform.position;
-                rigibody.MovePosition (moveVector);
-
-  //          }
-
-
-
-            /*
-            //ROTATION
-            Vector3 rotation = new Vector3 (horizontal, 0, vertical){
-                y = 0f
-            };
-
-            if (rotation.magnitude > 0){
-                Quaternion newRotation = Quaternion.LookRotation (rotation);
-                rigibody.MoveRotation (newRotation);
-                oldRotation = transform.rotation;
-            }
-            else{
-               transform.rotation = oldRotation;
-            }
-
-
-            //MOVEMENT
-            Vector3 moveVector = new Vector3 (horizontal, 0, vertical);
-            anim.SetFloat ("Run", moveVector.normalized.magnitude);
-
-            moveVector *= Time.deltaTime * movementSpeed;
-            moveVector += transform.position;
-
-            rigibody.MovePosition (moveVector);   
-            */
-        }
-        else
-        {
-            Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast (camRay, out hit))
-            {
-                Vector3 playerToMouse = hit.point - transform.position;
-                playerToMouse.y = 0f;
-                Quaternion newRotation = Quaternion.LookRotation (playerToMouse);
-                rigibody.MoveRotation (newRotation);
-
-                Vector3 moveVector = new Vector3(horizontal,0,vertical);
-
-                anim.SetFloat ("Run", moveVector.normalized.magnitude);
-
-                moveVector *= Time.deltaTime * movementSpeed;
-                moveVector += transform.position;
-                rigibody.MovePosition (moveVector);
-            }
-        }
+        //Move player
+        Vector3 moveVector = new Vector3 (horizontal, 0, vertical);
+        
 
         
+        //animator.SetFloat ("Run", moveVector.normalized.magnitude);
+
+        moveVector *= Time.deltaTime * movementSpeed;
+        moveVector += transform.position;
+        rigibody.MovePosition (moveVector);
     }
+
+    private void RotateWithJoy(float horizontal, float vertical)
+    {
+        Vector3 turnDir = new Vector3 (horizontal, 0f, vertical);
+
+        if (turnDir.magnitude > 0.1f)
+        {
+            Vector3 playertomouse = (transform.position + turnDir) - transform.position;
+            playertomouse.y = 0f;
+
+            // create a quaternion (rotation) based on looking down the vector from the player to the mouse.
+            Quaternion newrotatation = Quaternion.LookRotation (playertomouse);
+
+            // set the player's rotation to this new rotation.
+            rigibody.MoveRotation (newrotatation);
+        }
+    }
+
+    private void RotateWithMouse()
+    {
+        Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast (camRay, out hit))
+        {
+            //Rotate player
+            Vector3 playerToMouse = hit.point - transform.position;
+            playerToMouse.y = 0f;
+            Quaternion newRotation = Quaternion.LookRotation (playerToMouse);
+            rigibody.MoveRotation (newRotation);
+        }
+    }
+
+    private bool CheckScreenEdge(float horizontal, float vertical)
+    {
+        //Transfer position of player into screen point
+        Vector3 screenPos = Camera.main.WorldToScreenPoint (transform.position);
+
+        //Check if position is on edge of camera view 
+        if ((screenPos.x < screenBlockValue && horizontal < 0) ||
+             (screenPos.x > Screen.width - screenBlockValue && horizontal > 0) ||
+             (screenPos.y < screenBlockValue && vertical < 0) ||
+             (screenPos.y > Screen.height - screenBlockValue && vertical > 0))
+        {
+
+            //disable animation and return
+            animator.SetFloat ("Run", 0f);
+            return false;
+        }
+
+        return true;
+    }
+
 }
