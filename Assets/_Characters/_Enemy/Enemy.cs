@@ -7,7 +7,8 @@ public class Enemy : MonoBehaviour, IDamageable {
     [HideInInspector] public Animator animatorControler;
 
     [SerializeField] float maxHealthPoints = 100f;
-    [SerializeField] GameObject blood;
+    [SerializeField] GameObject blood; 
+    [SerializeField] GameObject explosion;
 
     public float healthAsPercentage { get { return currentHealthPoints / (float)maxHealthPoints; } }
     public bool isDestroyed;
@@ -31,11 +32,14 @@ public class Enemy : MonoBehaviour, IDamageable {
 		currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
 
         var offset = this.GetComponent<Collider> ().bounds.extents.y;
-        GameObject blood1 = Instantiate (blood, transform.position + new Vector3(0,offset), blood.transform.rotation) as GameObject;
+        GameObject blood1 = Instantiate (blood, transform.position + new Vector3(0,offset), blood.transform.rotation);
         Destroy (blood1, 5f);
 
         if (currentHealthPoints == 0)
         {
+            GameObject ex = Instantiate (explosion, transform.position + new Vector3 (0, offset), explosion.transform.rotation);
+            Destroy (ex, 1f);
+
             isDestroyed = true;
             animatorControler.SetTrigger ("Death");
             GetComponent<Collider> ().enabled = false;
