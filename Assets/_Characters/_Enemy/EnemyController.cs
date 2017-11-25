@@ -3,54 +3,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
+
 
 public class EnemyController : MonoBehaviour {
 
-    GameObject mainTarget;
-    PlayerController[] playerTargets;
-    GameObject currentTarget;
+    List<Target> targets;
+    Transform currentTarget;
+    [SerializeField] GameObject gun;
 
     [SerializeField] float movementSpeed;
-
-    [SerializeField] float chaseRadius;
     [SerializeField] float attackRadius;
 
     private Enemy enemy;
     private Weapon enemyWeapon;
     private NavMeshAgent agent;
 
-    private bool isAttacking;
+    void Start ()
+    {
+        SetupEnemyTargets ();
 
-    void Start () {
-
-        mainTarget = GameObject.FindObjectOfType<MissionObjective> ().gameObject;
-        playerTargets = GameObject.FindObjectsOfType<PlayerController> ();
-
-        currentTarget = mainTarget;
-
-        agent = GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent> ();
         agent.speed = movementSpeed;
-        agent.destination = mainTarget.transform.position;
 
         enemy = GetComponent<Enemy> ();
         enemyWeapon = GetComponent<Weapon> ();
 
     }
 
+    private void SetupEnemyTargets()
+    {
+        targets = new List<Target> ();
+
+        var objectives = GameObject.FindObjectsOfType<MissionObjective> ();
+        var players = GameObject.FindObjectsOfType<PlayerController> ();
+
+        foreach (MissionObjective ob in objectives)
+        {
+            var tar = new Target (ob.transform);
+            targets.Add (tar);
+        }
+        foreach (PlayerController pl in players)
+        {
+            var tar = new Target (pl.transform);
+            targets.Add (tar);
+        }
+
+    }
+
     public void MoveToLocation()
     {
-        agent.destination = currentTarget.transform.position;
-        enemy.animatorControler.SetFloat ("Run", agent.velocity.magnitude);
+        //set destination
+        agent.destination = currentTarget.position;
+
+        //set look rotation
+        var targetPos = currentTarget.position;
+        gun.transform.LookAt (targetPos);
+
+        targetPos.y = 0;
+        this.transform.LookAt (targetPos);
     }
 
     private void Update()
     {
-        if (enemy.isDestroyed)
-        {
-            agent.isStopped = true;
-            return;
-        }
-
         FindCloseTarget ();
 
         MoveToLocation();
@@ -58,46 +73,51 @@ public class EnemyController : MonoBehaviour {
 
     private void FindCloseTarget()
     {
-        float p1Dist = Vector3.Distance (transform.position, playerTargets[0].transform.position); //TODO MAKE THIS FOR MORE THAN TWO PLAYERS
-        float p2Dist = Vector3.Distance (transform.position, playerTargets[1].transform.position);
-        float mainDist = Vector3.Distance (transform.position, mainTarget.transform.position);
+        //Calculate distance foreach target
+        foreach (Target t in targets){
 
-        SelectTargetToFollow (p1Dist, p2Dist);
+            var da = t.Transf.GetComponent<IDamageable> ();
 
-        AttackTarget (p1Dist, p2Dist, mainDist);
+            if (da.IsDestroyed ()) t.Distance = 9999;
+            else t.CalculateDistance (this.transform);
+        }
 
-    }
+        //Select closer
+        List<Target> sorted = targets.OrderBy (o => o.Distance).ToList ();
+        currentTarget = sorted[0].Transf;
 
-    private void AttackTarget(float p1Dist, float p2Dist, float maDistance)
-    {
         //Attack target
-        if (p2Dist <= attackRadius || p1Dist <= attackRadius || maDistance <= attackRadius)
+        if (sorted[0].Distance <= attackRadius)
         {
             enemyWeapon.TryShoot ();
+            agent.isStopped = true;
         }
-    }
-
-    private void SelectTargetToFollow(float p1Dist, float p2Dist)
-    {
-        //Chase target
-        var p1 = playerTargets[0].GetComponent<IDamageable> ();
-        var p2 = playerTargets[1].GetComponent<IDamageable> ();
-
-        if (p1Dist <= chaseRadius && !p1.IsDestroyed ())
-            currentTarget = playerTargets[0].gameObject;
-        else if (p2Dist <= chaseRadius && !p2.IsDestroyed ())
-            currentTarget = playerTargets[1].gameObject;
         else
-            currentTarget = mainTarget;
+            agent.isStopped = false;
+
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere (transform.position, chaseRadius);
-
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere (transform.position, attackRadius);
+    }
+
+}
+
+class Target
+{
+    public Transform Transf;
+    public float Distance;
+
+    public Target(Transform t)
+    {
+        Transf = t;
+    }
+
+    public void CalculateDistance(Transform e)
+    {
+        Distance = Vector3.Distance (Transf.position, e.position);
     }
 
 }

@@ -106,8 +106,6 @@ public class Movement : MonoBehaviour {
              (screenPos.y > Screen.height - screenBlockValue && vertical > 0))
         {
 
-            //disable animation and return
-            animator.SetFloat ("Run", 0f);
             return false;
         }
 
