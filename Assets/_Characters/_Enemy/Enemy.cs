@@ -30,8 +30,9 @@ public class Enemy : MonoBehaviour, IDamageable {
 
 		currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
 
-        GameObject blood1 = Instantiate (blood, transform.position + new Vector3(0,5f), Quaternion.LookRotation(-transform.forward)) as GameObject;
-        Destroy (blood1, 0.5f);
+        var offset = this.GetComponent<Collider> ().bounds.extents.y;
+        GameObject blood1 = Instantiate (blood, transform.position + new Vector3(0,offset), blood.transform.rotation) as GameObject;
+        Destroy (blood1, 5f);
 
         if (currentHealthPoints == 0)
         {
@@ -40,7 +41,7 @@ public class Enemy : MonoBehaviour, IDamageable {
             GetComponent<Collider> ().enabled = false;
 
             onEnemyDeath ();
-			Destroy (gameObject, stiffDestroyTime);
+			Destroy (gameObject);
         }
     }
 

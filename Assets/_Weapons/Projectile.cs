@@ -30,11 +30,16 @@ public class Projectile : MonoBehaviour {
             (destroyable as IDamageable).TakeDamage (damageAmount);
         }
 
-        Destroy (gameObject);
+        Destroy (this.gameObject);
     }
 
     private void Update()
     {
+        if (shooter == null)
+        {
+            Destroy (gameObject);
+            return;
+        }
         //Check distance to shooter and destroy if above
         float distance =  (this.transform.position - shooter.transform.position).magnitude;
         if (distance > destroyRange)
