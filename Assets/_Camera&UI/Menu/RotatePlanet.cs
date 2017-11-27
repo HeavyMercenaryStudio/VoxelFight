@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class RotatePlanet : MonoBehaviour {
 
@@ -23,33 +24,44 @@ public class RotatePlanet : MonoBehaviour {
 
     private void MovePlanet()
     {
-        if (Input.GetKeyDown (KeyCode.Mouse0))
+        //check for ui iteraction
+        if (EventSystem.current.IsPointerOverGameObject ())
         {
-            start = Input.mousePosition;
+            return;
         }
-        else if (Input.GetKey (KeyCode.Mouse0))
+        
+        if (Input.GetKey (KeyCode.Mouse0))
         {
             //Check mouse input
-            Vector3 move = new Vector3 (Input.GetAxis ("Mouse X"), Input.GetAxis ("Mouse Y"), 0);
-
+            Vector3 move = new Vector3 (0, -Input.GetAxis ("Mouse X"), 0).normalized;
+            
             //if mouse are moving...
             if (move.magnitude > 0)
             {
 
                 //Make vector from start to end point...
-                end = Input.mousePosition;
+                //end = Input.mousePosition;
 
-                var vec = (end - start).normalized;
-                vec *= Vector3.Distance (end, start);
+                //var vec = (end - start).normalized;
+                //vec *= Vector3.Distance (end, start);
 
+               
                 //Chance directions
-                var x = vec.x;
-                vec.x = vec.y;
-                vec.y = -x;
+                //var x = vec.x;
+                //vec.x = vec.y;
+                //vec.y = -x;
 
+                //vec.z = 0;
+                
                 //add torque
-                rigibody.AddTorque (vec);
+                rigibody.AddRelativeTorque (move * rotateSpeed, ForceMode.Acceleration);
+
             }
+            else
+            {
+                start = Input.mousePosition;
+            }
+
         }
     }
 }
