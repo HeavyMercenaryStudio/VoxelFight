@@ -33,7 +33,7 @@ public class RotatePlanet : MonoBehaviour {
         if (Input.GetKey (KeyCode.Mouse0))
         {
             //Check mouse input
-            Vector3 move = new Vector3 (0, -Input.GetAxis ("Mouse X"), 0).normalized;
+            Vector3 move = new Vector3 (Input.GetAxis("Mouse Y"), -Input.GetAxis ("Mouse X"), 0).normalized;
             
             //if mouse are moving...
             if (move.magnitude > 0)
@@ -54,7 +54,7 @@ public class RotatePlanet : MonoBehaviour {
                 //vec.z = 0;
                 
                 //add torque
-                rigibody.AddRelativeTorque (move * rotateSpeed, ForceMode.Acceleration);
+                rigibody.AddTorque (move * rotateSpeed, ForceMode.Acceleration);
 
             }
             else

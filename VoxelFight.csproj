@@ -78,6 +78,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GalaxyBox1\examplescene.cs" />
+    <Compile Include="Assets\Menu.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -125,6 +127,10 @@
     <Compile Include="Assets\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
     <Compile Include="Assets\_Camera&amp;UI\CameraFollow.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Health\CameraFacingBillboard.cs" />
+    <Compile Include="Assets\_Camera&amp;UI\Menu\City.cs" />
+    <Compile Include="Assets\_Camera&amp;UI\Menu\Curver.cs" />
+    <Compile Include="Assets\_Camera&amp;UI\Menu\MakePath.cs" />
+    <Compile Include="Assets\_Camera&amp;UI\Menu\Mission.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Menu\RotatePlanet.cs" />
     <Compile Include="Assets\_Characters\IDamageable.cs" />
     <Compile Include="Assets\_Characters\_Enemy\Enemy.cs" />
@@ -150,6 +156,7 @@
     <Compile Include="Assets\_Weapons\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\GalaxyBox1\instructions.txt" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
