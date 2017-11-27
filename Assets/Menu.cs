@@ -9,6 +9,7 @@ public class Menu : MonoBehaviour {
     [SerializeField] Text cityNameText;
     [SerializeField] GameObject cityMissionViewContent;
 
+
     List<City> allCites;
     City currentCity;
 
@@ -19,8 +20,17 @@ public class Menu : MonoBehaviour {
 	
     void CityChange(City city)
     {
-        Debug.Log (city.CityName);
         cityNameText.text = city.CityName;
+
+        foreach (Transform t in cityMissionViewContent.transform){
+            Destroy (t.gameObject);
+        }
+
+        foreach (Mission m in city.GetMissions())
+        {
+            Instantiate (m.GetMissionPrefab (), cityMissionViewContent.transform);
+        }
+
     }
 
 
@@ -33,7 +43,6 @@ public class Menu : MonoBehaviour {
 
     private void RaycastForCity()
     {
-        
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
         RaycastHit hit;
@@ -44,7 +53,6 @@ public class Menu : MonoBehaviour {
 
         if (cityHit)
         {
-
             CityChange (cityHit);
         }
 

@@ -41,7 +41,6 @@ public class Enemy : MonoBehaviour, IDamageable {
             Destroy (ex, 1f);
 
             isDestroyed = true;
-            animatorControler.SetTrigger ("Death");
             GetComponent<Collider> ().enabled = false;
 
             onEnemyDeath ();

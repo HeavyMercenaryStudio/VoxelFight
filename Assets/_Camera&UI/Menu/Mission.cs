@@ -1,16 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class Mission : MonoBehaviour {
+[CreateAssetMenu (menuName = "Mission")]
+public class Mission : ScriptableObject {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [SerializeField] GameObject missionPrefab;
+    [SerializeField] Object missionLevel;
+
+    [SerializeField] string missionDescription;
+    [SerializeField] Image missionImage;
+
+
+    public GameObject GetMissionPrefab()
+    {
+        missionPrefab.GetComponentInChildren<Text> ().text = missionDescription;
+
+        return missionPrefab;
+    }
+
 }

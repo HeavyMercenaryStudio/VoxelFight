@@ -6,17 +6,13 @@ using UnityEngine;
 public class City : MonoBehaviour {
 
     [SerializeField] string cityName;
-    List<Mission> cityMissions;
+    [SerializeField] List<Mission> cityMissions;
 
     public string CityName{get{ return cityName; }}
 
-    public delegate void OnMouseClick(City city);
-    public static event OnMouseClick notifyCityChange;
+    public List<Mission> GetMissions()
+    {
+        return cityMissions;
+    }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	
 }
