@@ -14,6 +14,10 @@ public class Projectile : MonoBehaviour {
     public void SetShooter(GameObject shooter){
         this.shooter = shooter;
     }
+    public GameObject GetShooter()
+    {
+        return shooter;
+    }
     public void SetDestroyRange(float range){
         destroyRange = range;
     }
@@ -24,13 +28,13 @@ public class Projectile : MonoBehaviour {
         if (other.gameObject.layer == shooter.layer)
             return;
 
+
         Component destroyable = other.GetComponent (typeof (IDamageable));
 
         if (destroyable){
-            (destroyable as IDamageable).TakeDamage (damageAmount);
+            (destroyable as IDamageable).TakeDamage (damageAmount, this.gameObject);
         }
-
-        Destroy (this.gameObject);
+        
     }
 
     private void Update()

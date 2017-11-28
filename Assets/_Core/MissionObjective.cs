@@ -34,8 +34,10 @@ public class MissionObjective : MonoBehaviour, IDamageable {
         healthBar.fillAmount = healthAmount;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject bullet)
     {
+        Destroy (bullet);
+
         float damagedHealth = currentHealth - damage;
         currentHealth = Mathf.Clamp (damagedHealth, 0, maxHealth);
 

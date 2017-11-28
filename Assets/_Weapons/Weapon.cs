@@ -18,11 +18,21 @@ public  class Weapon : MonoBehaviour{
 
     int currentAmmo;
     float lastShoot;
+    PlayerGUI playerGui;
+
+    public void Realod(int ammo)
+    {
+        float addedAmmo = currentAmmo + ammo;
+        currentAmmo = (int)Mathf.Clamp ((float)addedAmmo, 0, (float)maxAmmo);
+        playerGui.UpdateAmmoText (currentAmmo);
+    }
 
     private void Start()
     {
+        playerGui = GetComponent<PlayerGUI> ();
+
         currentAmmo = maxAmmo;
-        // UpdateWeaponGUI ();
+        if(playerGui) playerGui.UpdateAmmoText (currentAmmo);// if its player update gui
     }
 
     public  void TryShoot()
@@ -47,7 +57,8 @@ public  class Weapon : MonoBehaviour{
 
     private void UpdateAmmo()
     {
-            currentAmmo--;
+       currentAmmo--;
+       if (playerGui) playerGui.UpdateAmmoText (currentAmmo); // if its player
     }
 
 }

@@ -8,8 +8,6 @@ public class PlayerController : MonoBehaviour, IDamageable {
     [SerializeField] int playerNumber;
     [SerializeField] float maxHealth;
 
-    
-
     public float GetHealthAsPercentage()
     {
         return currentHealth / maxHealth;
@@ -19,12 +17,25 @@ public class PlayerController : MonoBehaviour, IDamageable {
         currentHealth = maxHealth * percentage/100.0f;
         playerGUI.UpdateHealthInfo (GetHealthAsPercentage ());
     }
+    public void HealMe(float healPercentageAmount)
+    {
+        float healing = currentHealth + (maxHealth * healPercentageAmount / 100.0f);
+        currentHealth = Mathf.Clamp (healing, 0, maxHealth);
+        playerGUI.UpdateHealthInfo (GetHealthAsPercentage ());
+
+    }
+    public void ReloadMe(int ammoPerSecond)
+    {
+        weapon.Realod (ammoPerSecond);
+    }
+
     public int GetPlayerNumber()
     {
         return playerNumber;
     }
 
     Weapon weapon;
+
     PlayerGUI playerGUI;
     bool isDestroyed;
     float currentHealth;
@@ -45,19 +56,11 @@ public class PlayerController : MonoBehaviour, IDamageable {
             weapon.TryShoot ();
 
     }
-    //private void UpdateWeaponGUI()
-    //{
-    //    //Default weapon has unlimited ammo
-    //    if (currentWeapon.name == "Pistol")
-    //        playerGUI.UpdateWeaponInfo (999);
-    //    else
-    //        playerGUI.UpdateWeaponInfo (currentWeapon.currentAmmo);
 
-    //    weaponAudio.clip = soundMenager.GetWeaponSound (currentWeapon);
-    //}
-
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject bullet)
     {
+        Destroy (bullet);
+
         float damagedHealth = currentHealth - damage;
         currentHealth = Mathf.Clamp (damagedHealth, 0, maxHealth);
 

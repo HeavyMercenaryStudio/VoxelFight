@@ -8,7 +8,7 @@ public class PlayerGUI : MonoBehaviour {
     [SerializeField] Text ammoText;
     [SerializeField] Image healthBar;
 
-    public void UpdateWeaponInfo(float ammoAmout)
+    public void UpdateAmmoText(float ammoAmout)
     {
         ammoText.text = "Ammo: " + ammoAmout.ToString ();
     }
@@ -18,6 +18,4 @@ public class PlayerGUI : MonoBehaviour {
         healthBar.fillAmount = healthAmount;
     }
    
-
-
 }

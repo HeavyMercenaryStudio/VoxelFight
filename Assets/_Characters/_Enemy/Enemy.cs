@@ -25,11 +25,13 @@ public class Enemy : MonoBehaviour, IDamageable {
         animatorControler = GetComponent<Animator> ();
     }
 
-	public void TakeDamage(float damage)
+	public void TakeDamage(float damage, GameObject bullet)
 	{
         if (isDestroyed) return;
 
-		currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
+        Destroy (bullet);
+
+        currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
 
         var offset = this.GetComponent<Collider> ().bounds.extents.y;
         GameObject blood1 = Instantiate (blood, transform.position + new Vector3(0,offset), blood.transform.rotation);

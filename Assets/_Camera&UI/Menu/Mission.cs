@@ -9,7 +9,7 @@ public class Mission : ScriptableObject {
 
     [SerializeField] GameObject missionPrefab;
     [SerializeField] Object missionLevel;
-
+    [SerializeField] bool completed;
     [SerializeField] string missionDescription;
     [SerializeField] Image missionImage;
 
@@ -21,4 +21,13 @@ public class Mission : ScriptableObject {
         return missionPrefab;
     }
 
+    public bool IsMissionComplete()
+    {
+        return completed;
+    }
+
+    public void SetCompleted()
+    {
+        completed = true;
+    }
 }

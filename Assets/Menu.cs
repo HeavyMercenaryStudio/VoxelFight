@@ -28,9 +28,26 @@ public class Menu : MonoBehaviour {
 
         foreach (Mission m in city.GetMissions())
         {
-            Instantiate (m.GetMissionPrefab (), cityMissionViewContent.transform);
+            GameObject obj = Instantiate (m.GetMissionPrefab (), cityMissionViewContent.transform);
+
+            if (!m.IsMissionComplete())
+                DisableObject (obj);
         }
 
+    }
+
+    private static void DisableObject(GameObject obj)
+    {
+        //Set dark color
+        var backImage = obj.GetComponent<Image> (); // get background color 
+        backImage.color = new Color (0.02f, 0.1f, 0.14f, 0.77f); // set it to dark
+        var frontImage = obj.GetComponentsInChildren<Image> (); // get image color 
+        frontImage[1].color = new Color (0.2f, 0.2f, 0.2f, 1f); //set it to dark
+        var text = obj.GetComponentInChildren<Text> (); // get text color
+        text.color = new Color (0.2f, 0.2f, 0.2f, 1f); //set it to dark
+
+        //
+        obj.GetComponent<Button> ().interactable = false;
     }
 
 
@@ -48,12 +65,12 @@ public class Menu : MonoBehaviour {
         RaycastHit hit;
         Physics.Raycast (ray, out hit);
 
-        var gameobjectHit = hit.collider.gameObject;
-        var cityHit = gameobjectHit.GetComponent<City> ();
+        if (hit.collider) { 
+            var gameobjectHit = hit.collider.gameObject;
+            var cityHit = gameobjectHit.GetComponent<City> ();
 
-        if (cityHit)
-        {
-            CityChange (cityHit);
+            if (cityHit)
+                CityChange (cityHit);
         }
 
     }

@@ -47,7 +47,7 @@ public abstract class RobotControler : MonoBehaviour, IDamageable {
     public void FillPlayerAmmunition()
     {
         currentAmmo = maxAmmunition;
-        playerGUI.UpdateWeaponInfo (currentAmmo);
+        playerGUI.UpdateAmmoText (currentAmmo);
     }
     public void SetDamageUp(float damage)
     {
@@ -77,7 +77,7 @@ public abstract class RobotControler : MonoBehaviour, IDamageable {
         shootAnimator = transform.Find ("Gun").GetComponent<Animator> ();
         weaponAudioSource.clip = weaponAudioClip;
 
-         playerGUI.UpdateWeaponInfo (currentAmmo);
+         playerGUI.UpdateAmmoText (currentAmmo);
     }
 
     private void Update()
@@ -86,9 +86,6 @@ public abstract class RobotControler : MonoBehaviour, IDamageable {
 
         if (Input.GetButton ("Fire" + playerNumber))
             TryShoot ();
-
-        if (Input.GetKey (KeyCode.X))
-            TakeDamage (5);
 
     }
 
@@ -100,7 +97,7 @@ public abstract class RobotControler : MonoBehaviour, IDamageable {
             if (currentAmmo != 0)
             {
                 currentAmmo--;
-                playerGUI.UpdateWeaponInfo (currentAmmo);
+                playerGUI.UpdateAmmoText (currentAmmo);
 
 
                 if (!weaponAudioSource.isPlaying)
@@ -113,7 +110,7 @@ public abstract class RobotControler : MonoBehaviour, IDamageable {
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject bullet)
     {
         float damagedHealth = currentHealth - damage;
         currentHealth = Mathf.Clamp (damagedHealth, 0, maxHealth);

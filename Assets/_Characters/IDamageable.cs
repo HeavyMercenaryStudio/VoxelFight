@@ -1,6 +1,8 @@
-﻿public interface IDamageable {
+﻿using UnityEngine;
+
+public interface IDamageable {
 
     bool IsDestroyed();
-    void TakeDamage(float damage);
+    void TakeDamage(float damage, GameObject bullet);
 
 }
