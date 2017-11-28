@@ -145,6 +145,7 @@
     <Compile Include="Assets\_Core\Wave.cs" />
     <Compile Include="Assets\_Core\WaveSystem.cs" />
     <Compile Include="Assets\_Core\WorldMenager.cs" />
+    <Compile Include="Assets\_Levels\Menu\MakePath.cs" />
     <Compile Include="Assets\_Weapons\DefaultWeapon.cs" />
     <Compile Include="Assets\_Weapons\Projectile.cs" />
     <Compile Include="Assets\_Weapons\Riffle.cs" />
