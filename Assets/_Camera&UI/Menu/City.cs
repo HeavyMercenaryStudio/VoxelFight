@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class City : MonoBehaviour {
 
@@ -14,5 +15,4 @@ public class City : MonoBehaviour {
     {
         return cityMissions;
     }
-
 }

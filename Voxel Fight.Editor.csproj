@@ -209,6 +209,8 @@
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
     <None Include="Assets\_Characters\_Enemy\glow.shader" />
     <None Include="Assets\_Levels\Menu\Earth\Text3D.shader" />
+    <None Include="Assets\_Levels\Patryk Level\TEMP\Color.shader" />
+    <None Include="Assets\_Levels\Patryk Level\TEMP\Hologram.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

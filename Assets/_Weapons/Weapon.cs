@@ -16,6 +16,8 @@ public  class Weapon : MonoBehaviour{
     [SerializeField] protected GameObject bullet;
     [SerializeField] protected GameObject muzzle;
 
+    [SerializeField] SoundMenager audioClips;
+
     int currentAmmo;
     float lastShoot;
     PlayerGUI playerGui;
@@ -26,7 +28,6 @@ public  class Weapon : MonoBehaviour{
         currentAmmo = (int)Mathf.Clamp ((float)addedAmmo, 0, (float)maxAmmo);
         playerGui.UpdateAmmoText (currentAmmo);
     }
-
     private void Start()
     {
         playerGui = GetComponent<PlayerGUI> ();
@@ -49,16 +50,18 @@ public  class Weapon : MonoBehaviour{
             }
         }
     }
-
     public virtual void Shoot()
     {
         
     }
-
     private void UpdateAmmo()
     {
        currentAmmo--;
-       if (playerGui) playerGui.UpdateAmmoText (currentAmmo); // if its player
+        if (playerGui)
+        {
+                AudioMenager.Instance.PlayClip (audioClips.GetShootClip ());
+                playerGui.UpdateAmmoText (currentAmmo); // if its player
+        }
     }
 
 }

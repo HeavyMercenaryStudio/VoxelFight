@@ -16,15 +16,18 @@ public class WaveSystem : MonoBehaviour {
     Wave currentWave;
     int waveNumber;
 
-    StoreSystem storeSystem;
+    //StoreSystem storeSystem;
 
     int enemiesInWave;
     float nextWaveTime;
 
+    GameGui gameGui;
+
     public void Start()
     {
-        storeSystem = FindObjectOfType<StoreSystem> ();
-        storeSystem.ToogleStore (false);
+        // storeSystem = FindObjectOfType<StoreSystem> ();
+        //storeSystem.ToogleStore (false);
+        gameGui = GameObject.FindObjectOfType<GameGui> ();
 
         Enemy.onEnemyDeath += DecreseEnemiesCount;
         currentWave = waveList[waveNumber];
@@ -38,10 +41,10 @@ public class WaveSystem : MonoBehaviour {
             var t = (int)(nextWaveTime - Time.time);
             nextWaveText.text = ("Next Wave : " + t);
 
-            storeSystem.ToogleStore (true);
+            //storeSystem.ToogleStore (true);
 
             if (t == 0) {
-                storeSystem.ToogleStore (false);
+               // storeSystem.ToogleStore (false);
                 nextWaveTime = 0;
                 NextWave ();
             }
@@ -55,6 +58,12 @@ public class WaveSystem : MonoBehaviour {
 
         if (enemiesInWave == 0) {
             nextWaveTime = Time.time + timeBetweenWaves;
+
+            waveNumber++;
+            if (waveNumber == waveList.Count)
+            {
+                gameGui.Victory ();
+            }
         }
     }
 
@@ -72,16 +81,18 @@ public class WaveSystem : MonoBehaviour {
 
     void NextWave()
     {
-        waveNumber++;
+        if (waveNumber == waveList.Count) return;
+
         currentWave = waveList[waveNumber];
         StartWave ();
     }
 
     IEnumerator SpawnEnemy(int numberOfEnemyTypes, int numberOfEnemies)
     {
+        
+
         while (numberOfEnemyTypes < currentWave.enemies.Length)
         {
-
             yield return new WaitForSeconds (currentWave.spawnDelayTime);
 
             int n = UnityEngine.Random.Range (0, 360);

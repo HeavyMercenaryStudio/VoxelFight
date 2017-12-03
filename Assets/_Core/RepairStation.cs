@@ -15,7 +15,7 @@ public class RepairStation : MonoBehaviour, IDamageable
 
     void Start()
     {
-        material = GetComponent<Renderer> ().material;
+        material = GetComponentInChildren<Renderer> ().material;
     }
 
     void Update()

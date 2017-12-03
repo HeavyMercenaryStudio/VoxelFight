@@ -37,4 +37,14 @@ public class CameraFollow : MonoBehaviour {
     {
         return players;
     }
+
+    public void GameOver(Transform t)
+    {
+        players[0] = t;
+        players[1] = t;
+
+        var cam = GetComponentInChildren<Camera> ();
+
+        cam.orthographicSize = 6; // TODO make const
+    }
 }

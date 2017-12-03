@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour, IDamageable {
     [SerializeField] float maxHealthPoints = 100f;
     [SerializeField] GameObject blood; 
     [SerializeField] GameObject explosion;
+    [SerializeField] SoundMenager audioClips;
 
     public float healthAsPercentage { get { return currentHealthPoints / (float)maxHealthPoints; } }
     public bool isDestroyed;
@@ -30,6 +31,8 @@ public class Enemy : MonoBehaviour, IDamageable {
         if (isDestroyed) return;
 
         Destroy (bullet);
+
+        AudioMenager.Instance.PlayClip (audioClips.GetHitClip());
 
         currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
 

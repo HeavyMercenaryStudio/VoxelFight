@@ -7,6 +7,11 @@ public class PlayerController : MonoBehaviour, IDamageable {
 
     [SerializeField] int playerNumber;
     [SerializeField] float maxHealth;
+    [SerializeField] GameObject bloodPrefab;
+    [SerializeField] SoundMenager audioClips;
+
+    public delegate void OnPlayerDead();
+    public static event OnPlayerDead notifyPlayerDead;
 
     public float GetHealthAsPercentage()
     {
@@ -66,8 +71,17 @@ public class PlayerController : MonoBehaviour, IDamageable {
 
         playerGUI.UpdateHealthInfo (GetHealthAsPercentage());
 
+        var offset = this.GetComponent<Collider> ().bounds.extents.y;
+        GameObject blood1 = Instantiate (bloodPrefab, transform.position + new Vector3 (0, offset), bloodPrefab.transform.rotation);
+        Destroy (blood1, 5f);
+
+        //AudioMenager.Instance.PlayClip (audioClips.GetHitClip());
+
         if (currentHealth == 0)
+        {
             isDestroyed = true;
+            notifyPlayerDead ();
+        }
     }
     
     public bool IsDestroyed()

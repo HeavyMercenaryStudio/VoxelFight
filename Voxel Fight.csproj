@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\AudioMenager.cs" />
     <Compile Include="Assets\Menu.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
@@ -139,19 +140,22 @@
     <Compile Include="Assets\_Characters\_Player\PlayerGUI.cs" />
     <Compile Include="Assets\_Characters\_Player\RepairSystem.cs" />
     <Compile Include="Assets\_Characters\_Player\RobotControler.cs" />
+    <Compile Include="Assets\_Core\GameGui.cs" />
     <Compile Include="Assets\_Core\MissionObjective.cs" />
     <Compile Include="Assets\_Core\RepairStation.cs" />
+    <Compile Include="Assets\_Core\SoundMenager.cs" />
     <Compile Include="Assets\_Core\StoreSystem.cs" />
     <Compile Include="Assets\_Core\Wave.cs" />
     <Compile Include="Assets\_Core\WaveSystem.cs" />
+    <Compile Include="Assets\_Core\WorldData.cs" />
     <Compile Include="Assets\_Core\WorldMenager.cs" />
     <Compile Include="Assets\_Levels\Menu\MakePath\MakePath.cs" />
+    <Compile Include="Assets\_Levels\Menu\Missions\MissionScript.cs" />
     <Compile Include="Assets\_Weapons\DefaultWeapon.cs" />
     <Compile Include="Assets\_Weapons\Projectile.cs" />
     <Compile Include="Assets\_Weapons\Riffle.cs" />
     <Compile Include="Assets\_Weapons\Shotgun.cs" />
     <Compile Include="Assets\_Weapons\SniperRiffle.cs" />
-    <Compile Include="Assets\_Weapons\SoundMenager.cs" />
     <Compile Include="Assets\_Weapons\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +205,8 @@
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
     <None Include="Assets\_Characters\_Enemy\glow.shader" />
     <None Include="Assets\_Levels\Menu\Earth\Text3D.shader" />
+    <None Include="Assets\_Levels\Patryk Level\TEMP\Color.shader" />
+    <None Include="Assets\_Levels\Patryk Level\TEMP\Hologram.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -7,6 +7,7 @@ public class MissionObjective : MonoBehaviour, IDamageable {
 
     [SerializeField] Image healthBar;
     [SerializeField] float maxHealth;
+    [SerializeField] GameObject bloodPrefab;
 
     public delegate void OnObjectiveDestroyed();
     public static event OnObjectiveDestroyed notifyOnObjectiveDestroy;
@@ -42,6 +43,10 @@ public class MissionObjective : MonoBehaviour, IDamageable {
         currentHealth = Mathf.Clamp (damagedHealth, 0, maxHealth);
 
         UpdateHealthInfo (GetHealthAsPercentage ());
+
+        var offset = this.GetComponent<Collider> ().bounds.extents.y;
+        GameObject blood1 = Instantiate (bloodPrefab, transform.position + new Vector3 (0, offset), bloodPrefab.transform.rotation);
+        Destroy (blood1, 5f);
 
         if (currentHealth == 0)
         {

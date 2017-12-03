@@ -43,19 +43,15 @@ public class Movement : MonoBehaviour {
         else
             RotateWithJoy (horizontal, vertical);
 
-        MovePlayer (horizontal, vertical);
+        if(CheckScreenEdge (horizontal, vertical))
+            MovePlayer (horizontal, vertical);
 
-        CheckScreenEdge (horizontal, vertical);
     }
 
     private void MovePlayer(float horizontal, float vertical)
     {
         //Move player
         Vector3 moveVector = new Vector3 (horizontal, 0, vertical);
-        
-
-        
-        //animator.SetFloat ("Run", moveVector.normalized.magnitude);
 
         moveVector *= Time.deltaTime * movementSpeed;
         moveVector += transform.position;
@@ -105,7 +101,6 @@ public class Movement : MonoBehaviour {
              (screenPos.y < screenBlockValue && vertical < 0) ||
              (screenPos.y > Screen.height - screenBlockValue && vertical > 0))
         {
-
             return false;
         }
 
