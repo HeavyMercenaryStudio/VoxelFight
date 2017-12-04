@@ -37,6 +37,11 @@ public class CameraFollow : MonoBehaviour {
     {
         return players;
     }
+    public void SetTransformTargets(List<Transform> targets)
+    {
+        players = targets.ToArray ();
+    }
+
 
     public void GameOver(Transform t)
     {

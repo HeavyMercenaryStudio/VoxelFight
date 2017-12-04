@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour, IDamageable {
 
         Destroy (bullet);
 
-        AudioMenager.Instance.PlayClip (audioClips.GetHitClip());
+       
 
         currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
 
@@ -47,6 +47,8 @@ public class Enemy : MonoBehaviour, IDamageable {
 
             isDestroyed = true;
             GetComponent<Collider> ().enabled = false;
+
+            AudioMenager.Instance.PlayClip (audioClips.GetHitClip ());
 
             onEnemyDeath ();
 			Destroy (gameObject);

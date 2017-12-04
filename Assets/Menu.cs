@@ -4,8 +4,11 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class Menu : MonoBehaviour {
+
+    [SerializeField] List<Button> startButtonList; 
 
     [SerializeField] Text cityNameText; // Text changing when city change 
     [SerializeField] GameObject cityMissionViewContent; //context of city missions
@@ -15,12 +18,45 @@ public class Menu : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        allCites = FindObjectsOfType<City> ().ToList(); // get all of citys on map
+        startButtonList[0].onClick.AddListener (SinglePlayer); // add listener to signle player
+        startButtonList[1].onClick.AddListener (MultiPlayer); // add listener to multi
+        startButtonList[2].onClick.AddListener (Exit); // add listener to on application exit
 
-        AudioMenager.Instance.PlayMenuMusic ();
+        allCites = FindObjectsOfType<City> ().ToList(); // get all of citys on map
+        AudioMenager.Instance.PlayMenuMusic (); // play menu music
     }
 
-    void CityChange(City city)
+    private void SinglePlayer()
+    {
+        WorldData.NumberOfPlayers = 1;
+        StartCoroutine(RotateCamera ());
+        startButtonList[0].transform.parent.gameObject.SetActive (false);
+    }
+    private void MultiPlayer()
+    {
+        WorldData.NumberOfPlayers = 2;
+        StartCoroutine (RotateCamera ());
+        startButtonList[0].transform.parent.gameObject.SetActive (false);
+    }
+    private void Exit()
+    {
+        Application.Quit ();
+    }
+    IEnumerator RotateCamera()
+    {
+        while (true)
+        {
+            var cam = Camera.main.transform;
+            cam.RotateAround (cam.position, cam.up, 1.5f);
+
+            yield return new WaitForEndOfFrame ();
+
+            if (cam.rotation == Quaternion.identity)
+                StopAllCoroutines ();
+        }
+    }
+
+    private void CityChange(City city)
     {
         foreach (Transform t in cityMissionViewContent.transform){
             Destroy (t.gameObject);
@@ -43,7 +79,6 @@ public class Menu : MonoBehaviour {
                 DisableObject (newMissionObject); // disable iteraction
         }
     }
-
     private static void DisableObject(GameObject obj)
     {
         var backImage = obj.GetComponent<Image> (); // get background color 
@@ -55,13 +90,11 @@ public class Menu : MonoBehaviour {
        
         obj.GetComponent<Button> ().interactable = false;  //set not iteractable for not completetd  missions
     }
-
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown (0)) //if left mouse button click..
             RaycastForCity (); //cast ray for city object on map
     }
-
     private void RaycastForCity()
     {
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition); //create ray
