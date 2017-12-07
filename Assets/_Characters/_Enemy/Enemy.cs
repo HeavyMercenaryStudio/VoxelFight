@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour, IDamageable {
             isDestroyed = true;
             GetComponent<Collider> ().enabled = false;
 
-            AudioMenager.Instance.PlayClip (audioClips.GetHitClip ());
+            if(AudioMenager.Instance != null) AudioMenager.Instance.PlayClip (audioClips.GetHitClip ());
 
             onEnemyDeath ();
 			Destroy (gameObject);

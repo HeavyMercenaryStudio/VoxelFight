@@ -13,6 +13,8 @@ public class Menu : MonoBehaviour {
     [SerializeField] Text cityNameText; // Text changing when city change 
     [SerializeField] GameObject cityMissionViewContent; //context of city missions
 
+    [SerializeField] Text tutorialText;
+
     List<City> allCites; // all cites on map
     City currentCity; //current selected city
 
@@ -22,20 +24,23 @@ public class Menu : MonoBehaviour {
         startButtonList[1].onClick.AddListener (MultiPlayer); // add listener to multi
         startButtonList[2].onClick.AddListener (Exit); // add listener to on application exit
 
+        tutorialText.transform.parent.gameObject.SetActive (false);
+        startButtonList[0].transform.parent.gameObject.SetActive (true);
+
         allCites = FindObjectsOfType<City> ().ToList(); // get all of citys on map
         AudioMenager.Instance.PlayMenuMusic (); // play menu music
     }
 
     private void SinglePlayer()
     {
-        WorldData.NumberOfPlayers = 1;
-        StartCoroutine(RotateCamera ());
+        WorldData.NumberOfPlayers = 1; // set number of players as single
+        StartCoroutine(RotateCamera ()); //Rotate Camera to planet posion
         startButtonList[0].transform.parent.gameObject.SetActive (false);
     }
     private void MultiPlayer()
     {
-        WorldData.NumberOfPlayers = 2;
-        StartCoroutine (RotateCamera ());
+        WorldData.NumberOfPlayers = 2; // set players to two 
+        StartCoroutine (RotateCamera ()); //rotate camera to planet gui
         startButtonList[0].transform.parent.gameObject.SetActive (false);
     }
     private void Exit()
@@ -51,8 +56,12 @@ public class Menu : MonoBehaviour {
 
             yield return new WaitForEndOfFrame ();
 
-            if (cam.rotation == Quaternion.identity)
+            if (cam.rotation == Quaternion.identity) { 
                 StopAllCoroutines ();
+
+                tutorialText.transform.parent.gameObject.SetActive (true);
+                StartCoroutine (TutorialText ());
+            }
         }
     }
 
@@ -111,4 +120,20 @@ public class Menu : MonoBehaviour {
                 CityChange (cityHit); // change current city to new city
         }
     }
+
+    IEnumerator TutorialText()
+    {
+        string text = tutorialText.text; //get text from inspector
+        int lenght = text.Length;
+        int i = 0;
+        tutorialText.text = "";
+
+        while (i < lenght) // while text is not empty
+        {
+            tutorialText.text += text[i]; //fill text area
+            yield return new WaitForSeconds (0.15f); //every 0.15 s
+            i++;    
+        }
+    }
+
 }

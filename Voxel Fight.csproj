@@ -133,6 +133,7 @@
     <Compile Include="Assets\_Characters\IDamageable.cs" />
     <Compile Include="Assets\_Characters\_Enemy\Enemy.cs" />
     <Compile Include="Assets\_Characters\_Enemy\EnemyController.cs" />
+    <Compile Include="Assets\_Characters\_Enemy\SelfEnemy\jakis.cs" />
     <Compile Include="Assets\_Characters\_Player\BattleBotControler.cs" />
     <Compile Include="Assets\_Characters\_Player\LittleBotControler.cs" />
     <Compile Include="Assets\_Characters\_Player\Movement.cs" />

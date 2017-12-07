@@ -59,8 +59,8 @@ public  class Weapon : MonoBehaviour{
        currentAmmo--;
         if (playerGui)
         {
-                AudioMenager.Instance.PlayClip (audioClips.GetShootClip ());
-                playerGui.UpdateAmmoText (currentAmmo); // if its player
+               if(AudioMenager.Instance != null) AudioMenager.Instance.PlayClip (audioClips.GetShootClip ());
+               playerGui.UpdateAmmoText (currentAmmo); // if its player
         }
     }
 
