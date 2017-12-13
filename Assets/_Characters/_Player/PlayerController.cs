@@ -58,12 +58,16 @@ public class PlayerController : MonoBehaviour, IDamageable {
         if (isDestroyed) { return; }
 
         if (Input.GetButton ("Fire" + playerNumber))
+        { 
             weapon.TryShoot ();
+        }
 
     }
 
     public void TakeDamage(float damage, GameObject bullet)
     {
+        if (isDestroyed) return;
+
         Destroy (bullet);
 
         float damagedHealth = currentHealth - damage;
@@ -80,6 +84,7 @@ public class PlayerController : MonoBehaviour, IDamageable {
         if (currentHealth == 0)
         {
             isDestroyed = true;
+
             notifyPlayerDead ();
         }
     }

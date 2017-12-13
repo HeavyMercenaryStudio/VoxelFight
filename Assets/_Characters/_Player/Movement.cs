@@ -1,4 +1,4 @@
-﻿     using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -60,7 +60,7 @@ public class Movement : MonoBehaviour {
 
     private void RotateWithJoy(float horizontal, float vertical)
     {
-        Vector3 turnDir = new Vector3 (horizontal, 0f, vertical);
+        Vector3 turnDir = new Vector3 (Input.GetAxisRaw("JoystickHorizontal"), 0f, Input.GetAxisRaw ("JoystickVertical"));
 
         if (turnDir.magnitude > 0.1f)
         {

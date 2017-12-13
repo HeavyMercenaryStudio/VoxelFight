@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class Mission : ScriptableObject {
 
     [SerializeField] GameObject missionPrefab;
-    [SerializeField] Object missionLevel;
+    [SerializeField] string missionLevelName;
     [SerializeField] bool completed;
     [SerializeField] string missionDescription;
     [SerializeField] Image missionImage;
@@ -19,8 +19,8 @@ public class Mission : ScriptableObject {
         missionPrefab.GetComponentInChildren<Text> ().text = missionDescription;
         return missionPrefab;
     }
-    public Object GetMissionScene(){
-        return missionLevel;
+    public string GetMissionScene(){
+        return missionLevelName;
     }
     public Mission GetNextMission(){
         return nextMission;

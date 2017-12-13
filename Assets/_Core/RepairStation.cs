@@ -54,7 +54,7 @@ public class RepairStation : MonoBehaviour, IDamageable
         }
     }
 
-    void OnTriggerExit(Collider other )
+    void OnTriggerExit(Collider other)
     {
         var player = other.GetComponent<PlayerController> ();
         if (player && interrupt <= 0)

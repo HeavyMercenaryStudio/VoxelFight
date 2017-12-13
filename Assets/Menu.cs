@@ -8,7 +8,8 @@ using System;
 
 public class Menu : MonoBehaviour {
 
-    [SerializeField] List<Button> startButtonList; 
+    [SerializeField] List<Button> startButtonList;
+    [SerializeField] GameObject mainMenuBackground;
 
     [SerializeField] Text cityNameText; // Text changing when city change 
     [SerializeField] GameObject cityMissionViewContent; //context of city missions
@@ -19,29 +20,56 @@ public class Menu : MonoBehaviour {
     City currentCity; //current selected city
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
+        AddButtonsListeners ();
+        VisiblePanels ();
+
+        allCites = FindObjectsOfType<City> ().ToList (); // get all of citys on map
+        AudioMenager.Instance.PlayMenuMusic (); // play menu music
+
+        GameData.ApplicationRunTimes++;
+    }
+
+    private void VisiblePanels()
+    {
+        if(GameData.ApplicationRunTimes > 0)
+        {
+            tutorialText.transform.parent.gameObject.SetActive (true);
+            mainMenuBackground.SetActive (false);
+            StartCoroutine (TutorialText ());
+
+            //var cam = Camera.main.transform;
+            //cam.rotation = Quaternion.identity;
+        }
+        else
+        { 
+            tutorialText.transform.parent.gameObject.SetActive (false);
+            startButtonList[0].transform.parent.gameObject.SetActive (true);
+        }
+    }
+    private void AddButtonsListeners()
+    {
         startButtonList[0].onClick.AddListener (SinglePlayer); // add listener to signle player
         startButtonList[1].onClick.AddListener (MultiPlayer); // add listener to multi
         startButtonList[2].onClick.AddListener (Exit); // add listener to on application exit
-
-        tutorialText.transform.parent.gameObject.SetActive (false);
-        startButtonList[0].transform.parent.gameObject.SetActive (true);
-
-        allCites = FindObjectsOfType<City> ().ToList(); // get all of citys on map
-        AudioMenager.Instance.PlayMenuMusic (); // play menu music
     }
 
     private void SinglePlayer()
     {
         WorldData.NumberOfPlayers = 1; // set number of players as single
-        StartCoroutine(RotateCamera ()); //Rotate Camera to planet posion
-        startButtonList[0].transform.parent.gameObject.SetActive (false);
+        //StartCoroutine(RotateCamera ()); //Rotate Camera to planet posion
+        mainMenuBackground.SetActive (false);
+        tutorialText.transform.parent.gameObject.SetActive (true);
+        StartCoroutine (TutorialText ());
     }
     private void MultiPlayer()
     {
         WorldData.NumberOfPlayers = 2; // set players to two 
-        StartCoroutine (RotateCamera ()); //rotate camera to planet gui
-        startButtonList[0].transform.parent.gameObject.SetActive (false);
+        //StartCoroutine (RotateCamera ()); //rotate camera to planet gui
+        mainMenuBackground.SetActive (false);
+        tutorialText.transform.parent.gameObject.SetActive (true);
+        StartCoroutine (TutorialText ());
     }
     private void Exit()
     {
@@ -131,7 +159,7 @@ public class Menu : MonoBehaviour {
         while (i < lenght) // while text is not empty
         {
             tutorialText.text += text[i]; //fill text area
-            yield return new WaitForSeconds (0.15f); //every 0.15 s
+            yield return new WaitForSeconds (0.05f); //every 0.15 s
             i++;    
         }
     }

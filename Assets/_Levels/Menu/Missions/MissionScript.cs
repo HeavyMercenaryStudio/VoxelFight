@@ -27,7 +27,7 @@ public class MissionScript : MonoBehaviour {
     {
         var scene = objectMission.GetMissionScene ();
         WorldData.NextMission = objectMission.GetNextMission();
-        SceneManager.LoadScene (scene.name);
+        SceneManager.LoadScene (scene);
     }
 
 }

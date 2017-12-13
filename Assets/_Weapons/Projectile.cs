@@ -25,16 +25,18 @@ public class Projectile : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-        if (other.gameObject.layer == shooter.layer)
+        if (other.gameObject.layer == shooter.layer || other.gameObject.layer == this.gameObject.layer)
             return;
-
-
+        
         Component destroyable = other.GetComponent (typeof (IDamageable));
 
         if (destroyable){
             (destroyable as IDamageable).TakeDamage (damageAmount, this.gameObject);
         }
-        
+        else
+        {
+            Destroy (this.gameObject);
+        }
     }
 
     private void Update()

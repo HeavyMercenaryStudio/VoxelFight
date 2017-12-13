@@ -32,8 +32,6 @@ public class Enemy : MonoBehaviour, IDamageable {
 
         Destroy (bullet);
 
-       
-
         currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
 
         var offset = this.GetComponent<Collider> ().bounds.extents.y;

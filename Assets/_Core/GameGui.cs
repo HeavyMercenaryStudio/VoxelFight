@@ -11,41 +11,42 @@ public class GameGui : MonoBehaviour {
     [TextArea]
     [SerializeField] string defeadText; // Text showed when player defeat mission
 
-    [SerializeField] Button backToMenuButton; // Back to menu button
     [SerializeField] GameObject missionEndPanel; //Panel showed when player end mission
     [SerializeField] GameObject wavePanel; //panel showed pass waves
 
-    // Use this for initialization
-    void Start () {
-        backToMenuButton.onClick.AddListener (ReturnToMenu); // add back to menu listener
-    }
 
     public void Defeat()
     {
-        ShowMissionEndPanel (defeadText); 
+        ShowMissionEndPanel ();
+
+        var textComp = missionEndPanel.GetComponentInChildren<Text> (); // get mission text...
+        textComp.text = defeadText; // set it to mission result text
+        textComp.color = Color.red;
     }
 
-    private void ShowMissionEndPanel(string missionResultText)
+    private void ShowMissionEndPanel()
     {
         wavePanel.SetActive (false); //hide wave panel
         missionEndPanel.SetActive (true); //show mission result panel
-        var textComp = missionEndPanel.GetComponentInChildren<Text> (); // get mission text...
-        textComp.text = missionResultText; // set it to mission result text
-        
 
-        var camera = GameObject.FindObjectOfType<CameraFollow> (); //find camera and...
-        camera.GameOver (this.transform);//center it to mission world space result canvas 
+        StartCoroutine (ReturnToMenu ());
     }
 
     public void Victory()
     {
-        ShowMissionEndPanel (victoryText);
+        ShowMissionEndPanel ();
+        var textComp = missionEndPanel.GetComponentInChildren<Text> (); // get mission text...
+        textComp.text = victoryText; // set it to mission result text
+        textComp.color = Color.green;
 
         WorldData.NextMission.SetCompleted (); // Set next mission avaible to play
     }
 
-    private void ReturnToMenu()
+    private IEnumerator ReturnToMenu()
     {
+
+        yield return new WaitForSeconds (2);
+
         SceneManager.LoadScene ("Menu"); // load menu scene
     }
 

@@ -30,7 +30,8 @@ public class WorldMenager : MonoBehaviour {
         PlayerController.notifyPlayerDead += OnPlayerDead; // add listener whe player dead
         MissionObjective.notifyOnObjectiveDestroy += OnObjectiveDestroyed; //add listener when mission obejctive destoryed 
 
-       //    AudioMenager.Instance.PlayGameMusic ();
+
+        if(AudioMenager.Instance != null) AudioMenager.Instance.PlayGameMusic ();
     }
 
     void OnPlayerDead()
@@ -43,6 +44,14 @@ public class WorldMenager : MonoBehaviour {
             if (p.IsDestroyed () == false)
             {
                 allDead = false;
+                
+                //TODO delete this later 
+                List<Transform> targets = new List<Transform> (); // create new list 
+                targets.Add (p.transform);
+                targets.Add (p.transform);
+                var CamF = GameObject.FindObjectOfType<CameraFollow> ();
+                CamF.SetTransformTargets (targets); // Set targets to camera follow
+                //
                 break;
             }
             allDead = true;
@@ -50,7 +59,15 @@ public class WorldMenager : MonoBehaviour {
 
 
         if (allDead) // if yes ...
+        { 
+            PlayerController.notifyPlayerDead -= OnPlayerDead;
+            MissionObjective.notifyOnObjectiveDestroy -= OnObjectiveDestroyed;
+
+            var waveSystem = FindObjectOfType<WaveSystem> ();
+            Enemy.onEnemyDeath -= waveSystem.DecreseEnemiesCount;
+
             OnDefeat (); // mission failed
+        }
     }
 
     void OnObjectiveDestroyed()

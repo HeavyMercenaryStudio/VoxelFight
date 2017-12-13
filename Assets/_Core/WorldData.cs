@@ -18,5 +18,4 @@ public class WorldData {
         set{ numberOfPlayers = value;}
     }
 
-    
 }

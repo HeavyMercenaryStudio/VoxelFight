@@ -170,6 +170,7 @@
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Fonts\OpenSans\License!.txt" />
     <None Include="Assets\_Characters\_Enemy\glow.shader" />
     <None Include="Assets\_Levels\Menu\Earth\Text3D.shader" />
     <None Include="Assets\_Levels\Patryk Level\TEMP\Color.shader" />

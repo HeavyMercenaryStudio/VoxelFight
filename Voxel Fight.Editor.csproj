@@ -121,10 +121,6 @@
       <Project>{B5088EDD-F388-83E6-CEAE-275A78D1B9DD}</Project>
       <Name>Voxel Fight</Name>
     </ProjectReference>
-    <ProjectReference Include="Voxel Fight.Editor.Plugins.csproj">
-      <Project>{7C0B64C1-E5F1-10A7-0599-814F26711C6D}</Project>
-      <Name>Voxel Fight.Editor.Plugins</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\PostProcessing\Editor\Attributes\PostProcessingModelEditorAttribute.cs" />
@@ -204,13 +200,8 @@
     <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
     <None Include="Assets\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
-    <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
-    <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
-    <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
     <None Include="Assets\_Characters\_Enemy\glow.shader" />
     <None Include="Assets\_Levels\Menu\Earth\Text3D.shader" />
-    <None Include="Assets\_Levels\Patryk Level\TEMP\Color.shader" />
-    <None Include="Assets\_Levels\Patryk Level\TEMP\Hologram.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

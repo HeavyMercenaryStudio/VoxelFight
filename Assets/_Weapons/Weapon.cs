@@ -11,7 +11,6 @@ public  class Weapon : MonoBehaviour{
     [SerializeField] protected int dispersion;
     [SerializeField] protected int bulletSpeed;
 
-    [SerializeField] AudioClip soundEffect;
     [SerializeField] protected Transform gunEndPoint;
     [SerializeField] protected GameObject bullet;
     [SerializeField] protected GameObject muzzle;

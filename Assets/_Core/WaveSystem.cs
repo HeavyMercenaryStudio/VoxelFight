@@ -17,10 +17,8 @@ public class WaveSystem : MonoBehaviour {
     int waveNumber;
 
     //StoreSystem storeSystem;
-
     int enemiesInWave;
     float nextWaveTime;
-
     GameGui gameGui;
 
     public void Start()
@@ -30,16 +28,13 @@ public class WaveSystem : MonoBehaviour {
         gameGui = GameObject.FindObjectOfType<GameGui> ();
 
         Enemy.onEnemyDeath += DecreseEnemiesCount;
-        currentWave = waveList[waveNumber];
-        StartWave ();
     }
-
     public void Update()
     {
         if (Time.time < nextWaveTime)
         {
             var t = (int)(nextWaveTime - Time.time);
-            nextWaveText.text = ("Next Wave : " + t);
+            nextWaveText.text = ("NEXT WAVE : " + t);
 
             //storeSystem.ToogleStore (true);
 
@@ -54,7 +49,7 @@ public class WaveSystem : MonoBehaviour {
     public void DecreseEnemiesCount()
     {
         enemiesInWave--;
-        waveEnemies.text = "Enemies to kill : " + enemiesInWave;
+        waveEnemies.text = "ENEMIES TO KILL : " + enemiesInWave;
 
         if (enemiesInWave == 0) {
             nextWaveTime = Time.time + timeBetweenWaves;
@@ -62,31 +57,29 @@ public class WaveSystem : MonoBehaviour {
             waveNumber++;
             if (waveNumber == waveList.Count)
             {
+                Enemy.onEnemyDeath -= DecreseEnemiesCount;
                 gameGui.Victory ();
             }
         }
     }
-
     void StartWave()
     {
-        waveText.text = "Wave : " + (waveNumber + 1).ToString();
+        waveText.text = "WAVE : " + (waveNumber + 1).ToString();
 
         for (int i = 0; i < currentWave.enemiesAmount.Length; i++)
             enemiesInWave += currentWave.enemiesAmount[i];
 
-        waveEnemies.text = "Enemies to kill : " + enemiesInWave;
+        waveEnemies.text = "ENEMIES TO KILL : " + enemiesInWave;
 
         StartCoroutine (SpawnEnemy (0, 0));
     }
-
-    void NextWave()
+    public void NextWave()
     {
         if (waveNumber == waveList.Count) return;
 
         currentWave = waveList[waveNumber];
         StartWave ();
     }
-
     IEnumerator SpawnEnemy(int numberOfEnemyTypes, int numberOfEnemies)
     {
         
