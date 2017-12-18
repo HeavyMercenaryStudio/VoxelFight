@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameData {
 
-    static int applicationRunTimes;
-    public static int ApplicationRunTimes
-    {
-        get { return applicationRunTimes; }
-        set { applicationRunTimes = value; }
+namespace Data { 
+
+    /// <summary>
+    /// Data passed between scenes
+    /// </summary>
+    public class GameData {
+
+        static int applicationRunTimes;
+        public static int ApplicationRunTimes
+        {
+            get { return applicationRunTimes; }
+            set { applicationRunTimes = value; }
+        }
     }
 }

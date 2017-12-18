@@ -1,53 +1,64 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Data;
 
-public class GameGui : MonoBehaviour {
+namespace CameraUI { 
 
-    [TextArea]
-    [SerializeField] string victoryText; // Text showed when player complete mission
-    [TextArea]
-    [SerializeField] string defeadText; // Text showed when player defeat mission
+    /// <summary>
+    /// Control in Game interface
+    /// </summary>
+    public class GameGui : MonoBehaviour {
 
-    [SerializeField] GameObject missionEndPanel; //Panel showed when player end mission
-    [SerializeField] GameObject wavePanel; //panel showed pass waves
+        [TextArea]
+        [SerializeField] string victoryText; // Text showed when player complete mission
+        [TextArea]
+        [SerializeField] string defeadText; // Text showed when player defeat mission
 
+        [SerializeField] Button backToMenuButton;
+        [SerializeField] GameObject missionEndPanel; //Panel showed when player end mission
+        [SerializeField] GameObject wavePanel; //panel showed pass waves
 
-    public void Defeat()
-    {
-        ShowMissionEndPanel ();
+        private void Start()
+        {
+            backToMenuButton.onClick.AddListener (Defeat);
+        }
 
-        var textComp = missionEndPanel.GetComponentInChildren<Text> (); // get mission text...
-        textComp.text = defeadText; // set it to mission result text
-        textComp.color = Color.red;
+        public void Defeat()
+        {
+            ShowMissionEndPanel ();
+
+            var textComp = missionEndPanel.GetComponentInChildren<Text> (); // get mission text...
+            textComp.text = defeadText; // set it to mission result text
+            textComp.color = Color.red;
+        }
+
+        private void ShowMissionEndPanel()
+        {
+            wavePanel.SetActive (false); //hide wave panel
+            missionEndPanel.SetActive (true); //show mission result panel
+
+            StartCoroutine (ReturnToMenu ());
+        }
+
+        public void Victory()
+        {
+            ShowMissionEndPanel ();
+            var textComp = missionEndPanel.GetComponentInChildren<Text> (); // get mission text...
+            textComp.text = victoryText; // set it to mission result text
+            textComp.color = Color.green;
+
+            WorldData.NextMission.SetCompleted (); // Set next mission avaible to play
+        }
+
+        private IEnumerator ReturnToMenu()
+        {
+
+            yield return new WaitForSeconds (2);
+
+            SceneManager.LoadScene ("Menu"); // load menu scene
+        }
+
     }
-
-    private void ShowMissionEndPanel()
-    {
-        wavePanel.SetActive (false); //hide wave panel
-        missionEndPanel.SetActive (true); //show mission result panel
-
-        StartCoroutine (ReturnToMenu ());
-    }
-
-    public void Victory()
-    {
-        ShowMissionEndPanel ();
-        var textComp = missionEndPanel.GetComponentInChildren<Text> (); // get mission text...
-        textComp.text = victoryText; // set it to mission result text
-        textComp.color = Color.green;
-
-        WorldData.NextMission.SetCompleted (); // Set next mission avaible to play
-    }
-
-    private IEnumerator ReturnToMenu()
-    {
-
-        yield return new WaitForSeconds (2);
-
-        SceneManager.LoadScene ("Menu"); // load menu scene
-    }
-
 }

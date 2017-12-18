@@ -1,63 +1,68 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Characters;
 using UnityEngine;
+using Weapons;
 
-public class RepairStation : MonoBehaviour, IDamageable
- {
-    [SerializeField] float interruptTime;
-    [SerializeField] int ammoPerSecond;
-    [SerializeField] float healthPercentagePerSecond;
+namespace WorldObjects { 
 
-    float lastHealth;
-    float interrupt;
+    /// <summary>
+    /// Use this for reapair player.
+    /// </summary>
+    public class RepairStation : MonoBehaviour, IDamageable
+     {
+        [SerializeField] float interruptTime; // disable time
+        [SerializeField] int ammoPerSecond; // ammo to fill per second
+        [SerializeField] float healthPercentagePerSecond; // health to fill per second
 
-    Material material;
+        float lastHealth; // 
+        float interrupt; 
 
-    void Start()
-    {
-        material = GetComponentInChildren<Renderer> ().material;
-    }
-
-    void Update()
-    {
-        if(interrupt >= 0)
-            interrupt -= Time.deltaTime;
-    }
-
-    public bool IsDestroyed()
-    {
-        return false;
-    }
-
-    public void TakeDamage(float damage, GameObject bullet)
-    {
-        var proj = bullet.GetComponent<Projectile> ();
-        var shooterIsEnemy = proj.GetShooter ().GetComponent<Enemy> ();
-
-        if (shooterIsEnemy)
+        Material material;
+        void Start()
         {
-            interrupt = interruptTime;
-            material.color = Color.red;
+            material = GetComponentInChildren<Renderer> ().material;
         }
-    }
 
-    void OnTriggerStay(Collider other)
-    {
-        var player = other.GetComponent<PlayerController> ();
-        if (player && Time.time > lastHealth && interrupt <= 0) //only every second if player stay on platform
+        void Update()
         {
-            player.HealMe (healthPercentagePerSecond); // ADD percentage health
-            player.ReloadMe (ammoPerSecond); //add ammo
-
-            lastHealth = Time.time + 1f; //heal every second
-            material.color = Color.green; //set color of platform
+            if(interrupt >= 0) // count interupt to zero
+                interrupt -= Time.deltaTime;
         }
-    }
 
-    void OnTriggerExit(Collider other)
-    {
-        var player = other.GetComponent<PlayerController> ();
-        if (player && interrupt <= 0)
-            material.color = Color.white; //reset platform color
+        public bool IsDestroyed()
+        {
+            return false;
+        }
+
+        public void TakeDamage(float damage, GameObject bullet)
+        {
+            var proj = bullet.GetComponent<Projectile> (); // get projectile
+            var shooterIsEnemy = proj.GetShooter ().GetComponent<Enemy> ();
+            
+            if (shooterIsEnemy) // if shooter was enemy..
+            {
+                interrupt = interruptTime;//disable heal function
+                material.color = Color.red;// and change color to red
+            }
+        }
+
+        void OnTriggerStay(Collider other)
+        {
+            var player = other.GetComponent<PlayerController> (); 
+            if (player && Time.time > lastHealth && interrupt <= 0) //only every second if player stay on platform
+            {
+                player.HealMe (healthPercentagePerSecond); // ADD percentage health
+                player.ReloadMe (ammoPerSecond); //add ammo
+
+                lastHealth = Time.time + 1f; //heal every second
+                material.color = Color.green; //set color of platform
+            }
+        }
+
+        void OnTriggerExit(Collider other)
+        {
+            var player = other.GetComponent<PlayerController> ();
+            if (player && interrupt <= 0)
+                material.color = Color.white; //reset platform color
+        }
     }
 }

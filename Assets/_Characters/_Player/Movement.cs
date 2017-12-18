@@ -2,109 +2,116 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class Movement : MonoBehaviour {
 
-    [SerializeField] float movementSpeed = 10f;
-    //[SerializeField] float rotationSpeed = 10f;
 
-    Rigidbody rigibody;
-    Animator animator;
-    PlayerController controller;
-
-    string horizontalAxisName;
-    string verticalAxisName;
-
-    float screenBlockValue = 25f;
-    private void Start()
+namespace Characters
+{
+    /// <summary>
+    /// Control player movement
+    /// </summary>
+    [RequireComponent (typeof (Rigidbody))]
+    public class Movement : MonoBehaviour
     {
-        rigibody = GetComponent<Rigidbody> ();
-        controller = GetComponent<PlayerController> ();
+        [SerializeField] float movementSpeed = 10f; // speed of player
 
-        horizontalAxisName = "Horizontal" + controller.GetPlayerNumber ();
-        verticalAxisName = "Vertical" + controller.GetPlayerNumber ();
-    }
+        Rigidbody rigibody;
+        PlayerController controller;
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (controller.IsDestroyed()) return;
+        string horizontalAxisName;
+        string verticalAxisName;
 
-        float h = Input.GetAxis (horizontalAxisName);
-        float v = Input.GetAxis (verticalAxisName);
+        float screenBlockValue = 25f; //stop player when reach distance of to edge of screen
 
-        ControlPlayer (h, v);
-    }
-   
-    void ControlPlayer(float horizontal, float vertical)
-    {
-        if (controller.GetPlayerNumber() == 1)
-            RotateWithMouse ();
-        else
-            RotateWithJoy (horizontal, vertical);
-
-        if(CheckScreenEdge (horizontal, vertical))
-            MovePlayer (horizontal, vertical);
-
-    }
-
-    private void MovePlayer(float horizontal, float vertical)
-    {
-        //Move player
-        Vector3 moveVector = new Vector3 (horizontal, 0, vertical);
-
-        moveVector *= Time.deltaTime * movementSpeed;
-        moveVector += transform.position;
-        rigibody.MovePosition (moveVector);
-    }
-
-    private void RotateWithJoy(float horizontal, float vertical)
-    {
-        Vector3 turnDir = new Vector3 (Input.GetAxisRaw("JoystickHorizontal"), 0f, Input.GetAxisRaw ("JoystickVertical"));
-
-        if (turnDir.magnitude > 0.1f)
+        private void Start()
         {
-            Vector3 playertomouse = (transform.position + turnDir) - transform.position;
-            playertomouse.y = 0f;
+            rigibody = GetComponent<Rigidbody> ();
+            controller = GetComponent<PlayerController> ();
 
-            // create a quaternion (rotation) based on looking down the vector from the player to the mouse.
-            Quaternion newrotatation = Quaternion.LookRotation (playertomouse);
-
-            // set the player's rotation to this new rotation.
-            rigibody.MoveRotation (newrotatation);
-        }
-    }
-
-    private void RotateWithMouse()
-    {
-        Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast (camRay, out hit))
-        {
-            //Rotate player
-            Vector3 playerToMouse = hit.point - transform.position;
-            playerToMouse.y = 0f;
-            Quaternion newRotation = Quaternion.LookRotation (playerToMouse);
-            rigibody.MoveRotation (newRotation);
-        }
-    }
-
-    private bool CheckScreenEdge(float horizontal, float vertical)
-    {
-        //Transfer position of player into screen point
-        Vector3 screenPos = Camera.main.WorldToScreenPoint (transform.position);
-
-        //Check if position is on edge of camera view 
-        if ((screenPos.x < screenBlockValue && horizontal < 0) ||
-             (screenPos.x > Screen.width - screenBlockValue && horizontal > 0) ||
-             (screenPos.y < screenBlockValue && vertical < 0) ||
-             (screenPos.y > Screen.height - screenBlockValue && vertical > 0))
-        {
-            return false;
+            horizontalAxisName = "Horizontal" + controller.GetPlayerNumber ();
+            verticalAxisName = "Vertical" + controller.GetPlayerNumber ();
         }
 
-        return true;
-    }
+        // Update is called once per frame
+        void FixedUpdate()
+        {
+            if (controller.IsDestroyed ()) return; // if character is destroy dont take any action..
 
+            float h = Input.GetAxis (horizontalAxisName); // get input of horizontal Axis..
+            float v = Input.GetAxis (verticalAxisName); // get input of vertical Axis
+
+            ControlPlayer (h, v); 
+        }
+
+        void ControlPlayer(float horizontal, float vertical)
+        {
+            if (controller.GetPlayerNumber () == 1) //if it is player one
+                RotateWithMouse (); // rotate with mouse
+            else // otherwise..
+                RotateWithJoy (horizontal, vertical); // rotate using analog 
+
+            if (CheckScreenEdge (horizontal, vertical)) // check if character reach screen edge ...
+                MovePlayer (horizontal, vertical); // if dont... enable movement
+
+        }
+
+        private void MovePlayer(float horizontal, float vertical) 
+        {
+            Vector3 moveVector = new Vector3 (horizontal, 0, vertical); // create vector using inputs
+
+            moveVector *= Time.deltaTime * movementSpeed; // clamp it by FPS 
+            moveVector += transform.position; // update position
+            rigibody.MovePosition (moveVector); // set the player's position to this new position
+        }
+
+        private void RotateWithJoy(float horizontal, float vertical)
+        {
+            // get input of analog
+            Vector3 turnDir = new Vector3 (Input.GetAxisRaw ("JoystickHorizontal"), 0f, Input.GetAxisRaw ("JoystickVertical"));
+
+            if (turnDir.magnitude > 0.1f) //if magniture of input vector ...
+            {
+                //create rotation vector
+                Vector3 playertomouse = (transform.position + turnDir) - transform.position;
+                playertomouse.y = 0f; // dont rotate by y axis
+
+                // create a quaternion (rotation) based on looking down the vector from the player to the mouse.
+                Quaternion newrotatation = Quaternion.LookRotation (playertomouse);
+
+                // set the player's rotation to this new rotation.
+                rigibody.MoveRotation (newrotatation);
+            }
+        }
+
+        private void RotateWithMouse()
+        {
+            Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition); // create raycast depends on mouse position
+            RaycastHit hit;
+
+            if (Physics.Raycast (camRay, out hit)) // if raycast hit something
+            {
+                Vector3 playerToMouse = hit.point - transform.position; //create rotation vector
+                playerToMouse.y = 0f; // dont rotate with y axis
+                Quaternion newRotation = Quaternion.LookRotation (playerToMouse); // create new rotation
+                rigibody.MoveRotation (newRotation); // set player's rotation to new rotation
+            }
+        }
+
+        private bool CheckScreenEdge(float horizontal, float vertical)
+        {
+            //Transfer position of player into screen point
+            Vector3 screenPos = Camera.main.WorldToScreenPoint (transform.position);
+
+            //Check if position is on edge of camera view 
+            if ((screenPos.x < screenBlockValue && horizontal < 0) ||
+                 (screenPos.x > Screen.width - screenBlockValue && horizontal > 0) ||
+                 (screenPos.y < screenBlockValue && vertical < 0) ||
+                 (screenPos.y > Screen.height - screenBlockValue && vertical > 0))
+            {
+                return false; // don't move
+            }
+
+            return true; // move
+        }
+
+    }
 }

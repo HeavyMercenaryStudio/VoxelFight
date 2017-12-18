@@ -1,21 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using CameraUI;
 
-public class WorldData {
+namespace Data { 
 
-    static Mission nextMission;
-    public static Mission NextMission
-    {
-        get { return nextMission;}
-        set { nextMission = value;}
-    }
+    /// <summary>
+    /// In Game Static Data
+    /// </summary>
+    public class WorldData {
 
-    static int numberOfPlayers = 2;
-    public static int NumberOfPlayers
-    {
-        get{return numberOfPlayers; }
-        set{ numberOfPlayers = value;}
+        static Mission nextMission;
+        public static Mission NextMission
+        {
+            get { return nextMission;}
+            set { nextMission = value;}
+        }
+
+        static int numberOfPlayers = 2;
+        public static int NumberOfPlayers
+        {
+            get{return numberOfPlayers; }
+            set{ numberOfPlayers = value;}
+        }
+
     }
 
 }

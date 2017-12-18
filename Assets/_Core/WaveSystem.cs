@@ -1,111 +1,117 @@
-﻿using System;
+﻿using CameraUI;
+using Characters;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WaveSystem : MonoBehaviour {
+namespace Core { 
 
-    [SerializeField] Text waveText;
-    [SerializeField] Text waveEnemies;
-    [SerializeField] Text nextWaveText;
+    public class WaveSystem : MonoBehaviour {
 
-    [SerializeField] float timeBetweenWaves;
+        [SerializeField] Text waveText; // wave number text
+        [SerializeField] Text waveEnemies; // enemies in wave
+        [SerializeField] Text nextWaveText; // text time to next wave
 
-    [SerializeField] List<Wave> waveList;
-    Wave currentWave;
-    int waveNumber;
+        [SerializeField] float timeBetweenWaves; // rest time between waves
 
-    //StoreSystem storeSystem;
-    int enemiesInWave;
-    float nextWaveTime;
-    GameGui gameGui;
+        [SerializeField] List<Wave> waveList; // list of waves
+        Wave currentWave; // 
+        int waveNumber; 
 
-    public void Start()
-    {
-        // storeSystem = FindObjectOfType<StoreSystem> ();
-        //storeSystem.ToogleStore (false);
-        gameGui = GameObject.FindObjectOfType<GameGui> ();
+        //StoreSystem storeSystem;
+        int enemiesInWave;
+        float nextWaveTime;
+        GameGui gameGui;
 
-        Enemy.onEnemyDeath += DecreseEnemiesCount;
-    }
-    public void Update()
-    {
-        if (Time.time < nextWaveTime)
+        public void Start()
         {
-            var t = (int)(nextWaveTime - Time.time);
-            nextWaveText.text = ("NEXT WAVE : " + t);
+            // storeSystem = FindObjectOfType<StoreSystem> ();
+            //storeSystem.ToogleStore (false);
+            gameGui = GameObject.FindObjectOfType<GameGui> ();
 
-            //storeSystem.ToogleStore (true);
-
-            if (t == 0) {
-               // storeSystem.ToogleStore (false);
-                nextWaveTime = 0;
-                NextWave ();
-            }
+            Enemy.onEnemyDeath += DecreseEnemiesCount;
         }
-    }
-
-    public void DecreseEnemiesCount()
-    {
-        enemiesInWave--;
-        waveEnemies.text = "ENEMIES TO KILL : " + enemiesInWave;
-
-        if (enemiesInWave == 0) {
-            nextWaveTime = Time.time + timeBetweenWaves;
-
-            waveNumber++;
-            if (waveNumber == waveList.Count)
-            {
-                Enemy.onEnemyDeath -= DecreseEnemiesCount;
-                gameGui.Victory ();
-            }
-        }
-    }
-    void StartWave()
-    {
-        waveText.text = "WAVE : " + (waveNumber + 1).ToString();
-
-        for (int i = 0; i < currentWave.enemiesAmount.Length; i++)
-            enemiesInWave += currentWave.enemiesAmount[i];
-
-        waveEnemies.text = "ENEMIES TO KILL : " + enemiesInWave;
-
-        StartCoroutine (SpawnEnemy (0, 0));
-    }
-    public void NextWave()
-    {
-        if (waveNumber == waveList.Count) return;
-
-        currentWave = waveList[waveNumber];
-        StartWave ();
-    }
-    IEnumerator SpawnEnemy(int numberOfEnemyTypes, int numberOfEnemies)
-    {
-        
-
-        while (numberOfEnemyTypes < currentWave.enemies.Length)
+        public void Update()
         {
-            yield return new WaitForSeconds (currentWave.spawnDelayTime);
+            if (Time.time < nextWaveTime) //if its time to next wave...
+             {
+                var t = (int)(nextWaveTime - Time.time); // update text interface
+                nextWaveText.text = ("NEXT WAVE : " + t);
 
-            int n = UnityEngine.Random.Range (0, 360);
-            var rad = n * Mathf.PI / 180f;
+                //storeSystem.ToogleStore (true);
 
-            var x = currentWave.R * Mathf.Cos (rad);
-            var y = currentWave.R * Mathf.Sin (rad);
-
-            Vector3 pos = new Vector3 (x, 0, y);
-
-            GameObject enemy = Instantiate (currentWave.enemies[numberOfEnemyTypes], pos, Quaternion.identity) as GameObject;
-
-            if (numberOfEnemies >= currentWave.enemiesAmount[numberOfEnemyTypes] - 1)
-            {
-                numberOfEnemies = 0;
-                numberOfEnemyTypes++;
+                if (t == 0) { // if rest end
+                   // storeSystem.ToogleStore (false);
+                    nextWaveTime = 0; // starrt next wave
+                    NextWave ();
+                }
             }
-            else
-                numberOfEnemies++;
         }
-    }
+
+        public void DecreseEnemiesCount()
+        {
+            enemiesInWave--; // when enemy dead ..
+            waveEnemies.text = "ENEMIES TO KILL : " + enemiesInWave; // update interface
+
+            if (enemiesInWave == 0) {//if players kill all enemies
+                nextWaveTime = Time.time + timeBetweenWaves;  //start next wave
+
+                waveNumber++; // if its no more wave in this level
+                if (waveNumber == waveList.Count)
+                { 
+                    Enemy.onEnemyDeath -= DecreseEnemiesCount; // remove listener
+                    gameGui.Victory (); // update interface 
+                }
+            }
+        }
+        void StartWave()
+        {
+            waveText.text = "WAVE : " + (waveNumber + 1).ToString(); // update text on UI
+
+            for (int i = 0; i < currentWave.enemiesAmount.Length; i++) // count all enemies in wave
+                enemiesInWave += currentWave.enemiesAmount[i];
+
+            waveEnemies.text = "ENEMIES TO KILL : " + enemiesInWave; // update UI
+
+            StartCoroutine (SpawnEnemy (0, 0)); // spawn enemies 
+        }
+
+        public void NextWave()
+        {
+            if (waveNumber == waveList.Count) return; //if no more waves in level do nothing
+
+            currentWave = waveList[waveNumber]; // else start next wave
+            StartWave ();
+        }
+        IEnumerator SpawnEnemy(int numberOfEnemyTypes, int numberOfEnemies)
+        {
+            //spawn enemies for each type in array "enemies" every Xs time 
+            while (numberOfEnemyTypes < currentWave.enemies.Length) 
+            {
+                yield return new WaitForSeconds (currentWave.spawnDelayTime);
+
+                int n = UnityEngine.Random.Range (0, 360); //calaculate position at circle around players
+                var rad = n * Mathf.PI / 180f;
+
+                var x = currentWave.R * Mathf.Cos (rad);
+                var y = currentWave.R * Mathf.Sin (rad);
+                Vector3 pos = new Vector3 (x, 0, y);
+
+                //instantiate new enemy at this position
+                Instantiate (currentWave.enemies[numberOfEnemyTypes], pos, Quaternion.identity);
+
+                //if spawned all enemies of current type
+                if (numberOfEnemies >= currentWave.enemiesAmount[numberOfEnemyTypes] - 1)
+                {
+                    numberOfEnemies = 0; // spawn new enemies
+                    numberOfEnemyTypes++;
+                }
+                else // else continue spawning
+                    numberOfEnemies++;
+            }
+        }
    
+    }
+
 }

@@ -1,61 +1,69 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Core;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextAnimation : MonoBehaviour {
+namespace CameraUI { 
 
-    [SerializeField] Text mainTextToAnmiate;
-    [SerializeField] Text additionTextToAnmiate;
+    /// <summary>
+    /// Anmiate text in game.
+    /// </summary>
+    public class TextAnimation : MonoBehaviour {
 
-    private void Start()
-    {
-        StartCoroutine (MainTextAnimation ());
-    }
+        [SerializeField] Text mainTextToAnmiate;  // first text
+        [SerializeField] Text additionTextToAnmiate; //second text
+                                                     // may have diffrent format
 
-    IEnumerator MainTextAnimation()
-    {
-        string text = mainTextToAnmiate.text; //get text from inspector
-        int lenght = text.Length;
-        int i = 0;
-        mainTextToAnmiate.text = "";
-        string addText = additionTextToAnmiate.text;
-        additionTextToAnmiate.text = "";
-
-        while (i < lenght) // while text is not empty
+        private void Start()
         {
-            mainTextToAnmiate.text += text[i]; //fill text area
-            yield return new WaitForSeconds (0.05f); //every 0.05 s
-            i++;
+            StartCoroutine (MainTextAnimation ());
         }
 
-        StartCoroutine (AddionTextAnimation (addText));
-    }
-
-    IEnumerator AddionTextAnimation(string text)
-    {
-        int lenght = text.Length;
-        int i = 0;
-        while (i < lenght) // while text is not empty
+        IEnumerator MainTextAnimation()
         {
-            additionTextToAnmiate.text += text[i]; //fill text area
-            yield return new WaitForSeconds (0.05f); //every 0.05 s
-            i++;
+            string text = mainTextToAnmiate.text; //get text from inspector
+            int lenght = text.Length;
+            int i = 0;
+            mainTextToAnmiate.text = "";
+            string addText = additionTextToAnmiate.text;
+            additionTextToAnmiate.text = "";
+
+            while (i < lenght) // while text is not empty
+            {
+                mainTextToAnmiate.text += text[i]; //fill text area
+                yield return new WaitForSeconds (0.05f); //every 0.05 s
+                i++;
+            }
+
+            StartCoroutine (AddionTextAnimation (addText));
         }
 
-        StartCoroutine (Delay ());
+        IEnumerator AddionTextAnimation(string text)
+        {
+            int lenght = text.Length;
+            int i = 0;
+            while (i < lenght) // while text is not empty
+            {
+                additionTextToAnmiate.text += text[i]; //fill text area
+                yield return new WaitForSeconds (0.05f); //every 0.05 s
+                i++;
+            }
+
+            StartCoroutine (Delay ());
+        }
+
+
+        IEnumerator Delay()
+        {
+            yield return new WaitForSeconds (5); // wait before next wave
+
+            mainTextToAnmiate.transform.root.gameObject.SetActive (false);
+
+            var waveSystem = GetComponent<WaveSystem> (); // start next wave after end of animation
+            waveSystem.NextWave ();
+            StopAllCoroutines ();
+        }
+
+
     }
-
-
-    IEnumerator Delay()
-    {
-        yield return new WaitForSeconds (5);
-
-        mainTextToAnmiate.transform.root.gameObject.SetActive (false);
-        var waveSystem = GetComponent<WaveSystem> ();
-        waveSystem.NextWave ();
-        StopAllCoroutines ();
-    }
-
-
 }

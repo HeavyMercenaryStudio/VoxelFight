@@ -1,60 +1,71 @@
-﻿using System.Collections;
+﻿using Audio;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IDamageable {
-
-    [HideInInspector] public Animator animatorControler;
-
-    [SerializeField] float maxHealthPoints = 100f;
-    [SerializeField] GameObject blood; 
-    [SerializeField] GameObject explosion;
-    [SerializeField] SoundMenager audioClips;
-
-    public float healthAsPercentage { get { return currentHealthPoints / (float)maxHealthPoints; } }
-    public bool isDestroyed;
-
-    public delegate void OnEnemyDeath();
-    public static event OnEnemyDeath onEnemyDeath;
-    
-    float currentHealthPoints;
-    float stiffDestroyTime = 20f;
-
-    void Start()
-	{
-		currentHealthPoints = maxHealthPoints;
-        animatorControler = GetComponent<Animator> ();
-    }
-
-	public void TakeDamage(float damage, GameObject bullet)
-	{
-        if (isDestroyed) return;
-
-        Destroy (bullet);
-
-        currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints);
-
-        var offset = this.GetComponent<Collider> ().bounds.extents.y;
-        GameObject blood1 = Instantiate (blood, transform.position + new Vector3(0,offset), blood.transform.rotation);
-        Destroy (blood1, 5f);
-
-        if (currentHealthPoints == 0)
-        {
-            GameObject ex = Instantiate (explosion, transform.position + new Vector3 (0, offset), explosion.transform.rotation);
-            Destroy (ex, 1f);
-
-            isDestroyed = true;
-            GetComponent<Collider> ().enabled = false;
-
-            if(AudioMenager.Instance != null) AudioMenager.Instance.PlayClip (audioClips.GetHitClip ());
-
-            onEnemyDeath ();
-			Destroy (gameObject);
-        }
-    }
-
-    public bool IsDestroyed()
+namespace Characters
+{
+    /// <summary>
+    /// Control enemy health
+    /// </summary>
+    public class Enemy : MonoBehaviour, IDamageable
     {
-        return isDestroyed;
+        [SerializeField] float maxHealthPoints = 100f; // max enemy hit points
+        [SerializeField] GameObject blood; // blood effect
+        [SerializeField] GameObject explosion; // death effect 
+        [SerializeField] SoundMenager audioClips; // audio clips
+
+        public float healthAsPercentage { get { return currentHealthPoints / (float)maxHealthPoints; } }
+        public bool isDestroyed; 
+
+        public delegate void OnEnemyDeath();
+        public static event OnEnemyDeath onEnemyDeath;
+
+        float currentHealthPoints; // current hit points
+
+        float bloodDestroyTime = 5f;
+        float explosionDestroyTime = 1f;
+
+        void Start()
+        {
+            currentHealthPoints = maxHealthPoints;
+        }
+
+        public void TakeDamage(float damage, GameObject bullet)
+        {
+            if (isDestroyed) return; // return if its alredy destroyed
+
+            Destroy (bullet); // destroy hit bullet
+
+            //clamp health between 0 and maxHealthPoints
+            currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints); 
+
+            //Spawn Blood Particle
+            var offset = this.GetComponent<Collider> ().bounds.extents.y; // calculate half offset of self
+            GameObject blood1 = Instantiate (blood, transform.position + new Vector3 (0, offset), blood.transform.rotation);
+            Destroy (blood1, bloodDestroyTime); // and destroy it with delay
+
+
+            if (currentHealthPoints == 0) // if health is equeal zero....
+            {
+                //spawn death particle
+                GameObject ex = Instantiate (explosion, transform.position + new Vector3 (0, offset), explosion.transform.rotation);
+                Destroy (ex, explosionDestroyTime); // and destroy it with delay
+
+                isDestroyed = true; //enable flag
+
+                // play sound
+                if (AudioMenager.Instance != null)
+                    AudioMenager.Instance.PlayClip (audioClips.GetHitClip ());
+
+                onEnemyDeath (); //notify enemy death
+                Destroy (gameObject); //and destroy this gameobject
+            }
+        }
+
+        public bool IsDestroyed()
+        {
+            return isDestroyed;
+        }
     }
 }

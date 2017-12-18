@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerGUI : MonoBehaviour {
+namespace CameraUI { 
 
-    [SerializeField] Text ammoText;
-    [SerializeField] Image healthBar;
+    /// <summary>
+    /// Player interfejs in game 
+    /// </summary>
+    public class PlayerGUI : MonoBehaviour {
 
-    public void UpdateAmmoText(float ammoAmout)
-    {
-        ammoText.text = "Ammo: " + ammoAmout.ToString ();
-    }
+        [SerializeField] Text ammoText; // player canvas ammo text 
+        [SerializeField] Image healthBar;// bar of player health
 
-    public void UpdateHealthInfo(float healthAmount)
-    {
-        healthBar.fillAmount = healthAmount;
-    }
+        public void UpdateAmmoText(float ammoAmout) // update player ammo text
+        {
+            ammoText.text = "Ammo: " + ammoAmout.ToString ();
+        }
+
+        public void UpdateHealthInfo(float healthAmount)//update player health bar
+        {
+            healthBar.fillAmount = healthAmount;
+        }
    
+    }
 }

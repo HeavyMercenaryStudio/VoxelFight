@@ -2,65 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public  class Weapon : MonoBehaviour{
+namespace Weapons { 
+
+    /// <summary>
+    /// Control weapon used by player or enemy
+    /// </summary>
+    public class Weapon : MonoBehaviour{
     
-    [SerializeField] float secondsBetweenShoot;
-    [SerializeField] int maxAmmo;
-    [SerializeField] protected float damage;
-    [SerializeField] protected float range;
-    [SerializeField] protected int dispersion;
-    [SerializeField] protected int bulletSpeed;
+        [SerializeField] float secondsBetweenShoot; // how fast character shoot
+        [SerializeField] int maxAmmo; // max ammo at start
+        [SerializeField] protected float damage; // current damage
+        [SerializeField] protected float range; // range of bullets
+        [SerializeField] protected int dispersion; // dispersion of shoots
+        [SerializeField] protected int bulletSpeed; // speed of bullet
 
-    [SerializeField] protected Transform gunEndPoint;
-    [SerializeField] protected GameObject bullet;
-    [SerializeField] protected GameObject muzzle;
+        [SerializeField] protected Transform gunEndPoint; // spawn bullet at this position
+        [SerializeField] protected GameObject bullet;  // bulet prefab
+        [SerializeField] protected GameObject muzzle; // muzzle particle effect
 
-    [SerializeField] SoundMenager audioClips;
-
-    int currentAmmo;
-    float lastShoot;
-    PlayerGUI playerGui;
-
-    public void Realod(int ammo)
-    {
-        float addedAmmo = currentAmmo + ammo;
-        currentAmmo = (int)Mathf.Clamp ((float)addedAmmo, 0, (float)maxAmmo);
-        playerGui.UpdateAmmoText (currentAmmo);
-    }
-    private void Start()
-    {
-        playerGui = GetComponent<PlayerGUI> ();
-
-        currentAmmo = maxAmmo;
-        if(playerGui) playerGui.UpdateAmmoText (currentAmmo);// if its player update gui
-    }
-
-    public  void TryShoot()
-    {
-        //Handle attack speed
-        if (Time.time > lastShoot + secondsBetweenShoot)
-        {
-            if (currentAmmo != 0)
-            {
-                UpdateAmmo ();
-                Shoot ();
-
-                lastShoot = Time.time;
-            }
-        }
-    }
-    public virtual void Shoot()
-    {
+        int currentAmmo;
+        float lastShoot;
         
-    }
-    private void UpdateAmmo()
-    {
-       currentAmmo--;
-        if (playerGui)
-        {
-               if(AudioMenager.Instance != null) AudioMenager.Instance.PlayClip (audioClips.GetShootClip ());
-               playerGui.UpdateAmmoText (currentAmmo); // if its player
+        public int GetCurrentAmmo(){
+            return currentAmmo;
         }
-    }
 
+        public void Realod(int ammo)
+        {
+            float addedAmmo = currentAmmo + ammo;
+            currentAmmo = (int)Mathf.Clamp ((float)addedAmmo, 0, (float)maxAmmo);
+        }
+        private void Start()
+        {
+            currentAmmo = maxAmmo;
+        }
+
+        public bool TryShoot()
+        {
+            //Handle attack speed
+            if (Time.time > lastShoot + secondsBetweenShoot)
+            {
+                if (currentAmmo != 0)
+                {
+                    Shoot ();
+                    currentAmmo--;
+                    lastShoot = Time.time;
+
+                    return true; // shoot succesfull
+
+                }
+            }
+
+            return false; // shoot failed
+        }
+        public virtual void Shoot()
+        {
+        
+        }
+        
+
+    }
 }

@@ -3,53 +3,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace CameraUI { 
 
-public class CameraFollow : MonoBehaviour {
+    //CameraArm
+    //  Camera
 
-    [SerializeField] float smoothTime = 0.3F;
-    [SerializeField] Transform[] players;
-    [SerializeField] Transform cameraGameOverTransform;
+    /// <summary>
+    /// Follow target by arm of camera
+    /// </summary>
+    public class CameraFollow : MonoBehaviour {
 
-    Vector3 moveVelocity;
-    Vector3 avaragePosition;
+        [SerializeField] float smoothTime = 0.3F; // smoothness when interpolating
+        [SerializeField] Transform[] players; // list of players
 
-    void FixedUpdate(){
+        Vector3 moveVelocity; //Veclocity of camera
+        Vector3 avaragePosition; // avarage position of targets
 
-        Move ();
-	}
+        void FixedUpdate(){
+            Move ();
+	    }
 
-    public void Move()
-    {
+        public void Move()
+        {
 
-        //Calculate acarage position of players
-        avaragePosition = new Vector3 ();
-        for (int i = 0; i < players.Length; i++)
-            avaragePosition += players[i].position;
+            //Calculate acarage position of players
+            avaragePosition = new Vector3 ();
+            for (int i = 0; i < players.Length; i++)
+                avaragePosition += players[i].position;
 
-        avaragePosition /= players.Length;
-        avaragePosition.y = 0f;
+            avaragePosition /= players.Length;
+            avaragePosition.y = 0f;
 
-        //follow this position
-        transform.position = Vector3.SmoothDamp (transform.position, avaragePosition, ref moveVelocity, smoothTime);
+            //follow this position
+            transform.position = Vector3.SmoothDamp (transform.position, avaragePosition, ref moveVelocity, smoothTime);
          
-    }
+        }
 
-    public Transform[] GetPlayers()
-    {
-        return players;
-    }
-    public void SetTransformTargets(List<Transform> targets)
-    {
-        players = targets.ToArray ();
-    }
-
-
-    public void GameOver(Transform t)
-    {
-        var cam = GetComponentInChildren<Camera> ();
-
-        cam.orthographicSize = 15; // TODO make const
-        cam.transform.position = cameraGameOverTransform.position;
-        cam.transform.rotation = cameraGameOverTransform.rotation;
+        public Transform[] GetPlayers()
+        {
+            return players;
+        }
+        public void SetTransformTargets(List<Transform> targets)
+        {
+            players = targets.ToArray ();
+        }
     }
 }

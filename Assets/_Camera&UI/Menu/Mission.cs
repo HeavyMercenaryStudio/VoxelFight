@@ -4,34 +4,40 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-[CreateAssetMenu (menuName = "Mission")]
-public class Mission : ScriptableObject {
+namespace CameraUI { 
 
-    [SerializeField] GameObject missionPrefab;
-    [SerializeField] string missionLevelName;
-    [SerializeField] bool completed;
-    [SerializeField] string missionDescription;
-    [SerializeField] Image missionImage;
-    [SerializeField] Mission nextMission;
+    /// <summary>
+    /// Describle scriptable mission object
+    /// </summary>
+    [CreateAssetMenu (menuName = "Mission")]
+    public class Mission : ScriptableObject {
 
-    public GameObject GetMissionPrefab()
-    {
-        missionPrefab.GetComponentInChildren<Text> ().text = missionDescription;
-        return missionPrefab;
-    }
-    public string GetMissionScene(){
-        return missionLevelName;
-    }
-    public Mission GetNextMission(){
-        return nextMission;
-    }
+        [SerializeField] GameObject missionPrefab; // Mission panel game object 
+        [SerializeField] string missionLevelName; // Scene Name
+        [SerializeField] bool completed; // is mission complted
+        [SerializeField] string missionDescription; // description of mission
+        [SerializeField] Image missionImage; // image of mission
+        [SerializeField] Mission nextMission; // next mission after this
 
-    public bool IsMissionComplete()
-    {
-        return completed;
-    }
-    public void SetCompleted()
-    {
-        completed = true;
+        public GameObject GetMissionPrefab()
+        {
+            missionPrefab.GetComponentInChildren<Text> ().text = missionDescription;
+            return missionPrefab;
+        }
+        public string GetMissionScene(){
+            return missionLevelName;
+        }
+        public Mission GetNextMission(){
+            return nextMission;
+        }
+
+        public bool IsMissionComplete()
+        {
+            return completed;
+        }
+        public void SetCompleted()
+        {
+            completed = true;
+        }
     }
 }

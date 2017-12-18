@@ -1,15 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+namespace Core { 
 
-[CreateAssetMenu (menuName = "Wave")]
-public class Wave : ScriptableObject {
+    //IMPORTATNT ! ! ! 
+    //Enemies array must be same lenght as enemiesAmount array
 
-    public GameObject[] enemies;
-    public int[] enemiesAmount;
-    public float spawnDelayTime;
+    /// <summary>
+    /// Describes wave's.
+    /// </summary>
+    [CreateAssetMenu (menuName = "Wave")]
+    public class Wave : ScriptableObject {
 
-    public int R = 100;
+        public GameObject[] enemies; // enemies prefabs  
+        public int[] enemiesAmount; // enemies amouse
+        public float spawnDelayTime; // time between spawns
 
+        public int R = 100; // how far spawn enemies
+
+    }
 }

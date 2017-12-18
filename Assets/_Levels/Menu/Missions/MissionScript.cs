@@ -1,33 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Data;
 
-public class MissionScript : MonoBehaviour {
+namespace CameraUI { 
 
-    Mission objectMission;
+    /// <summary>
+    /// Temporary handle mission scriptable object
+    /// </summary>
+    public class MissionScript : MonoBehaviour {
+
+        Mission objectMission;
     
-    public void SetMission(Mission m)
-    {
-        objectMission = m;
-        SetMissionButtonAction ();
-    }
-    public Mission GetMission()
-    {
-        return objectMission;
-    }
-    public void SetMissionButtonAction()
-    {
-        var button = this.GetComponent<Button> ();
-        button.onClick.AddListener (LoadMissionScene);
-    }
+        public void SetMission(Mission m)
+        {
+            objectMission = m;
+            SetMissionButtonAction ();
+        }
+        public Mission GetMission()
+        {
+            return objectMission;
+        }
+        public void SetMissionButtonAction()
+        {
+            var button = this.GetComponent<Button> (); 
+            button.onClick.AddListener (LoadMissionScene);
+        }
 
-    public void LoadMissionScene()
-    {
-        var scene = objectMission.GetMissionScene ();
-        WorldData.NextMission = objectMission.GetNextMission();
-        SceneManager.LoadScene (scene);
+        public void LoadMissionScene()
+        {
+            var scene = objectMission.GetMissionScene ();
+            WorldData.NextMission = objectMission.GetNextMission();
+            SceneManager.LoadScene (scene);
+        }
     }
-
 }
