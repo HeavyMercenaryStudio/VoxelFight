@@ -80,4 +80,9 @@ public class WorldMenager : MonoBehaviour {
         GAME_GUI.Defeat (); // Update GUI panel
     }
 
+    public List<GameObject> getPlayers()
+    {
+        return players;
+    }
+
 }

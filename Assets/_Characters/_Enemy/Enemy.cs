@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour, IDamageable {
 
         var offset = this.GetComponent<Collider> ().bounds.extents.y;
         GameObject blood1 = Instantiate (blood, transform.position + new Vector3(0,offset), blood.transform.rotation);
-        Destroy (blood1, 5f);
+        Destroy (blood1, 20f);
 
         if (currentHealthPoints == 0)
         {

@@ -14,6 +14,8 @@ public class GameGui : MonoBehaviour {
     [SerializeField] GameObject missionEndPanel; //Panel showed when player end mission
     [SerializeField] GameObject wavePanel; //panel showed pass waves
 
+    [SerializeField] Text score;
+
 
     public void Defeat()
     {
@@ -49,5 +51,4 @@ public class GameGui : MonoBehaviour {
 
         SceneManager.LoadScene ("Menu"); // load menu scene
     }
-
 }
