@@ -69,6 +69,7 @@ namespace Characters {
 
             if (Input.GetButton ("Fire" + playerNumber)) // if FIRE button clicked...
             {
+                
                 if (weapon.TryShoot ()) // try to shoot...
                     UpdateAmmo (); // if sucess update ammo 
             }

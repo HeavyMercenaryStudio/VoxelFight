@@ -7,30 +7,37 @@ namespace Weapons {
     /// </summary>
     public class Shotgun : Weapon
     {
-        int shotgunBullets = 4; // how much bullet to spawn
+        int shotgunBullets = 10; // amount of bullets to spawn
+        int angle = 30; // area angle to spawn bullets
+
+        int axisXdispersion = 2; // dispersion of X axis
+        float anglePerBullet; //
+
+        private void Start()
+        {
+            base.Start ();
+            anglePerBullet = angle / shotgunBullets; // calculate angle to shoot bullets
+        }
 
         public override void Shoot()
         {
             MuzzleEffect (); // add muzzle effect
+            
+            gunEndPoint.localRotation = Quaternion.identity; //reset rotation...
+            gunEndPoint.Rotate(gunEndPoint.up, -angle/2); //...
 
-            for(int i = 0; i < shotgunBullets; i++) // spawn bulletes
+            for (int i = 0; i < shotgunBullets; i++) // spawn bulletes
             {
-                AddDispersion ();
+                gunEndPoint.Rotate (gunEndPoint.up, anglePerBullet); // rotate horizotnal axis
+                gunEndPoint.Rotate (gunEndPoint.right, Random.Range(-axisXdispersion, axisXdispersion)); // rotate vertical axis
+
                 GameObject bulet = Instantiate (bullet, gunEndPoint.position, Quaternion.identity) as GameObject;
                 var proj = bulet.GetComponent<Projectile> ();
                 proj.SetDamage (damage);
                 proj.SetDestroyRange (range);
                 proj.SetShooter (this.gameObject);
-                proj.GetComponent<Rigidbody> ().velocity = gunEndPoint.forward * bulletSpeed;
+                proj.GetComponent<Rigidbody> ().velocity = gunEndPoint.forward * Random.Range(bulletSpeed/2, bulletSpeed);
             }
-        }
-
-        private void AddDispersion()
-        {
-            //ADD Dispersion
-            gunEndPoint.localRotation = Quaternion.identity; //reset transform
-            int n = UnityEngine.Random.Range (-dispersion, dispersion); //random dispersion for weapon
-            gunEndPoint.RotateAround (gunEndPoint.position, gunEndPoint.up, n);
         }
 
         private void MuzzleEffect()

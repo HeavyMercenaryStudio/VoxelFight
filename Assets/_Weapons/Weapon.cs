@@ -32,7 +32,7 @@ namespace Weapons {
             float addedAmmo = currentAmmo + ammo;
             currentAmmo = (int)Mathf.Clamp ((float)addedAmmo, 0, (float)maxAmmo);
         }
-        private void Start()
+        public void Start()
         {
             currentAmmo = maxAmmo;
         }
@@ -47,7 +47,6 @@ namespace Weapons {
                     Shoot ();
                     currentAmmo--;
                     lastShoot = Time.time;
-
                     return true; // shoot succesfull
 
                 }
