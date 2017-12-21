@@ -79,7 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\AudioMenager.cs" />
+    <Compile Include="Assets\ContactDetection.cs" />
+    <Compile Include="Assets\Dev 0.2\LivingFloor\Floor.cs" />
     <Compile Include="Assets\GetCrystal.cs" />
+    <Compile Include="Assets\LivingFloor.cs" />
     <Compile Include="Assets\Menu.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
@@ -126,6 +129,7 @@
     <Compile Include="Assets\PostProcessing\Runtime\Utils\MaterialFactory.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
     <Compile Include="Assets\PostProcessing\Utilities\CustomMotionTexture\ExampleWheelController.cs" />
+    <Compile Include="Assets\Steering.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Camera\CameraFollow.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Health\CameraFacingBillboard.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Menu\City.cs" />
