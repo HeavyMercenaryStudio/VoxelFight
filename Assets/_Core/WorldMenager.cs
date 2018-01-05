@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WorldObjects;
+using Weapons;
 
 namespace Menagers {
     
@@ -26,7 +27,10 @@ namespace Menagers {
             List<Transform> targets = new List<Transform> (); // create new list 
             for (int i = 0; i < WorldData.NumberOfPlayers; i++){// instatiate new players... 
               GameObject player = Instantiate (players[i], playerSpawnPosition + new Vector3(i * 5, 0, 0), Quaternion.identity);
-                targets.Add (player.transform);
+
+              PlayerDatabase.Instance.AddWeapon(player, i);
+
+              targets.Add (player.transform);
             }
             var CamF = GameObject.FindObjectOfType<CameraFollow> ();
             CamF.SetTransformTargets (targets); // Set targets to camera follow
@@ -44,37 +48,41 @@ namespace Menagers {
 
         void OnPlayerDead()
         {
-            var players = FindObjectsOfType<PlayerController> (); // get all players....
+            var players = FindObjectsOfType<PlayerController>(); // get all players....
 
             bool allDead = false; // check if it was las standing player ...
             foreach (PlayerController p in players)
             {
-                if (p.IsDestroyed () == false)
+                if (p.IsDestroyed() == false)
                 {
                     allDead = false;
-                
+
                     //TODO delete this later 
-                    List<Transform> targets = new List<Transform> (); // create new list 
-                    targets.Add (p.transform);
-                    targets.Add (p.transform);
-                    var CamF = GameObject.FindObjectOfType<CameraFollow> ();
-                    CamF.SetTransformTargets (targets); // Set targets to camera follow
+                    List<Transform> targets = new List<Transform>(); // create new list 
+                    targets.Add(p.transform);
+                    targets.Add(p.transform);
+                    var CamF = GameObject.FindObjectOfType<CameraFollow>();
+                    CamF.SetTransformTargets(targets); // Set targets to camera follow
                     //
                     break;
                 }
                 allDead = true;
             }
 
+            MissionDefeat(allDead);
+        }
 
+        public void MissionDefeat(bool allDead)
+        {
             if (allDead) // if yes ...
-            { 
+            {
                 PlayerController.notifyPlayerDead -= OnPlayerDead; //remove listeners
                 MissionObjective.notifyOnObjectiveDestroy -= OnObjectiveDestroyed; //remove listeners
 
-                var waveSystem = FindObjectOfType<WaveSystem> (); 
+                var waveSystem = FindObjectOfType<WaveSystem>();
                 Enemy.onEnemyDeath -= waveSystem.DecreseEnemiesCount; // remove listeners
 
-                OnDefeat (); // mission failed
+                OnDefeat(); // mission failed
             }
         }
 

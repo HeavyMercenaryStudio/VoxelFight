@@ -13,12 +13,12 @@ namespace Weapons {
 
             MuzzleEffect ();
 
-            GameObject bulet = Instantiate (bullet, gunEndPoint.position, Quaternion.identity) as GameObject;
+            GameObject bulet = Instantiate (Bullet, gunEndPoint.position, Quaternion.identity) as GameObject;
             var proj = bulet.GetComponent<Projectile> ();
-            proj.SetDamage (damage);
-            proj.SetDestroyRange (range);
+            proj.SetDamage (Damage);
+            proj.SetDestroyRange (Range);
             proj.SetShooter (this.gameObject);
-            proj.GetComponent<Rigidbody> ().velocity = gunEndPoint.forward * bulletSpeed;
+            proj.GetComponent<Rigidbody> ().velocity = gunEndPoint.forward * BulletSpeed;
 
         }
 
@@ -26,13 +26,13 @@ namespace Weapons {
         {
             //ADD Dispersion
             gunEndPoint.localRotation = Quaternion.identity; //reset transform
-            int n = UnityEngine.Random.Range (-dispersion, dispersion); //random dispersion for weapon
+            int n = UnityEngine.Random.Range (-Dispersion, Dispersion); //random dispersion for weapon
             gunEndPoint.RotateAround (gunEndPoint.position, gunEndPoint.up, n);
         }
 
         private void MuzzleEffect()
         {
-            GameObject muzzle2 = Instantiate (muzzle, gunEndPoint) as GameObject;
+            GameObject muzzle2 = Instantiate (Muzzle, gunEndPoint) as GameObject;
             Destroy (muzzle2, 0.15f);
         }
     }

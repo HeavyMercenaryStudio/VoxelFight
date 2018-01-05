@@ -36,8 +36,9 @@ namespace WorldObjects {
         public void TakeDamage(float damage, GameObject bullet)
         {
             var proj = bullet.GetComponent<Projectile> (); // get projectile
+            if (proj == null) return;
+
             var shooterIsEnemy = proj.GetShooter ().GetComponent<Enemy> ();
-            
             if (shooterIsEnemy) // if shooter was enemy..
             {
                 interrupt = interruptTime;//disable heal function

@@ -9,9 +9,12 @@ namespace Weapons {
     /// </summary>
     public class Projectile : MonoBehaviour {
 
-        GameObject shooter; 
-        float damageAmount;
-        float destroyRange;
+        [SerializeField] protected GameObject hitParticleEffect;
+
+        protected GameObject shooter; 
+        protected float damageAmount;
+        protected float destroyRange;
+        protected int INTERACTIVE_OBJECT_LAYER = 11;
 
         public void SetDamage(float damage){
 		    damageAmount = damage;
@@ -27,21 +30,19 @@ namespace Weapons {
             destroyRange = range;
         }
 
-
-	    void OnTriggerEnter(Collider other)
+	    public void OnTriggerEnter(Collider other)
 	    {
-            if (other.gameObject.layer == shooter.layer || other.gameObject.layer == this.gameObject.layer)
+            if (other.gameObject.layer == shooter.layer || other.gameObject.layer == this.gameObject.layer || other.gameObject == null)
                 return; // friend fire off
         
             Component destroyable = other.GetComponent (typeof (IDamageable));
-
+            
             if (destroyable){ // if target is destroy able
                 (destroyable as IDamageable).TakeDamage (damageAmount, this.gameObject);//hit him
             }
-            else
-            { // if not destory bullet
-                Destroy (this.gameObject);
-            }
+
+            if (other.gameObject.layer != INTERACTIVE_OBJECT_LAYER)
+                Destroy(this.gameObject);
         }
 
         private void Update()

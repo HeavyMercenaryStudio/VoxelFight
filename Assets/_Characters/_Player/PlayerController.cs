@@ -18,6 +18,7 @@ namespace Characters {
         [SerializeField] GameObject bloodPrefab; // after hit prefab 
         [SerializeField] SoundMenager audioClips; //sounds of player 
 
+
         public delegate void OnPlayerDead();
         public static event OnPlayerDead notifyPlayerDead;
 
@@ -67,20 +68,21 @@ namespace Characters {
         {
             if (isDestroyed) { return; } // if player is destroyed dont take any action..
 
-            if (Input.GetButton ("Fire" + playerNumber)) // if FIRE button clicked...
+            if (Input.GetButton("Fire" + playerNumber)) // if FIRE button clicked...
             {
-                
-                if (weapon.TryShoot ()) // try to shoot...
-                    UpdateAmmo (); // if sucess update ammo 
+                if (weapon.TryShoot()) // try to shoot...
+                    UpdateAmmo(); // if sucess update ammo 
+
+                weapon.SetFireButtonDown(true);
             }
+            else if (Input.GetButtonUp("Fire" + playerNumber))
+                weapon.SetFireButtonDown(false);
 
         }
 
         public void TakeDamage(float damage, GameObject bullet) // take damage atfer hit
         {
             if (isDestroyed) return; // if is destroy return...
-
-            Destroy (bullet);//destroy hit bullet after hit...
 
             float damagedHealth = currentHealth - damage;
             currentHealth = Mathf.Clamp (damagedHealth, 0, maxHealth); // clamp current health between 0 and max health

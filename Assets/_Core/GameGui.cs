@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Data;
+using Menagers;
 
 namespace CameraUI { 
 
@@ -22,7 +23,13 @@ namespace CameraUI {
 
         private void Start()
         {
-            backToMenuButton.onClick.AddListener (Defeat);
+            backToMenuButton.onClick.AddListener (BackToMenu);
+        }
+
+        private void BackToMenu()
+        {
+            var worldMenager = FindObjectOfType<WorldMenager>();
+            worldMenager.MissionDefeat(true);
         }
 
         public void Defeat()

@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System;
 using Audio;
 using Data;
+using Weapons;
 
 namespace CameraUI {
 
@@ -18,6 +19,8 @@ namespace CameraUI {
         [SerializeField] List<Button> startButtonList; //list of main menu options
         [SerializeField] GameObject mainMenuBackground; // main menu background
         [SerializeField] Button backToMainMenuButon; // back to menu button
+        [SerializeField] Button characterPanelButon; // character panel button
+        [SerializeField] Button missionsPanelButon; // mission panel button
 
         [SerializeField] Text cityNameText; // Text changing when city change 
         [SerializeField] GameObject cityMissionViewContent; //context of city missions
@@ -45,6 +48,8 @@ namespace CameraUI {
                 tutorialText.transform.parent.gameObject.SetActive (true); 
                 mainMenuBackground.SetActive (false);
                 backToMainMenuButon.gameObject.SetActive (true);
+                characterPanelButon.gameObject.SetActive(true);
+                missionsPanelButon.gameObject.SetActive(true);
                 StartCoroutine (TutorialText ());
             }
             else // else start game with main menu
@@ -52,6 +57,8 @@ namespace CameraUI {
                 tutorialText.transform.parent.gameObject.SetActive (false);
                 mainMenuBackground.SetActive (true);
                 backToMainMenuButon.gameObject.SetActive (false);
+                characterPanelButon.gameObject.SetActive(false);
+                missionsPanelButon.gameObject.SetActive(false);
             }
         }
         private void AddButtonsListeners()
@@ -60,13 +67,25 @@ namespace CameraUI {
             startButtonList[1].onClick.AddListener (MultiPlayer); // add listener to multi
             startButtonList[2].onClick.AddListener (Exit); // add listener to on application exit
             backToMainMenuButon.onClick.AddListener (BackToMenu);
+            characterPanelButon.onClick.AddListener(ChangeToCharacterPanel);
+            missionsPanelButon.onClick.AddListener(ChangeToMissionPanel);
         }
 
+        private void ChangeToMissionPanel()
+        {
+            StartCoroutine(RotateToMissions());
+        }
+        private void ChangeToCharacterPanel()
+        {
+           StartCoroutine(RotateToInventory());
+        }
         private void BackToMenu()
         {
             tutorialText.transform.parent.gameObject.SetActive (false); // active tutorial test
             mainMenuBackground.SetActive (true); // active main menu options
             backToMainMenuButon.gameObject.SetActive (false); // deactive back button
+            characterPanelButon.gameObject.SetActive(false);
+            missionsPanelButon.gameObject.SetActive(false);
         }
         private void SinglePlayer()
         {
@@ -84,21 +103,39 @@ namespace CameraUI {
         {
             Application.Quit ();
         }
-        IEnumerator RotateCamera()
+        IEnumerator RotateToInventory()
         {
-            while (true)
+           
+            tutorialText.transform.parent.gameObject.SetActive(false);
+            characterPanelButon.gameObject.SetActive(false);
+            characterPanelButon.gameObject.SetActive(true);
+            var cam = Camera.main.transform;
+
+            Quaternion inventoryRotation = new Quaternion(0f, 0.7f, 0, 0.7f);
+
+            float duration = 0.5f;
+            
+            for(float i = 0; i < duration; i += Time.deltaTime)
             {
-                var cam = Camera.main.transform;
-                cam.RotateAround (cam.position, cam.up, 1.5f);
+                cam.rotation = Quaternion.Lerp(cam.rotation, inventoryRotation, i / duration);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+        IEnumerator RotateToMissions()
+        {
+           
+            tutorialText.transform.parent.gameObject.SetActive(true);
+            missionsPanelButon.gameObject.SetActive(false);
+            missionsPanelButon.gameObject.SetActive(true);
+            var cam = Camera.main.transform;
 
-                yield return new WaitForEndOfFrame ();
+            Quaternion missionRotation = Quaternion.identity;
 
-                if (cam.rotation == Quaternion.identity) { 
-                    StopAllCoroutines ();
-
-                    tutorialText.transform.parent.gameObject.SetActive (true);
-                    StartCoroutine (TutorialText ());
-                }
+            float duration = 0.5f;
+            for (float i = 0; i < duration; i += Time.deltaTime)
+            {
+                cam.rotation = Quaternion.Lerp(cam.rotation, missionRotation, i / duration);
+                yield return new WaitForEndOfFrame();
             }
         }
 
@@ -107,6 +144,8 @@ namespace CameraUI {
             mainMenuBackground.SetActive (false);
             tutorialText.transform.parent.gameObject.SetActive (true);
             backToMainMenuButon.gameObject.SetActive (true); // active back to menu button
+            characterPanelButon.gameObject.SetActive(true);
+            missionsPanelButon.gameObject.SetActive(true);
 
             StartCoroutine (TutorialText ());
         }
@@ -149,6 +188,8 @@ namespace CameraUI {
         {
             if (Input.GetMouseButtonDown (0)) //if left mouse button click..
                 RaycastForCity (); //cast ray for city object on map
+
+            
         }
         private void RaycastForCity()
         {
@@ -181,6 +222,8 @@ namespace CameraUI {
                 i++;    
             }
         }
+
+
 
     }
 }

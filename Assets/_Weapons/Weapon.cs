@@ -11,18 +11,123 @@ namespace Weapons {
     
         [SerializeField] float secondsBetweenShoot; // how fast character shoot
         [SerializeField] int maxAmmo; // max ammo at start
-        [SerializeField] protected float damage; // current damage
-        [SerializeField] protected float range; // range of bullets
-        [SerializeField] protected int dispersion; // dispersion of shoots
-        [SerializeField] protected int bulletSpeed; // speed of bullet
+        [SerializeField] private float damage; // current damage
+        [SerializeField] private float range; // range of bullets
+        [SerializeField] private int dispersion; // dispersion of shoots
+        [SerializeField] private int bulletSpeed; // speed of bullet
 
-        [SerializeField] protected Transform gunEndPoint; // spawn bullet at this position
-        [SerializeField] protected GameObject bullet;  // bulet prefab
-        [SerializeField] protected GameObject muzzle; // muzzle particle effect
+        protected Transform gunEndPoint; // spawn bullet at this position
+        [SerializeField] private GameObject bullet;  // bulet prefab
+        [SerializeField] private GameObject muzzle;  // muzzle effect prefab
 
         int currentAmmo;
         float lastShoot;
-        
+        bool fireButtonDown; // if fire button is clicked ///
+
+        public float SecondsBetweenShoot
+        {
+            get
+            {
+                return secondsBetweenShoot;
+            }
+
+            set
+            {
+                secondsBetweenShoot = value;
+            }
+        }
+        public int MaxAmmo
+        {
+            get
+            {
+                return maxAmmo;
+            }
+
+            set
+            {
+                maxAmmo = value;
+            }
+        }
+        public float Damage
+        {
+            get
+            {
+                return damage;
+            }
+
+            set
+            {
+                damage = value;
+            }
+        }
+        public float Range
+        {
+            get
+            {
+                return range;
+            }
+
+            set
+            {
+                range = value;
+            }
+        }
+        public int Dispersion
+        {
+            get
+            {
+                return dispersion;
+            }
+
+            set
+            {
+                dispersion = value;
+            }
+        }
+        public int BulletSpeed
+        {
+            get
+            {
+                return bulletSpeed;
+            }
+
+            set
+            {
+                bulletSpeed = value;
+            }
+        }
+        public GameObject Bullet
+        {
+            get
+            {
+                return bullet;
+            }
+
+            set
+            {
+                bullet = value;
+            }
+        }
+        public GameObject Muzzle
+        {
+            get
+            {
+                return muzzle;
+            }
+
+            set
+            {
+                muzzle = value;
+            }
+        }
+
+        public virtual void SetFireButtonDown(bool value){
+            fireButtonDown = value;
+        }
+        public bool GetFireButtonDown(){
+            return fireButtonDown;
+        }
+
         public int GetCurrentAmmo(){
             return currentAmmo;
         }
@@ -35,6 +140,7 @@ namespace Weapons {
         public void Start()
         {
             currentAmmo = maxAmmo;
+            gunEndPoint = GetComponentInChildren<GunEndPointMark>().transform;
         }
 
         public bool TryShoot()

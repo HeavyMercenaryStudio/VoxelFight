@@ -126,9 +126,11 @@
     <Compile Include="Assets\_Camera&amp;UI\Camera\CameraFollow.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Health\CameraFacingBillboard.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Menu\City.cs" />
+    <Compile Include="Assets\_Camera&amp;UI\Menu\InventoryMenu.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Menu\Menu.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Menu\Mission.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Menu\RotatePlanet.cs" />
+    <Compile Include="Assets\_Characters\GunEndPointMark.cs" />
     <Compile Include="Assets\_Characters\IDamageable.cs" />
     <Compile Include="Assets\_Characters\_Enemy\Enemy.cs" />
     <Compile Include="Assets\_Characters\_Enemy\EnemyController.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="Assets\_Core\GameData.cs" />
     <Compile Include="Assets\_Core\GameGui.cs" />
     <Compile Include="Assets\_Core\MissionObjective.cs" />
+    <Compile Include="Assets\_Core\PlayerDatabase.cs" />
     <Compile Include="Assets\_Core\RepairStation.cs" />
     <Compile Include="Assets\_Core\SoundMenager.cs" />
     <Compile Include="Assets\_Core\TextAnimation.cs" />
@@ -146,13 +149,19 @@
     <Compile Include="Assets\_Core\WaveSystem.cs" />
     <Compile Include="Assets\_Core\WorldData.cs" />
     <Compile Include="Assets\_Core\WorldMenager.cs" />
+    <Compile Include="Assets\_Levels\DebugScene\DebugSettings.cs" />
     <Compile Include="Assets\_Levels\Menu\MakePath\MakePath.cs" />
     <Compile Include="Assets\_Levels\Menu\Missions\MissionScript.cs" />
+    <Compile Include="Assets\_Weapons\Laser.cs" />
+    <Compile Include="Assets\_Weapons\PlayerWeaponData.cs" />
     <Compile Include="Assets\_Weapons\Projectile.cs" />
     <Compile Include="Assets\_Weapons\Riffle.cs" />
+    <Compile Include="Assets\_Weapons\RocketLuncher.cs" />
+    <Compile Include="Assets\_Weapons\RocketProjectile.cs" />
     <Compile Include="Assets\_Weapons\Shotgun.cs" />
-    <Compile Include="Assets\_Weapons\SniperRiffle.cs" />
     <Compile Include="Assets\_Weapons\Weapon.cs" />
+    <Compile Include="Assets\_Weapons\WeaponData.cs" />
+    <Compile Include="Assets\_Weapons\WeaponItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />

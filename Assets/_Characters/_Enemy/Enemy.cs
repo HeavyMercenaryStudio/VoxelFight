@@ -35,8 +35,6 @@ namespace Characters
         {
             if (isDestroyed) return; // return if its alredy destroyed
 
-            Destroy (bullet); // destroy hit bullet
-
             //clamp health between 0 and maxHealthPoints
             currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints); 
 
