@@ -20,10 +20,14 @@ public class PlayerDatabase : MonoBehaviour
         }
     }
 
+    
+
     [SerializeField] PlayerWeaponData playerOneWeaponData;
     [SerializeField] PlayerWeaponData playerTwoWeaponData;
     [SerializeField] PlayerWeaponData playerThreeWeaponData;
     [SerializeField] PlayerWeaponData playerFourWeaponData;
+
+    private int playersCrystals;
 
     public PlayerWeaponData PlayerOneWeaponData
     {
