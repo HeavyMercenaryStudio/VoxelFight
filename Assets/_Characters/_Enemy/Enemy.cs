@@ -38,14 +38,16 @@ namespace Characters
             //clamp health between 0 and maxHealthPoints
             currentHealthPoints = Mathf.Clamp (currentHealthPoints - damage, 0f, maxHealthPoints); 
 
-            //Spawn Blood Particle
-            var offset = this.GetComponent<Collider> ().bounds.extents.y; // calculate half offset of self
-            GameObject blood1 = Instantiate (blood, transform.position + new Vector3 (0, offset), blood.transform.rotation);
-            Destroy (blood1, bloodDestroyTime); // and destroy it with delay
-
-
             if (currentHealthPoints == 0) // if health is equeal zero....
             {
+                //Spawn Blood Particle
+                var offset = this.GetComponent<Collider>().bounds.extents.y; // calculate half offset of self
+                blood.transform.position = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
+                GameObject blood1 = Instantiate(blood);
+                var particles = blood1.GetComponent<ParticleSystem>().main;
+                particles.maxParticles = (int)(maxHealthPoints/5);
+                Destroy(blood1, bloodDestroyTime); // and destroy it with delay
+
                 //spawn death particle
                 GameObject ex = Instantiate (explosion, transform.position + new Vector3 (0, offset), explosion.transform.rotation);
                 Destroy (ex, explosionDestroyTime); // and destroy it with delay

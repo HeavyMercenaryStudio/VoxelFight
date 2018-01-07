@@ -20,8 +20,6 @@ public class PlayerDatabase : MonoBehaviour
         }
     }
 
-    
-
     [SerializeField] PlayerWeaponData playerOneWeaponData;
     [SerializeField] PlayerWeaponData playerTwoWeaponData;
     [SerializeField] PlayerWeaponData playerThreeWeaponData;
@@ -77,7 +75,19 @@ public class PlayerDatabase : MonoBehaviour
             playerFourWeaponData = value;
         }
     }
-
+    public int PlayersCrystals
+    {
+        get
+        {
+            playersCrystals = PlayerPrefs.GetInt("PlayerCrystals");
+            return playersCrystals;
+        }
+        set
+        {
+            playersCrystals = value;
+            PlayerPrefs.SetInt("PlayerCrystals", playersCrystals);
+        }
+    }
     public WeaponData GetPlayerWeaponData(int index)
     {
         switch (index)

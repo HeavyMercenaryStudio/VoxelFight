@@ -6,6 +6,11 @@ namespace Weapons {
 [CreateAssetMenu(menuName = "WeaponData")]
 public class WeaponData : ScriptableObject {
 
+        [SerializeField] float defaultSecondBetweenShoot;
+        [SerializeField] int defaultMaxAmmo;
+        [SerializeField] int defaultRange;
+        [SerializeField] float defaultDamagePerBullet;
+
         [SerializeField] WeaponType weaponType;
         [SerializeField] float secondsBetweenShoot;
         [SerializeField] int maxAmmo;
@@ -15,6 +20,8 @@ public class WeaponData : ScriptableObject {
         [SerializeField] int projectileSpeed;
         [SerializeField] GameObject projectile;
         [SerializeField] GameObject muzzle;
+        [SerializeField] bool available;
+        [SerializeField] int weaponCost;
 
         public float SecondsBetweenShoot
         {
@@ -117,6 +124,59 @@ public class WeaponData : ScriptableObject {
             get
             {
                 return weaponType;
+            }
+        }
+        public bool Available
+        {
+            get
+            {
+                return available;
+            }
+
+            set
+            {
+                available = value;
+            }
+        }
+        public int WeaponCost
+        {
+            get
+            {
+                return weaponCost;
+            }
+
+            set
+            {
+                weaponCost = value;
+            }
+        }
+
+        public int DefaultMaxAmmo
+        {
+            get
+            {
+                return defaultMaxAmmo;
+            }
+        }
+        public int DefaultRange
+        {
+            get
+            {
+                return defaultRange;
+            }
+        }
+        public float DefaultDamagePerBullet
+        {
+            get
+            {
+                return defaultDamagePerBullet;
+            }
+        }
+        public float DefaultSecondBetweenShoot
+        {
+            get
+            {
+                return defaultSecondBetweenShoot;
             }
         }
     }

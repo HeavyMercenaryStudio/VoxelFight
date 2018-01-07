@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,17 +13,10 @@ public class GetCrystal : MonoBehaviour {
     List<GameObject> players = new List<GameObject>();
     List<float> distances;
 
-    private void OnEnable()
-    {
-        blood = GetComponent<ParticleSystem>();
-        blood.Emit(5);
-    }
-
     void Start () {
         players.AddRange(GameObject.FindGameObjectsWithTag("Player"));
+        blood = GetComponent<ParticleSystem>();
     }
-
-
 
     void Update () {
 
@@ -31,9 +24,9 @@ public class GetCrystal : MonoBehaviour {
         {
             ParticleList = new ParticleSystem.Particle[blood.particleCount];
             blood.GetParticles(ParticleList);
-            for (int z = 0; z < GetComponent<ParticleSystem>().particleCount; z++)
+            for (int z = 0; z < blood.particleCount; z++)
             {
-                float closer = 10000;
+                float closer = 999;
                 int id = -1;
                 for (int i = 0; i < players.Count; i++)
                 {
@@ -49,7 +42,7 @@ public class GetCrystal : MonoBehaviour {
                 if (closer < collectDistance && id != -1)
                 {
                     ParticleList[z].remainingLifetime = -1;
-                   // players[id].GetComponent<PlayerScore>().addCrystals(1);
+                    PlayerDatabase.Instance.PlayersCrystals += 1;
                 }
 
                  if (closer <= moveDistance && id != -1)

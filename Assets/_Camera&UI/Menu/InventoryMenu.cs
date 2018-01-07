@@ -26,7 +26,9 @@ public class InventoryMenu : MonoBehaviour {
     [SerializeField] Button nextPlayerButton;
     [SerializeField] Button prevPlayerButton;
     [SerializeField] Text playerNameText;
+    [SerializeField] Text playersCrystalsValueText;
 
+    [SerializeField] Button updateWeaponButton;
 
     private static InventoryMenu instance = null;
     public static InventoryMenu Instance
@@ -36,6 +38,9 @@ public class InventoryMenu : MonoBehaviour {
             return instance;
         }
     }
+
+    public delegate void OnPlayerChange();
+    public OnPlayerChange notifyPlayerChange;
 
     public void Awake()
     {
@@ -48,7 +53,43 @@ public class InventoryMenu : MonoBehaviour {
     {
         nextPlayerButton.onClick.AddListener(NextPlayer);
         prevPlayerButton.onClick.AddListener(PrevPlayer);
+        updateWeaponButton.onClick.AddListener(UpdateWeapon);
         UpdateInventoryGUI();
+
+        SetPlayerCrystalsValueText();
+    }
+
+    private void UpdateWeapon()
+    {
+        int updateCost = 1000;
+        int updateScale = 10;
+        var crystals = PlayerDatabase.Instance.PlayersCrystals;
+
+        if (crystals > updateCost)
+        {
+            crystals -= updateCost;
+
+            var pd = PlayerDatabase.Instance.GetPlayerWeaponData(currentPlayer);
+
+            var updatedRange = pd.Range + 5;
+            var updatedDamage = pd.DamagePerBullet + 1;
+            var updatedAmmo = pd.MaxAmmo + (int)(0.1f * pd.MaxAmmo);
+            var updatedSpeed = Math.Round(pd.SecondsBetweenShoot - 0.05f, 3);
+
+            pd.DamagePerBullet = Mathf.Clamp(updatedDamage, 0, pd.DefaultDamagePerBullet * updateScale);
+            pd.Range = Mathf.Clamp(updatedRange, 0, pd.DefaultRange * updateScale);
+            pd.MaxAmmo = Mathf.Clamp(updatedAmmo, 0, pd.DefaultMaxAmmo * updateScale);
+            pd.SecondsBetweenShoot = Mathf.Clamp((float)updatedSpeed, 0.01f, 999);
+
+            ChangeEquipedWeaponText(pd);
+        }
+
+       
+    }
+
+    public void SetPlayerCrystalsValueText()
+    {
+        playersCrystalsValueText.text = PlayerDatabase.Instance.PlayersCrystals.ToString();
     }
 
     private void UpdateInventoryGUI()
@@ -63,6 +104,7 @@ public class InventoryMenu : MonoBehaviour {
         if (currentPlayer == -1)
             currentPlayer = WorldData.NumberOfPlayers - 1;
 
+        notifyPlayerChange();
         UpdateInventoryGUI();
     }
     private void NextPlayer()
@@ -71,6 +113,7 @@ public class InventoryMenu : MonoBehaviour {
         if (currentPlayer == WorldData.NumberOfPlayers)
             currentPlayer = 0;
 
+        notifyPlayerChange();
         UpdateInventoryGUI();
     }
 

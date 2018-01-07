@@ -19,45 +19,76 @@ namespace Weapons {
 
         [SerializeField] Button equipButton;
         [SerializeField] Button buyButton;
+        [SerializeField] Text craftCostText;
 
         public WeaponType weaponType;
         WeaponData weaponData;
 
         // Use this for initialization
-        void Start () {
+        void Start ()
+        {
             equipButton.onClick.AddListener(EquipWeapon);
             buyButton.onClick.AddListener(BuyWeapon);
 
+            InventoryMenu.Instance.notifyPlayerChange += SetVisibleButtons;
+            SetVisibleButtons();
+
+            SetPurchaseCost();
+        }
+
+        private void SetPurchaseCost()
+        {
+            var selectedWeapon = GetPlayerWeaponData();
+            var thisWeapon = GetSelectedWeapon(selectedWeapon);
+
+            craftCostText.text = thisWeapon.WeaponCost.ToString();
+        }
+        private void SetVisibleButtons()
+        {
+            var selectedWeapon = GetPlayerWeaponData();
+            var thisWeapon = GetSelectedWeapon(selectedWeapon);
+
+            if (thisWeapon.Available)
+            {
+                buyButton.gameObject.SetActive(false);
+                equipButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                buyButton.gameObject.SetActive(true);
+                equipButton.gameObject.SetActive(false);
+            }
         }
 
         void EquipWeapon()
         {
-            int player = InventoryMenu.Instance.CurrentPlayer;
-            var playerdata = PlayerDatabase.Instance;
+            var selectedWeapon = GetPlayerWeaponData();
+            selectedWeapon.CurrentPlayerWeapon = GetSelectedWeapon(selectedWeapon);
 
-            switch (player)
-            {
-                case 0:
-                    SelectWeapon(playerdata.PlayerOneWeaponData);
-                    break;
-
-                case 1:
-                    SelectWeapon(playerdata.PlayerTwoWeaponData);
-                    break;
-
-                case 2:
-                    SelectWeapon(playerdata.PlayerThreeWeaponData);
-                    break;
-
-                case 3:
-                    SelectWeapon(playerdata.PlayerFourWeaponData);
-                    break;
-            }
+            SetVisibleButtons();
 
             InventoryMenu.Instance.ChangeEquipedWeaponText(weaponData);
         }
 
-        private void SelectWeapon(PlayerWeaponData playerdata)
+        private PlayerWeaponData GetSelectedPlayerWeapon(int player, PlayerDatabase playerdata)
+        {
+            switch (player)
+            {
+                case 0:
+                    return playerdata.PlayerOneWeaponData;
+
+                case 1:
+                    return playerdata.PlayerTwoWeaponData;
+
+                case 2:
+                    return playerdata.PlayerThreeWeaponData;
+
+                case 3:
+                    return playerdata.PlayerFourWeaponData;
+            }
+            return null;
+        }
+        private WeaponData GetSelectedWeapon(PlayerWeaponData playerdata)
         {
             switch (weaponType)
             {
@@ -75,14 +106,41 @@ namespace Weapons {
                     break;
             }
 
-            playerdata.CurrentPlayerWeapon = weaponData;
+            return weaponData; 
         }
 
         void BuyWeapon()
         {
+            //Check for enought points
+            var selectedWeapon = GetPlayerWeaponData();
+            var thisWeapon = GetSelectedWeapon(selectedWeapon);
 
+            var colectedCrystals = PlayerDatabase.Instance.PlayersCrystals;
+            var weaponCost = thisWeapon.WeaponCost;
+
+            if(colectedCrystals >= weaponCost)
+            {
+                PlayerDatabase.Instance.PlayersCrystals -= weaponCost;
+                thisWeapon.Available = true;
+                InventoryMenu.Instance.SetPlayerCrystalsValueText();
+            }
+
+            SetVisibleButtons();
         }
 
+        private PlayerWeaponData GetPlayerWeaponData()
+        {
+            int player = InventoryMenu.Instance.CurrentPlayer;
+            var playerdata = PlayerDatabase.Instance;
+
+            var selectedWeapon = GetSelectedPlayerWeapon(player, playerdata);
+            return selectedWeapon;
+        }
+
+        private void OnDestroy()
+        {
+            InventoryMenu.Instance.notifyPlayerChange -= SetVisibleButtons;
+        }
     }
 
 }
