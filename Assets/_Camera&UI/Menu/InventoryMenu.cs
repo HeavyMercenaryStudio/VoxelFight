@@ -5,6 +5,7 @@ using Weapons;
 using UnityEngine.UI;
 using System;
 using Data;
+using Shields;
 
 public class InventoryMenu : MonoBehaviour {
 
@@ -17,18 +18,36 @@ public class InventoryMenu : MonoBehaviour {
         }
     }
 
+    [Header("Weapon UI")]
+    [SerializeField] GameObject weaponPanel;
+    [SerializeField] GameObject weaponDetailPanel;
     [SerializeField] Text weaponNameText;
     [SerializeField] Text damageValueText;
     [SerializeField] Text rangeValueText;
     [SerializeField] Text fireSpeedValueText;
     [SerializeField] Text ammoValueText;
+    [SerializeField] Button updateWeaponButton;
 
+    [Header("Shield UI")]
+    [SerializeField] GameObject shieldPanel;
+    [SerializeField] GameObject shieldDetailPanel;
+    [SerializeField] Text shieldNameText;
+    [SerializeField] Text maxEneryText;
+    [SerializeField] Button updateShieldButton;
+   
+
+    [Header("Change Player UI")]
     [SerializeField] Button nextPlayerButton;
     [SerializeField] Button prevPlayerButton;
     [SerializeField] Text playerNameText;
-    [SerializeField] Text playersCrystalsValueText;
 
-    [SerializeField] Button updateWeaponButton;
+
+    [Header("Change Items UI")]
+    [SerializeField] Button nextItemButton;
+    [SerializeField] Button prevItemButton;
+
+
+    [SerializeField] Text playersCrystalsValueText;
 
     private static InventoryMenu instance = null;
     public static InventoryMenu Instance
@@ -54,9 +73,28 @@ public class InventoryMenu : MonoBehaviour {
         nextPlayerButton.onClick.AddListener(NextPlayer);
         prevPlayerButton.onClick.AddListener(PrevPlayer);
         updateWeaponButton.onClick.AddListener(UpdateWeapon);
+        updateShieldButton.onClick.AddListener(UpdateShield);
+        nextItemButton.onClick.AddListener(NextItem);
+        prevItemButton.onClick.AddListener(PrevItem);
         UpdateInventoryGUI();
 
         SetPlayerCrystalsValueText();
+    }
+
+    private void NextItem()
+    {
+        weaponPanel.SetActive(false);
+        weaponDetailPanel.SetActive(false);
+        shieldPanel.SetActive(true);
+        shieldDetailPanel.SetActive(true);
+    }
+    private void PrevItem()
+    {
+        weaponPanel.SetActive(true);
+        weaponDetailPanel.SetActive(true);
+        shieldPanel.SetActive(false);
+        shieldDetailPanel.SetActive(false);
+
     }
 
     private void UpdateWeapon()
@@ -86,6 +124,25 @@ public class InventoryMenu : MonoBehaviour {
 
        
     }
+    private void UpdateShield()
+    {
+        int updateCost = 1000;
+        int updateScale = 10;
+        var crystals = PlayerDatabase.Instance.PlayersCrystals;
+
+        if (crystals > updateCost)
+        {
+            crystals -= updateCost;
+
+            var pd = PlayerDatabase.Instance.GetPlayerShieldData(currentPlayer);
+
+            var updatedEnergy = pd.MaxEnergy + 10;
+         
+            pd.MaxEnergy = Mathf.Clamp(updatedEnergy, 0, pd.DefaultEnergy * updateScale);
+
+            ChangeEquipedShieldText(pd);
+        }
+    }
 
     public void SetPlayerCrystalsValueText()
     {
@@ -97,6 +154,8 @@ public class InventoryMenu : MonoBehaviour {
         ChangePlayerNameText();
         var pd = PlayerDatabase.Instance.GetPlayerWeaponData(currentPlayer);
         ChangeEquipedWeaponText(pd);
+        var ps = PlayerDatabase.Instance.GetPlayerShieldData(currentPlayer);
+        ChangeEquipedShieldText(ps);
     }
     private void PrevPlayer()
     {
@@ -142,6 +201,24 @@ public class InventoryMenu : MonoBehaviour {
             weaponNameText.text = "R O C K E T  L U N C H E R";
         else if (weaponData.name.Contains("Laser"))
             weaponNameText.text = "L A S E R";
+    }
+
+    public void ChangeEquipedShieldText(ShieldData shieldData)
+    {
+        if (shieldData == null) return;
+
+        ChangeName(shieldData);
+
+        maxEneryText.text = shieldData.MaxEnergy.ToString();
+    }
+    private void ChangeName(ShieldData shieldData)
+    {
+        if (shieldData.name.Contains("Absorb"))
+            shieldNameText.text = "A B S O R B  S H I E L D";
+        else if (shieldData.name.Contains("Reflect"))
+            shieldNameText.text = "R E F L E C T  S H I E L D";
+        else if (shieldData.name.Contains("Heal"))
+            shieldNameText.text = "H E A L I N G  S H I E L D";
     }
 }
 

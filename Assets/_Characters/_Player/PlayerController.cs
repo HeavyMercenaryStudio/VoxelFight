@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Weapons;
+using Shields;
 
 namespace Characters { 
 
@@ -43,13 +44,13 @@ namespace Characters {
             weapon.Realod (ammoPerSecond);
             playerGUI.UpdateAmmoText (weapon.GetCurrentAmmo());
         } // fill player ammo 
-
         public int GetPlayerNumber()
         {
             return playerNumber;
         }
 
         Weapon weapon; // current weapon used by player
+        Shield shield; // current shield used by player
 
         PlayerGUI playerGUI; // gui of player
         bool isDestroyed; // FLAG if players is destoryed 
@@ -62,6 +63,7 @@ namespace Characters {
             currentHealth = maxHealth;
             playerGUI = GetComponent<PlayerGUI> ();
             weapon = GetComponent<Weapon> ();
+            shield = GetComponent<Shield>();
         }
 
         private void Update()
@@ -78,8 +80,19 @@ namespace Characters {
             else if (Input.GetButtonUp("Fire" + playerNumber))
                 weapon.SetFireButtonDown(false);
 
-        }
+            if (Input.GetButton("Defense" + playerNumber)) // if Defense button clicked...
+            {
+                playerGUI.UpdateEnergyInfo(shield.CurrentEnergy);
 
+                shield.DefenseUp();
+                shield.SetFireButtonDown(true);
+            }
+            else if (Input.GetButtonUp("Defense" + playerNumber))
+                shield.SetFireButtonDown(false);
+
+            if(!shield.Active)
+                playerGUI.UpdateEnergyInfo(shield.CurrentEnergy);
+        }
         public void TakeDamage(float damage, GameObject bullet) // take damage atfer hit
         {
             if (isDestroyed) return; // if is destroy return...

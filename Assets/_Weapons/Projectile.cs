@@ -57,6 +57,5 @@ namespace Weapons {
             if (distance > destroyRange)
                 Destroy (gameObject);
         }
-
     }
 }

@@ -153,6 +153,14 @@
     <Compile Include="Assets\_Levels\DebugScene\GetCrystal.cs" />
     <Compile Include="Assets\_Levels\Menu\MakePath\MakePath.cs" />
     <Compile Include="Assets\_Levels\Menu\Missions\MissionScript.cs" />
+    <Compile Include="Assets\_Shields\AbsorbShield.cs" />
+    <Compile Include="Assets\_Shields\HealShield.cs" />
+    <Compile Include="Assets\_Shields\PlayerShieldData.cs" />
+    <Compile Include="Assets\_Shields\ReflectShield.cs" />
+    <Compile Include="Assets\_Shields\Shield.cs" />
+    <Compile Include="Assets\_Shields\ShieldData.cs" />
+    <Compile Include="Assets\_Shields\ShieldItem.cs" />
+    <Compile Include="Assets\_Shields\ShieldObject.cs" />
     <Compile Include="Assets\_Weapons\Laser.cs" />
     <Compile Include="Assets\_Weapons\PlayerWeaponData.cs" />
     <Compile Include="Assets\_Weapons\Projectile.cs" />

@@ -12,6 +12,7 @@ namespace CameraUI {
 
         [SerializeField] Text ammoText; // player canvas ammo text 
         [SerializeField] Image healthBar;// bar of player health
+        [SerializeField] Image energyBar;// bar of player energy
 
         public void UpdateAmmoText(float ammoAmout) // update player ammo text
         {
@@ -22,6 +23,10 @@ namespace CameraUI {
         {
             healthBar.fillAmount = healthAmount;
         }
-   
+
+        public void UpdateEnergyInfo(float energyAmount)//update player health bar
+        {
+            energyBar.fillAmount = energyAmount;
+        }
     }
 }

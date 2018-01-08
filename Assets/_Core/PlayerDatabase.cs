@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Weapons;
-
+using Shields;
 
 public class PlayerDatabase : MonoBehaviour
 {
@@ -20,10 +20,17 @@ public class PlayerDatabase : MonoBehaviour
         }
     }
 
+    [Header("Weapon Data")]
     [SerializeField] PlayerWeaponData playerOneWeaponData;
     [SerializeField] PlayerWeaponData playerTwoWeaponData;
     [SerializeField] PlayerWeaponData playerThreeWeaponData;
     [SerializeField] PlayerWeaponData playerFourWeaponData;
+
+    [Header("Shield Data")]
+    [SerializeField] PlayerShieldData playerOneShieldData;
+    [SerializeField] PlayerShieldData playerTwoShieldData;
+    [SerializeField] PlayerShieldData playerThreeShieldData;
+    [SerializeField] PlayerShieldData playerFourShieldData;
 
     private int playersCrystals;
 
@@ -88,6 +95,56 @@ public class PlayerDatabase : MonoBehaviour
             PlayerPrefs.SetInt("PlayerCrystals", playersCrystals);
         }
     }
+
+    public PlayerShieldData PlayerOneShieldData
+    {
+        get
+        {
+            return playerOneShieldData;
+        }
+
+        set
+        {
+            playerOneShieldData = value;
+        }
+    }
+    public PlayerShieldData PlayerTwoShieldData
+    {
+        get
+        {
+            return playerTwoShieldData;
+        }
+
+        set
+        {
+            playerTwoShieldData = value;
+        }
+    }
+    public PlayerShieldData PlayerThreeShieldData
+    {
+        get
+        {
+            return playerThreeShieldData;
+        }
+
+        set
+        {
+            playerThreeShieldData = value;
+        }
+    }
+    public PlayerShieldData PlayerFourShieldData
+    {
+        get
+        {
+            return playerFourShieldData;
+        }
+
+        set
+        {
+            playerFourShieldData = value;
+        }
+    }
+
     public WeaponData GetPlayerWeaponData(int index)
     {
         switch (index)
@@ -100,6 +157,22 @@ public class PlayerDatabase : MonoBehaviour
                 return playerThreeWeaponData.CurrentPlayerWeapon;
             case 3:
                 return playerFourWeaponData.CurrentPlayerWeapon;
+        }
+
+        return null;
+    }
+    public ShieldData GetPlayerShieldData(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                return playerOneShieldData.CurrentPlayerShield;
+            case 1:
+                return playerTwoShieldData.CurrentPlayerShield;
+            case 2:
+                return playerThreeShieldData.CurrentPlayerShield;
+            case 3:
+                return playerFourShieldData.CurrentPlayerShield;
         }
 
         return null;
@@ -137,7 +210,6 @@ public class PlayerDatabase : MonoBehaviour
                 break;
         }
     }
-
     private void SelectWeapon(WeaponData weaponData, GameObject player)
     {
         switch (weaponData.WeaponType)
@@ -166,5 +238,48 @@ public class PlayerDatabase : MonoBehaviour
         weaponComponet.BulletSpeed = weaponData.ProjectileSpeed;
         weaponComponet.Bullet = weaponData.Projectile;
         weaponComponet.Muzzle = weaponData.Muzzle;
+    }
+
+    public void AddShield(GameObject player, int index)
+    {
+        switch (index)
+        {
+            case 0:
+                SelectShield(PlayerOneShieldData.CurrentPlayerShield, player);
+                break;
+
+            case 1:
+                SelectShield(PlayerTwoShieldData.CurrentPlayerShield, player);
+                break;
+
+            case 2:
+                SelectShield(PlayerThreeShieldData.CurrentPlayerShield, player);
+                break;
+
+            case 3:
+                SelectShield(PlayerFourShieldData.CurrentPlayerShield, player);
+                break;
+        }
+    }
+    private void SelectShield(ShieldData shieldData, GameObject player)
+    {
+        switch (shieldData.ShieldType)
+        {
+            case ShieldType.AbsorbShield:
+                player.AddComponent<AbsorbShield>();
+                break;
+            case ShieldType.ReflectShield:
+                player.AddComponent<ReflectShield>();
+                break;
+            case ShieldType.HealShield:
+                player.AddComponent<HealShield>();
+                break;
+            default:
+                break;
+        }
+        var shieldComp = player.GetComponent<Shield>();
+
+        shieldComp.MaxEnergy = shieldData.MaxEnergy;
+        shieldComp.ShieldPrefab = shieldData.ShieldPrefab;
     }
 }

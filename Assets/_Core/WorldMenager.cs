@@ -29,6 +29,7 @@ namespace Menagers {
               GameObject player = Instantiate (players[i], playerSpawnPosition + new Vector3(i * 5, 0, 0), Quaternion.identity);
 
               PlayerDatabase.Instance.AddWeapon(player, i);
+              PlayerDatabase.Instance.AddShield(player, i);
 
               targets.Add (player.transform);
             }
