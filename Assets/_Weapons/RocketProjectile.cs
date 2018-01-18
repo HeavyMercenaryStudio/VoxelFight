@@ -32,8 +32,9 @@ namespace Weapons {
             { 
                 Destroy(this.gameObject);
 
-                GameObject hitEffect = Instantiate(hitParticleEffect, this.transform.position, Quaternion.identity);
-                Destroy(hitEffect, 0.5f);
+                GameObject hitEffect = Instantiate(hitParticleEffect, this.transform.position, hitParticleEffect.transform.rotation);
+                
+                Destroy(hitEffect, 2f);
             }
         }
 
