@@ -565,6 +565,7 @@
     <Compile Include="Assets\_Core\WorldMenager.cs" />
     <Compile Include="Assets\_Levels\DebugScene\DebugSettings.cs" />
     <Compile Include="Assets\_Levels\DebugScene\GetCrystal.cs" />
+    <Compile Include="Assets\_Levels\MapGenerationTest\MazeGen.cs" />
     <Compile Include="Assets\_Levels\Menu\MakePath\MakePath.cs" />
     <Compile Include="Assets\_Levels\Menu\Missions\MissionScript.cs" />
     <Compile Include="Assets\_Shields\AbsorbShield.cs" />

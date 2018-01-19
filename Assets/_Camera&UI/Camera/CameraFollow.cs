@@ -36,7 +36,6 @@ namespace CameraUI {
 
             //follow this position
             transform.position = Vector3.SmoothDamp (transform.position, avaragePosition, ref moveVelocity, smoothTime);
-         
         }
 
         public Transform[] GetPlayers()
