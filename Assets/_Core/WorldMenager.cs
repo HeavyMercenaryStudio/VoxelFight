@@ -81,7 +81,10 @@ namespace Menagers {
                 MissionObjective.notifyOnObjectiveDestroy -= OnObjectiveDestroyed; //remove listeners
 
                 var waveSystem = FindObjectOfType<WaveSystem>();
-                Enemy.onEnemyDeath -= waveSystem.DecreseEnemiesCount; // remove listeners
+                if(waveSystem) Enemy.onEnemyDeath -= waveSystem.DecreseEnemiesCount; // remove listeners
+
+                var mazeMode = FindObjectOfType<MazeInfinityMode>();
+                if (mazeMode) WorldData.InifinityModeSize = 11;
 
                 OnDefeat(); // mission failed
             }

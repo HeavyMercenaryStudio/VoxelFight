@@ -554,7 +554,9 @@
     <Compile Include="Assets\_Core\AudioMenager.cs" />
     <Compile Include="Assets\_Core\GameData.cs" />
     <Compile Include="Assets\_Core\GameGui.cs" />
+    <Compile Include="Assets\_Core\LocalNavMeshBuilder.cs" />
     <Compile Include="Assets\_Core\MissionObjective.cs" />
+    <Compile Include="Assets\_Core\NavMeshSourceTag.cs" />
     <Compile Include="Assets\_Core\PlayerDatabase.cs" />
     <Compile Include="Assets\_Core\RepairStation.cs" />
     <Compile Include="Assets\_Core\SoundMenager.cs" />
@@ -565,7 +567,10 @@
     <Compile Include="Assets\_Core\WorldMenager.cs" />
     <Compile Include="Assets\_Levels\DebugScene\DebugSettings.cs" />
     <Compile Include="Assets\_Levels\DebugScene\GetCrystal.cs" />
-    <Compile Include="Assets\_Levels\MapGenerationTest\MazeGen.cs" />
+    <Compile Include="Assets\_Levels\MazeMode\EnemySpawner.cs" />
+    <Compile Include="Assets\_Levels\MazeMode\MazeExit.cs" />
+    <Compile Include="Assets\_Levels\MazeMode\MazeGen.cs" />
+    <Compile Include="Assets\_Levels\MazeMode\MazeInfinityMode.cs" />
     <Compile Include="Assets\_Levels\Menu\MakePath\MakePath.cs" />
     <Compile Include="Assets\_Levels\Menu\Missions\MissionScript.cs" />
     <Compile Include="Assets\_Shields\AbsorbShield.cs" />

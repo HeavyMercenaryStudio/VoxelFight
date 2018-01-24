@@ -32,9 +32,16 @@ namespace Characters {
 
             agent = GetComponent<NavMeshAgent> (); // get nav mesh
             agent.speed = movementSpeed;
-
+            
             enemyWeapon = GetComponent<Weapon> (); // get weapon
 
+            StartCoroutine(ThinkTime());
+        }
+
+        IEnumerator ThinkTime()
+        {
+            yield return new WaitForSeconds(2f);
+            agent.enabled = true;
         }
 
         private void SetupEnemyTargets()
@@ -69,12 +76,12 @@ namespace Characters {
             targetPos.y = 0;
             this.transform.LookAt (targetPos);
         }
-
         private void Update()
         {
-            FindCloseTarget ();
-
-            MoveToLocation();
+            if (agent.enabled) { 
+                FindCloseTarget ();
+                MoveToLocation();
+            }
         }
 
         private void FindCloseTarget()

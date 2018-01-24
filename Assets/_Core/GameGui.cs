@@ -59,6 +59,18 @@ namespace CameraUI {
             WorldData.NextMission.SetCompleted (); // Set next mission avaible to play
         }
 
+        public void VictoryWithNoReturn()
+        {
+            wavePanel.SetActive(false); //hide wave panel
+            missionEndPanel.SetActive(true); //show mission result panel
+
+            var textComp = missionEndPanel.GetComponentInChildren<Text>(); // get mission text...
+            textComp.text = victoryText; // set it to mission result text
+            textComp.color = Color.green;
+
+            WorldData.NextMission.SetCompleted(); // Set next mission avaible to play
+        }
+
         private IEnumerator ReturnToMenu()
         {
 

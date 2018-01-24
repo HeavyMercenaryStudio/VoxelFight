@@ -179,5 +179,13 @@ public class WeaponData : ScriptableObject {
                 return defaultSecondBetweenShoot;
             }
         }
+
+        public void ResetData()
+        {
+            secondsBetweenShoot = defaultSecondBetweenShoot;
+            maxAmmo = defaultMaxAmmo;
+            range = defaultRange;
+            damagePerBullet = defaultDamagePerBullet;
+        }
     }
 }

@@ -101,38 +101,38 @@ public class InventoryMenu : MonoBehaviour {
     {
         int updateCost = 1000;
         int updateScale = 10;
-        var crystals = PlayerDatabase.Instance.PlayersCrystals;
+        var data = PlayerDatabase.Instance;
 
-        if (crystals > updateCost)
+        if (data.PlayersCrystals > updateCost)
         {
-            crystals -= updateCost;
+            data.PlayersCrystals -= updateCost;
 
             var pd = PlayerDatabase.Instance.GetPlayerWeaponData(currentPlayer);
 
             var updatedRange = pd.Range + 5;
             var updatedDamage = pd.DamagePerBullet + 1;
             var updatedAmmo = pd.MaxAmmo + (int)(0.1f * pd.MaxAmmo);
-            var updatedSpeed = Math.Round(pd.SecondsBetweenShoot - 0.05f, 3);
+            //var updatedSpeed = Math.Round(pd.SecondsBetweenShoot - 0.05f, 3);
 
             pd.DamagePerBullet = Mathf.Clamp(updatedDamage, 0, pd.DefaultDamagePerBullet * updateScale);
             pd.Range = Mathf.Clamp(updatedRange, 0, pd.DefaultRange * updateScale);
             pd.MaxAmmo = Mathf.Clamp(updatedAmmo, 0, pd.DefaultMaxAmmo * updateScale);
-            pd.SecondsBetweenShoot = Mathf.Clamp((float)updatedSpeed, 0.01f, 999);
+            //pd.SecondsBetweenShoot = Mathf.Clamp((float)updatedSpeed, 0.01f, 999);
 
             ChangeEquipedWeaponText(pd);
-        }
 
-       
+            SetPlayerCrystalsValueText();
+        }
     }
     private void UpdateShield()
     {
         int updateCost = 1000;
         int updateScale = 10;
-        var crystals = PlayerDatabase.Instance.PlayersCrystals;
+        var data = PlayerDatabase.Instance;
 
-        if (crystals > updateCost)
+        if (data.PlayersCrystals > updateCost)
         {
-            crystals -= updateCost;
+            data.PlayersCrystals -= updateCost;
 
             var pd = PlayerDatabase.Instance.GetPlayerShieldData(currentPlayer);
 
@@ -141,6 +141,7 @@ public class InventoryMenu : MonoBehaviour {
             pd.MaxEnergy = Mathf.Clamp(updatedEnergy, 0, pd.DefaultEnergy * updateScale);
 
             ChangeEquipedShieldText(pd);
+            SetPlayerCrystalsValueText();
         }
     }
 
@@ -149,7 +150,7 @@ public class InventoryMenu : MonoBehaviour {
         playersCrystalsValueText.text = PlayerDatabase.Instance.PlayersCrystals.ToString();
     }
 
-    private void UpdateInventoryGUI()
+    public void UpdateInventoryGUI()
     {
         ChangePlayerNameText();
         var pd = PlayerDatabase.Instance.GetPlayerWeaponData(currentPlayer);

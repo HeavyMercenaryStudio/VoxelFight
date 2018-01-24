@@ -87,5 +87,10 @@ namespace Shields {
                 shieldType = value;
             }
         }
+
+        public void ResetData()
+        {
+            maxEnergy = defaultEnergy;
+        }
     }
 }

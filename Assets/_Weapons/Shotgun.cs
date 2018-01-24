@@ -31,7 +31,7 @@ namespace Weapons {
                 gunEndPoint.Rotate (gunEndPoint.up, anglePerBullet); // rotate horizotnal axis
                 gunEndPoint.Rotate (gunEndPoint.right, Random.Range(-axisXdispersion, axisXdispersion)); // rotate vertical axis
 
-                GameObject bulet = Instantiate (Bullet, gunEndPoint.position, Quaternion.identity) as GameObject;
+                GameObject bulet = Instantiate (Bullet, gunEndPoint.position, Quaternion.LookRotation(gunEndPoint.forward)) as GameObject;
                 var proj = bulet.GetComponent<Projectile> ();
                 proj.SetDamage (Damage);
                 proj.SetDestroyRange (Range);

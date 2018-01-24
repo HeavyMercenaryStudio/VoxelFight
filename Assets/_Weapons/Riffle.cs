@@ -12,8 +12,8 @@ namespace Weapons {
             AddDispersion ();
 
             MuzzleEffect ();
-
-            GameObject bulet = Instantiate (Bullet, gunEndPoint.position, Quaternion.identity) as GameObject;
+           
+            GameObject bulet = Instantiate (Bullet, gunEndPoint.position, Quaternion.LookRotation(gunEndPoint.forward)) as GameObject;
             var proj = bulet.GetComponent<Projectile> ();
             proj.SetDamage (Damage);
             proj.SetDestroyRange (Range);

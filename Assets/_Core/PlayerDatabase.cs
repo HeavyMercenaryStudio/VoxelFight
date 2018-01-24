@@ -282,4 +282,12 @@ public class PlayerDatabase : MonoBehaviour
         shieldComp.MaxEnergy = shieldData.MaxEnergy;
         shieldComp.ShieldPrefab = shieldData.ShieldPrefab;
     }
+
+    public void ResetData()
+    {
+        playerOneWeaponData.ResetData();
+        playerTwoWeaponData.ResetData();
+        playerOneShieldData.ResetData();
+        playerTwoShieldData.ResetData();
+    }
 }

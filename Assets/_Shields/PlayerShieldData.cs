@@ -36,4 +36,11 @@ public class PlayerShieldData : ScriptableObject
             return availableShields;
         }
     }
+
+    public void ResetData()
+    {
+        availableShields.absorbData.ResetData();
+        availableShields.reflectData.ResetData();
+        availableShields.healingData.ResetData();
+    }
 }

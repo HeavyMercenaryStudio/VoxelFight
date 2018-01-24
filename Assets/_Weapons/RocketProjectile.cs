@@ -29,13 +29,7 @@ namespace Weapons {
             }
 
             if(other.gameObject.layer != INTERACTIVE_OBJECT_LAYER)
-            { 
-                Destroy(this.gameObject);
-
-                GameObject hitEffect = Instantiate(hitParticleEffect, this.transform.position, hitParticleEffect.transform.rotation);
-                
-                Destroy(hitEffect, 2f);
-            }
+                Hit();
         }
 
         private void OnDrawGizmos()

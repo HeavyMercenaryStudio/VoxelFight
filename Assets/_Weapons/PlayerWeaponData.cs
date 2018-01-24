@@ -37,4 +37,12 @@ public class PlayerWeaponData : ScriptableObject {
             return availableWeapons;
         }
     }
+
+    public void ResetData()
+    {
+        availableWeapons.laserData.ResetData();
+        availableWeapons.rifleData.ResetData();
+        availableWeapons.rocketData.ResetData();
+        availableWeapons.shotgunData.ResetData();
+    }
 }

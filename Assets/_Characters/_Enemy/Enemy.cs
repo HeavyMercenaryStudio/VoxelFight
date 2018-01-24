@@ -58,7 +58,7 @@ namespace Characters
                 if (AudioMenager.Instance != null)
                     AudioMenager.Instance.PlayClip (audioClips.GetHitClip ());
 
-                onEnemyDeath (); //notify enemy death
+                if(onEnemyDeath != null) onEnemyDeath (); //notify enemy death
                 Destroy (gameObject); //and destroy this gameobject
             }
         }

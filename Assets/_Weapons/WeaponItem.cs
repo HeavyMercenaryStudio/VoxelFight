@@ -115,12 +115,12 @@ namespace Weapons {
             var selectedWeapon = GetPlayerWeaponData();
             var thisWeapon = GetSelectedWeapon(selectedWeapon);
 
-            var colectedCrystals = PlayerDatabase.Instance.PlayersCrystals;
+            var data = PlayerDatabase.Instance;
             var weaponCost = thisWeapon.WeaponCost;
 
-            if(colectedCrystals >= weaponCost)
+            if(data.PlayersCrystals >= weaponCost)
             {
-                PlayerDatabase.Instance.PlayersCrystals -= weaponCost;
+                data.PlayersCrystals -= weaponCost;
                 thisWeapon.Available = true;
                 InventoryMenu.Instance.SetPlayerCrystalsValueText();
             }

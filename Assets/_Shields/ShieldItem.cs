@@ -110,12 +110,12 @@ namespace Shields
             var selectedShield = GetPlayeShieldData();
             var thisShield = GetSelectedShield(selectedShield);
 
-            var colectedCrystals = PlayerDatabase.Instance.PlayersCrystals;
+            var data = PlayerDatabase.Instance;
             var shieldCost = thisShield.ShieldCost;
 
-            if (colectedCrystals >= shieldCost)
+            if (data.PlayersCrystals >= shieldCost)
             {
-                PlayerDatabase.Instance.PlayersCrystals -= shieldCost;
+                data.PlayersCrystals -= shieldCost;
                 thisShield.Available = true;
                 InventoryMenu.Instance.SetPlayerCrystalsValueText();
             }

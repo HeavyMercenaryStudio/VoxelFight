@@ -66,6 +66,7 @@ namespace CameraUI {
             startButtonList[0].onClick.AddListener (SinglePlayer); // add listener to signle player
             startButtonList[1].onClick.AddListener (MultiPlayer); // add listener to multi
             startButtonList[2].onClick.AddListener (Exit); // add listener to on application exit
+            startButtonList[3].onClick.AddListener(ResetSave); // add listener to on application exit
             backToMainMenuButon.onClick.AddListener (BackToMenu);
             characterPanelButon.onClick.AddListener(ChangeToCharacterPanel);
             missionsPanelButon.onClick.AddListener(ChangeToMissionPanel);
@@ -78,6 +79,11 @@ namespace CameraUI {
         private void ChangeToCharacterPanel()
         {
            StartCoroutine(RotateToInventory());
+        }
+        private void ResetSave()
+        {
+            PlayerDatabase.Instance.ResetData();
+            InventoryMenu.Instance.UpdateInventoryGUI();
         }
         private void BackToMenu()
         {

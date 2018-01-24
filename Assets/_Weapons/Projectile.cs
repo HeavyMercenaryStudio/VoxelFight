@@ -41,8 +41,20 @@ namespace Weapons {
                 (destroyable as IDamageable).TakeDamage (damageAmount, this.gameObject);//hit him
             }
 
-            if (other.gameObject.layer != INTERACTIVE_OBJECT_LAYER)
+            if (other.gameObject.layer != INTERACTIVE_OBJECT_LAYER) {
+
+                if (hitParticleEffect) Hit();
                 Destroy(this.gameObject);
+            }
+
+        }
+
+        protected void Hit()
+        {
+            var rot = transform.rotation * Quaternion.Euler(0, 180f, 0);
+
+            GameObject hitEffect = Instantiate(hitParticleEffect, transform.position, rot);
+            Destroy(hitEffect, 2f);
         }
 
         private void Update()

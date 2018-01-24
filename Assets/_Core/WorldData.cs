@@ -21,6 +21,20 @@ namespace Data {
             set{ numberOfPlayers = value;}
         }
 
+        static int inifinityModeSize = 11;
+        public static int InifinityModeSize
+        {
+            get
+            {
+                return inifinityModeSize;
+            }
+
+            set
+            {
+                inifinityModeSize = value;
+            }
+        }
+
     }
 
 }
