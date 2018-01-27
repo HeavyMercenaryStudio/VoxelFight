@@ -235,6 +235,7 @@
     <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
     <None Include="Assets\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
+    <None Include="Assets\Stagit\SkyboxEarthPlanets\readme.txt" />
     <None Include="Assets\_Characters\_Enemy\glow.shader" />
     <None Include="Assets\_Levels\DebugScene\Barrier\BarierShader.shader" />
     <None Include="Assets\_Levels\Menu\Earth\Text3D.shader" />

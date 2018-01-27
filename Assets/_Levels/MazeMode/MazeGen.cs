@@ -37,9 +37,10 @@ public class MazeGen : MonoBehaviour {
     public GameObject[] enemySpawnerPrefabs;
     public GameObject exitPrefab;
     public GameObject playerPrefab;
-	
+	public GameObject wallDestroyablePrefab;
+
     //Maze size
-	public int mazeHeight = 11;
+    public int mazeHeight = 11;
 	public int mazeWidht = 11;
 
 	//Maze Array 
@@ -137,18 +138,18 @@ public class MazeGen : MonoBehaviour {
     }
     */
 
+    public float freq;
     public void spawnMaze(){
 
         var sorted = deadRooms.OrderBy(d => d.PathLenght).ToList();
         var finishPoint = sorted[sorted.Count - 1];
-
         var wallSize = wallPrefab.transform.localScale;
 
         for (int i = 0; i < deadRooms.Count; i++)
         {
-             if(deadRooms[i] != finishPoint)
+            if(deadRooms[i] != finishPoint)
             {
-                int n = UnityEngine.Random.Range(0, enemySpawnerPrefabs.Length - 1);
+                int n = UnityEngine.Random.Range(0, enemySpawnerPrefabs.Length);
                 SpawnSpawner(enemySpawnerPrefabs[n], wallSize, deadRooms[i].X, deadRooms[i].Y);
             }
             else
@@ -162,24 +163,21 @@ public class MazeGen : MonoBehaviour {
 				//spawn walls
 				if (globalMaze [i, j] == MazeElements.wall)
                 {
-                    SpawnPointAs(wallPrefab, wallSize, i, j);
+                    float n = UnityEngine.Random.Range(0.0f, 1.0f);
+                    if ((i > 0 && i < mazeHeight-1) && (j > 0 && j < mazeWidht - 1) && n > freq)
+                        SpawnPointAs(wallDestroyablePrefab, wallSize, i, j);
+                    else
+                        SpawnPointAs(wallPrefab, wallSize, i, j);
                 }
             }
     }
     private void SpawnPointAs(GameObject prefab, Vector3 wallSize, int i, int j)
     {
-        GameObject _wall = Instantiate(prefab) as GameObject;
-        _wall.transform.SetParent(mazeParent);
-
-        Vector3 pos = new Vector3((i * (mazeParent.transform.position.x + wallSize.x)), 0,
-                                   (j * (mazeParent.transform.position.z + wallSize.z)));
-
-        pos -= new Vector3(mazeWidht * wallSize.x / 2, 0, mazeHeight * wallSize.z / 2);
-        _wall.transform.position = pos;
+        GameObject _wall = SpawnPoint(prefab, wallSize, i, j);
         _wall.layer = 8;
         _wall.AddComponent<NavMeshSourceTag>();
     }
-    private void SpawnSpawner(GameObject prefab, Vector3 wallSize, int i, int j)
+    private GameObject SpawnPoint(GameObject prefab, Vector3 wallSize, int i, int j)
     {
         GameObject _wall = Instantiate(prefab) as GameObject;
         _wall.transform.SetParent(mazeParent);
@@ -187,9 +185,13 @@ public class MazeGen : MonoBehaviour {
         Vector3 pos = new Vector3((i * (mazeParent.transform.position.x + wallSize.x)), 0,
                                    (j * (mazeParent.transform.position.z + wallSize.z)));
 
-        pos -= new Vector3(mazeWidht * wallSize.x / 2, 0, mazeHeight * wallSize.z / 2);
+        pos -= new Vector3(mazeWidht * wallSize.x / 2, -wallSize.y / 2, mazeHeight * wallSize.z / 2);
         _wall.transform.position = pos;
-      
+        return _wall;
+    }
+    private void SpawnSpawner(GameObject prefab, Vector3 wallSize, int i, int j)
+    {
+        GameObject _wall = SpawnPoint(prefab, wallSize, i, j);
     }
 
 

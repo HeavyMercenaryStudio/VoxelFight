@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Characters;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour, IDamageable {
+
 
     [SerializeField] GameObject enemy;
     [SerializeField] float timeBetweenSpawn;
@@ -11,13 +13,17 @@ public class EnemySpawner : MonoBehaviour, IDamageable {
     [SerializeField] float maxHealthPoints;
     [SerializeField] GameObject bloodPrefab;
 
-
     float currentHealhPoints;
+    GameObject player;
+    [SerializeField] bool canSpawn = true;
+    float maxDistanceToPlayer = 150f;
 
     void Start()
     {
+        player = FindObjectOfType<PlayerController>().gameObject;
         currentHealhPoints = maxHealthPoints;
         StartCoroutine(WaitForGameStart());
+        StartCoroutine(CheckDistance());
     }
     public bool IsDestroyed()
     {
@@ -51,9 +57,33 @@ public class EnemySpawner : MonoBehaviour, IDamageable {
     {
         while (currentHealhPoints > 0)
         {
-            GameObject newEnemy = Instantiate(enemy, transform.localPosition, Quaternion.identity);
+            if (canSpawn)
+              Instantiate(enemy, transform.localPosition, Quaternion.identity);
+
             yield return new WaitForSeconds(timeBetweenSpawn);
         }
+    }
+
+    private IEnumerator CheckDistance()
+    {
+        float waitTime = 1f;
+        while (true)
+        {
+            var distance = Vector3.Distance(player.transform.position, transform.position);
+
+            if(distance < maxDistanceToPlayer)
+                canSpawn = true;
+            else
+                canSpawn = false;
+
+            yield return new WaitForSeconds(waitTime);
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, player.transform.position);
     }
 
 }

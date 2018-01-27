@@ -32,12 +32,15 @@ namespace CameraUI {
 	    // Use this for initialization
 	    void Start ()
         {
+
             AddButtonsListeners (); // add listeneres
             VisiblePanels (); // hide and visible particlular panels
 
             AudioMenager.Instance.PlayMenuMusic (); // play menu music
 
             GameData.ApplicationRunTimes++; // aplication run first time
+
+            CityChange(GetComponent<City>());
         }
 
         private void VisiblePanels()    
@@ -45,16 +48,16 @@ namespace CameraUI {
             if(GameData.ApplicationRunTimes > 0) // if it is not first run
             {
                 //pass main menu
-                tutorialText.transform.parent.gameObject.SetActive (true); 
+               // tutorialText.transform.parent.gameObject.SetActive (true); 
                 mainMenuBackground.SetActive (false);
                 backToMainMenuButon.gameObject.SetActive (true);
                 characterPanelButon.gameObject.SetActive(true);
                 missionsPanelButon.gameObject.SetActive(true);
-                StartCoroutine (TutorialText ());
+               // StartCoroutine (TutorialText ());
             }
             else // else start game with main menu
             { 
-                tutorialText.transform.parent.gameObject.SetActive (false);
+               // tutorialText.transform.parent.gameObject.SetActive (false);
                 mainMenuBackground.SetActive (true);
                 backToMainMenuButon.gameObject.SetActive (false);
                 characterPanelButon.gameObject.SetActive(false);
@@ -87,7 +90,7 @@ namespace CameraUI {
         }
         private void BackToMenu()
         {
-            tutorialText.transform.parent.gameObject.SetActive (false); // active tutorial test
+           // tutorialText.transform.parent.gameObject.SetActive (false); // active tutorial test
             mainMenuBackground.SetActive (true); // active main menu options
             backToMainMenuButon.gameObject.SetActive (false); // deactive back button
             characterPanelButon.gameObject.SetActive(false);
@@ -112,7 +115,7 @@ namespace CameraUI {
         IEnumerator RotateToInventory()
         {
            
-            tutorialText.transform.parent.gameObject.SetActive(false);
+           // tutorialText.transform.parent.gameObject.SetActive(false);
             characterPanelButon.gameObject.SetActive(false);
             characterPanelButon.gameObject.SetActive(true);
             var cam = Camera.main.transform;
@@ -130,7 +133,7 @@ namespace CameraUI {
         IEnumerator RotateToMissions()
         {
            
-            tutorialText.transform.parent.gameObject.SetActive(true);
+           // tutorialText.transform.parent.gameObject.SetActive(true);
             missionsPanelButon.gameObject.SetActive(false);
             missionsPanelButon.gameObject.SetActive(true);
             var cam = Camera.main.transform;
@@ -148,12 +151,12 @@ namespace CameraUI {
         private void StartGame()
         {
             mainMenuBackground.SetActive (false);
-            tutorialText.transform.parent.gameObject.SetActive (true);
+            //tutorialText.transform.parent.gameObject.SetActive (true);
             backToMainMenuButon.gameObject.SetActive (true); // active back to menu button
             characterPanelButon.gameObject.SetActive(true);
             missionsPanelButon.gameObject.SetActive(true);
 
-            StartCoroutine (TutorialText ());
+            //StartCoroutine (TutorialText ());
         }
 
         private void CityChange(City city)
@@ -211,6 +214,10 @@ namespace CameraUI {
 
                 if (cityHit)//if sucess...
                     CityChange (cityHit); // change current city to new city
+
+                var modeHit = gameobjectHit.GetComponent<ModeScript>();// try to get city component
+                if (modeHit)//if sucess...
+                    modeHit.LoadScene();
             }
         }
 

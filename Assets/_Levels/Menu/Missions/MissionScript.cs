@@ -10,7 +10,7 @@ namespace CameraUI {
     /// </summary>
     public class MissionScript : MonoBehaviour {
 
-        Mission objectMission;
+         Mission objectMission;
     
         public void SetMission(Mission m)
         {
