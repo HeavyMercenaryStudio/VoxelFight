@@ -132,9 +132,10 @@ namespace Weapons {
             return currentAmmo;
         }
 
-        public void Realod(int ammo)
+        public void Realod(int ammoPercentage)
         {
-            float addedAmmo = currentAmmo + ammo;
+
+            float addedAmmo = currentAmmo + (ammoPercentage/100f * maxAmmo);
             currentAmmo = (int)Mathf.Clamp ((float)addedAmmo, 0, (float)maxAmmo);
         }
         public void Start()
@@ -165,6 +166,7 @@ namespace Weapons {
         
         }
         
+       
 
     }
 }

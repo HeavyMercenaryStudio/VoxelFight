@@ -31,7 +31,8 @@ namespace CameraUI {
         {
             var scene = objectMission.GetMissionScene ();
             WorldData.NextMission = objectMission.GetNextMission();
-            SceneManager.LoadScene (scene);
+            WorldData.SceneIndex = scene;
+            SceneManager.LoadScene (1);
         }
     }
 }

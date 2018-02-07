@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 namespace Core { 
 
@@ -15,7 +16,7 @@ namespace Core {
 
         [SerializeField] float timeBetweenWaves; // rest time between waves
 
-        [SerializeField] List<Wave> waveList; // list of waves
+        [SerializeField] Wave defaultWave; // list of waves
         Wave currentWave; // 
         int waveNumber; 
 
@@ -26,12 +27,26 @@ namespace Core {
 
         public void Start()
         {
+            CopyDefaultWave();
             // storeSystem = FindObjectOfType<StoreSystem> ();
             //storeSystem.ToogleStore (false);
             gameGui = GameObject.FindObjectOfType<GameGui> ();
 
             Enemy.onEnemyDeath += DecreseEnemiesCount;
         }
+
+        private void CopyDefaultWave()
+        {
+            currentWave = new Wave();
+            currentWave.enemies = new GameObject[defaultWave.enemies.Length];
+            currentWave.enemiesAmount = new int[defaultWave.enemiesAmount.Length];
+
+            Array.Copy(defaultWave.enemies, currentWave.enemies, defaultWave.enemies.Length);
+            Array.Copy(defaultWave.enemiesAmount, currentWave.enemiesAmount, defaultWave.enemiesAmount.Length);
+            currentWave.R = defaultWave.R;
+            currentWave.spawnDelayTime = defaultWave.spawnDelayTime;
+        }
+
         public void Update()
         {
             if (Time.time < nextWaveTime) //if its time to next wave...
@@ -58,11 +73,11 @@ namespace Core {
                 nextWaveTime = Time.time + timeBetweenWaves;  //start next wave
 
                 waveNumber++; // if its no more wave in this level
-                if (waveNumber == waveList.Count)
-                { 
-                    Enemy.onEnemyDeath -= DecreseEnemiesCount; // remove listener
-                    gameGui.Victory (); // update interface 
-                }
+                //if (waveNumber == waveList.Count)
+             //   { 
+             //       Enemy.onEnemyDeath -= DecreseEnemiesCount; // remove listener
+              //      gameGui.Victory (); // update interface 
+              //  }
             }
         }
         void StartWave()
@@ -79,11 +94,25 @@ namespace Core {
 
         public void NextWave()
         {
-            if (waveNumber == waveList.Count) return; //if no more waves in level do nothing
+            //  if (waveNumber == waveList.Count) return; //if no more waves in level do nothing
 
-            currentWave = waveList[waveNumber]; // else start next wave
+            //  currentWave = waveList[0]; // else start next wave TODO MAKE NEW WAVE HERE
+            GenerateNewWave();
             StartWave ();
         }
+
+        private void GenerateNewWave()
+        {
+            var enemiesAmount = currentWave.enemiesAmount;
+            for (int i = 0; i < enemiesAmount.Length; i++)
+            {
+                var count = defaultWave.enemiesAmount[i];
+                enemiesAmount[i] = count + (count * waveNumber / 2); // 2 - is number of enemies mnoznik
+                Debug.Log(enemiesAmount[i]);
+            }
+
+        }
+
         IEnumerator SpawnEnemy(int numberOfEnemyTypes, int numberOfEnemies)
         {
             //spawn enemies for each type in array "enemies" every Xs time 

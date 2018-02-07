@@ -57,6 +57,8 @@ namespace Shields {
 
         public virtual void SetFireButtonDown(bool value)
         {
+            if (!shield) return;
+
             fireButtonDown = value;
 
             if (fireButtonDown && currentEnergy != 0)
@@ -114,18 +116,22 @@ namespace Shields {
         }
         public virtual void DefenseUp()
         {
+            if (!shield) return;
+
             if (currentEnergy == 0) { 
                 shield.SetActive(false);
                 return;
             }
 
 
-            shield.SetActive(true);
+            if(shield) shield.SetActive(true);
             var energyDown = currentEnergy - energyLostPerSecond;
             currentEnergy = Mathf.Clamp(energyDown, 0, MaxEnergy);
         }
         private void OnDestroy()
         {
+            Destroy(shield);
+            SetFireButtonDown(false);
             var shieldComp = shield.GetComponent<ShieldObject>();
             shieldComp.notifyShieldHit -= ShieldHitted;
         }

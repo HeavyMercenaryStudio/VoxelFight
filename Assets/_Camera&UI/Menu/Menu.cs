@@ -86,7 +86,7 @@ namespace CameraUI {
         private void ResetSave()
         {
             PlayerDatabase.Instance.ResetData();
-            InventoryMenu.Instance.UpdateInventoryGUI();
+          //  InventoryMenu.Instance.UpdateInventoryGUI();
         }
         private void BackToMenu()
         {

@@ -22,6 +22,7 @@ public class Point{
 public class MazeElements{
 
 	public static int wall = 1;
+    public static int destroyAbleWall = 9;
 	public static int freeField = 0;
 	public static int truePath = 2;
 	public static int wrongWay = 4;
@@ -38,6 +39,7 @@ public class MazeGen : MonoBehaviour {
     public GameObject exitPrefab;
     public GameObject playerPrefab;
 	public GameObject wallDestroyablePrefab;
+    public GameObject darkplane;
 
     //Maze size
     public int mazeHeight = 11;
@@ -48,6 +50,7 @@ public class MazeGen : MonoBehaviour {
     public int[,] globalMazeOrginalCopy;
 
     List<Point> deadRooms = new List<Point>();
+    public static List<GameObject> mapPlanes = new List<GameObject>();
 
     //Random
     static System.Random random = new System.Random();
@@ -55,7 +58,7 @@ public class MazeGen : MonoBehaviour {
     public Transform mazeParent;
 
     void Start () {
-
+       
         //Generate The Maze
         globalMazeOrginalCopy = new int[mazeHeight, mazeWidht];
         globalMaze = generateMaze (mazeHeight, mazeWidht);
@@ -69,6 +72,12 @@ public class MazeGen : MonoBehaviour {
         CreateFinishPoint();
 
         spawnMaze ();
+
+        //Set nav mesh sizes
+        var nav = FindObjectOfType<LocalNavMeshBuilder>();
+        var size = mazeHeight * 20;
+        size -= (size / 10);
+        nav.m_Size = new Vector3(size, 50, size);
     }
 
     private void CreateFinishPoint()
@@ -164,17 +173,42 @@ public class MazeGen : MonoBehaviour {
 				if (globalMaze [i, j] == MazeElements.wall)
                 {
                     float n = UnityEngine.Random.Range(0.0f, 1.0f);
-                    if ((i > 0 && i < mazeHeight-1) && (j > 0 && j < mazeWidht - 1) && n > freq)
+                    if ((i > 0 && i < mazeHeight-1) && (j > 0 && j < mazeWidht - 1) && n > freq) { 
                         SpawnPointAs(wallDestroyablePrefab, wallSize, i, j);
+                        globalMaze[i, j] = MazeElements.destroyAbleWall;
+                    }
                     else
                         SpawnPointAs(wallPrefab, wallSize, i, j);
                 }
             }
+
+
+        //Create Map
+        for (int i = 0; i < mazeHeight; i++)
+            for (int j = 0; j < mazeWidht; j++)
+            {
+                //TODO REFACTOR
+                GameObject map = Instantiate(darkplane) as GameObject;
+                map.transform.SetParent(mazeParent);
+
+                Vector3 pos = new Vector3((i * (mazeParent.transform.position.x + wallSize.x)), 100,
+                                           (j * (mazeParent.transform.position.z + wallSize.z)));
+
+                pos -= new Vector3(mazeWidht * wallSize.x / 2, -wallSize.y / 2, mazeHeight * wallSize.z / 2);
+                map.transform.position = pos;
+                map.layer = 13;
+
+               if (globalMaze[i, j] != MazeElements.wall)
+                    map.AddComponent(typeof(InteractiveMapPlane));
+
+                mapPlanes.Add(map);
+            }
+
     }
     private void SpawnPointAs(GameObject prefab, Vector3 wallSize, int i, int j)
     {
         GameObject _wall = SpawnPoint(prefab, wallSize, i, j);
-        _wall.layer = 8;
+        _wall.layer = Layers.ENVIORMENT;
         _wall.AddComponent<NavMeshSourceTag>();
     }
     private GameObject SpawnPoint(GameObject prefab, Vector3 wallSize, int i, int j)
@@ -193,7 +227,6 @@ public class MazeGen : MonoBehaviour {
     {
         GameObject _wall = SpawnPoint(prefab, wallSize, i, j);
     }
-
 
     /// <summary>
     /// Generates the maze.
@@ -356,5 +389,10 @@ public class MazeGen : MonoBehaviour {
             deadRooms.Add(new Point(x, y));
 
         return 0;
+    }
+
+    void OnDestroy()
+    {
+        mapPlanes.Clear();
     }
 }

@@ -17,6 +17,12 @@ namespace Characters
 
         [SerializeField] float movementSpeed = 10f; // speed of player
 
+        float currentMovementSpeed;
+        public void BoostMe(float boostAmount)
+        {
+            movementSpeed = currentMovementSpeed + boostAmount;
+        } // boost player 
+
         Rigidbody rigibody;
         PlayerController controller;
 
@@ -27,6 +33,8 @@ namespace Characters
 
         private void Start()
         {
+            currentMovementSpeed = movementSpeed;
+
             playerActions = PlayerActions.CreateWithDefaultBindings();
 
             rigibody = GetComponent<Rigidbody> ();

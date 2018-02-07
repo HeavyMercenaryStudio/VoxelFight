@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Weapons;
 using Shields;
+using Data;
 
 namespace Characters { 
 
@@ -22,6 +23,7 @@ namespace Characters {
 
         public delegate void OnPlayerDead();
         public static event OnPlayerDead notifyPlayerDead;
+        public bool isPlayerDisabled;
 
         public float GetHealthAsPercentage()
         {
@@ -41,9 +43,10 @@ namespace Characters {
         } // heal player by amount of health percentage
         public void ReloadMe(int ammoPerSecond)
         {
-            weapon.Realod (ammoPerSecond);
-            playerGUI.UpdateAmmoText (weapon.GetCurrentAmmo());
+            Weapon.Realod (ammoPerSecond);
+            playerGUI.UpdateAmmoText (Weapon.GetCurrentAmmo());
         } // fill player ammo 
+
         public int GetPlayerNumber()
         {
             return playerNumber;
@@ -58,40 +61,74 @@ namespace Characters {
 
         float bloodDestroyTime = 5f;
 
+        public Weapon Weapon
+        {
+            get
+            {
+                return weapon;
+            }
+
+            set
+            {
+                weapon = value;
+            }
+        }
+        public Shield Shield
+        {
+            get
+            {
+                return shield;
+            }
+
+            set
+            {
+                shield = value;
+            }
+        }
+
         private void Start()
         {
-            currentHealth = maxHealth;
             playerGUI = GetComponent<PlayerGUI> ();
-            weapon = GetComponent<Weapon> ();
-            shield = GetComponent<Shield>();
+            Weapon = GetComponent<Weapon> ();
+            Shield = GetComponent<Shield>();
+
+            SetHealthAsPercentage(WorldData.PlayerHealth[playerNumber]);
+            StartCoroutine(UpdateGUI());
+        }
+        IEnumerator UpdateGUI()
+        {
+            yield return new WaitForSeconds(0.1f);
+            playerGUI.UpdateAmmoText(Weapon.GetCurrentAmmo());
+            playerGUI.UpdateHealthInfo(GetHealthAsPercentage());
         }
 
         private void Update()
         {
+            if (isPlayerDisabled) return;
             if (isDestroyed) { return; } // if player is destroyed dont take any action..
 
             if (Input.GetButton("Fire" + playerNumber)) // if FIRE button clicked...
             {
-                if (weapon.TryShoot()) // try to shoot...
+                if (Weapon.TryShoot()) // try to shoot...
                     UpdateAmmo(); // if sucess update ammo 
 
-                weapon.SetFireButtonDown(true);
+                Weapon.SetFireButtonDown(true);
             }
             else if (Input.GetButtonUp("Fire" + playerNumber))
-                weapon.SetFireButtonDown(false);
+                Weapon.SetFireButtonDown(false);
 
             if (Input.GetButton("Defense" + playerNumber)) // if Defense button clicked...
             {
-                playerGUI.UpdateEnergyInfo(shield.CurrentEnergy);
+                playerGUI.UpdateEnergyInfo(Shield.CurrentEnergy);
 
-                shield.DefenseUp();
-                shield.SetFireButtonDown(true);
+                Shield.DefenseUp();
+                Shield.SetFireButtonDown(true);
             }
             else if (Input.GetButtonUp("Defense" + playerNumber))
-                shield.SetFireButtonDown(false);
+                Shield.SetFireButtonDown(false);
 
-            if(!shield.Active)
-                playerGUI.UpdateEnergyInfo(shield.CurrentEnergy);
+            if(!Shield.Active)
+                playerGUI.UpdateEnergyInfo(Shield.CurrentEnergy);
         }
         public void TakeDamage(float damage, GameObject bullet) // take damage atfer hit
         {
@@ -122,7 +159,9 @@ namespace Characters {
         private void UpdateAmmo()
         {
             if (AudioMenager.Instance != null) AudioMenager.Instance.PlayClip (audioClips.GetShootClip ());
-            playerGUI.UpdateAmmoText (weapon.GetCurrentAmmo ()); // if its player
+            playerGUI.UpdateAmmoText (Weapon.GetCurrentAmmo ()); // if its player
         }
+
+        
     }
 }

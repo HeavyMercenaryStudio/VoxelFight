@@ -80,10 +80,4 @@ public class EnemySpawner : MonoBehaviour, IDamageable {
         }
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, player.transform.position);
-    }
-
 }

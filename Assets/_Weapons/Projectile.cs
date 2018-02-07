@@ -32,16 +32,18 @@ namespace Weapons {
 
 	    public void OnTriggerEnter(Collider other)
 	    {
-            if (other.gameObject.layer == shooter.layer || other.gameObject.layer == this.gameObject.layer || other.gameObject == null)
-                return; // friend fire off
-        
+            if(other)
+                if (other.gameObject.layer == shooter.layer || other.gameObject.layer == gameObject.layer || other.gameObject == null)
+                    return; // friend fire off
+
+
             Component destroyable = other.GetComponent (typeof (IDamageable));
             
             if (destroyable){ // if target is destroy able
                 (destroyable as IDamageable).TakeDamage (damageAmount, this.gameObject);//hit him
             }
 
-            if (other.gameObject.layer != INTERACTIVE_OBJECT_LAYER) {
+            if (other.gameObject.layer != Layers.INTERACTIVE_OBJECT) {
 
                 if (hitParticleEffect) Hit();
                 Destroy(this.gameObject);

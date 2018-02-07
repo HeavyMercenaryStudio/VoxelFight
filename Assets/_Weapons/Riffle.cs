@@ -17,7 +17,7 @@ namespace Weapons {
             var proj = bulet.GetComponent<Projectile> ();
             proj.SetDamage (Damage);
             proj.SetDestroyRange (Range);
-            proj.SetShooter (this.gameObject);
+            proj.SetShooter (gameObject);
             proj.GetComponent<Rigidbody> ().velocity = gunEndPoint.forward * BulletSpeed;
 
         }

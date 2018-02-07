@@ -28,8 +28,10 @@ namespace Weapons {
                 }
             }
 
-            if(other.gameObject.layer != INTERACTIVE_OBJECT_LAYER)
+            if (other.gameObject.layer != Layers.INTERACTIVE_OBJECT){
                 Hit();
+                Destroy(this.gameObject);
+            }
         }
 
         private void OnDrawGizmos()

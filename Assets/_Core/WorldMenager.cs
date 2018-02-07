@@ -42,7 +42,7 @@ namespace Menagers {
             GAME_GUI = GameObject.FindObjectOfType<GameGui> (); // FIND game gui panel on map
 
             PlayerController.notifyPlayerDead += OnPlayerDead; // add listener whe player dead
-            MissionObjective.notifyOnObjectiveDestroy += OnObjectiveDestroyed; //add listener when mission obejctive destoryed 
+//MissionObjective.notifyOnObjectiveDestroy += OnObjectiveDestroyed; //add listener when mission obejctive destoryed 
 
             if(AudioMenager.Instance != null) AudioMenager.Instance.PlayGameMusic ();
         }
@@ -78,7 +78,7 @@ namespace Menagers {
             if (allDead) // if yes ...
             {
                 PlayerController.notifyPlayerDead -= OnPlayerDead; //remove listeners
-                MissionObjective.notifyOnObjectiveDestroy -= OnObjectiveDestroyed; //remove listeners
+              //  MissionObjective.notifyOnObjectiveDestroy -= OnObjectiveDestroyed; //remove listeners
 
                 var waveSystem = FindObjectOfType<WaveSystem>();
                 if(waveSystem) Enemy.onEnemyDeath -= waveSystem.DecreseEnemiesCount; // remove listeners

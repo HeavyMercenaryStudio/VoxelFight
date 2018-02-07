@@ -19,21 +19,26 @@ public class DestrictiveWall : MonoBehaviour, IDamageable {
     }
 
     public float explosionForce = 10;
+    public float explosionRadius = 10;
     public void TakeDamage(float damage, GameObject bullet)
     {
+        if (currentHealth <= 0) return;
+
         currentHealth -= damage;
 
         if(currentHealth <= 0)
         {
             GameObject destroyedFragmensts = Instantiate(destroyedWall, transform.position, Quaternion.identity);
-            Destroy(this.gameObject);
+           // var t = destroyedFragmensts.transform.GetChild(0);
 
             foreach (Transform t in destroyedFragmensts.transform)
             {
-                t.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, t.transform.position, 5f);
-                Destroy(t.gameObject, 50f);
+                t.GetComponent<Rigidbody>().AddForceAtPosition(bullet.transform.forward * explosionForce, bullet.transform.position);
             }
-            
+
+
+            Destroy(destroyedFragmensts, 50f);
+            Destroy(this.gameObject);
         }
 
 

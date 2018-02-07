@@ -13,7 +13,7 @@ namespace CameraUI {
     public class Mission : ScriptableObject {
 
         [SerializeField] GameObject missionPrefab; // Mission panel game object 
-        [SerializeField] string missionLevelName; // Scene Name
+        [SerializeField] int missionLevelIndex; // Scene Name
         [SerializeField] bool completed; // is mission complted
         [SerializeField] string missionDescription; // description of mission
         [SerializeField] Image missionImage; // image of mission
@@ -24,8 +24,8 @@ namespace CameraUI {
             missionPrefab.GetComponentInChildren<Text> ().text = missionDescription;
             return missionPrefab;
         }
-        public string GetMissionScene(){
-            return missionLevelName;
+        public int GetMissionScene(){
+            return missionLevelIndex;
         }
         public Mission GetNextMission(){
             return nextMission;

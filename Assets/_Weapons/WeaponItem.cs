@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Data;
+using System;
 
 namespace Weapons {
 
@@ -18,128 +19,33 @@ namespace Weapons {
     public class WeaponItem : MonoBehaviour {
 
         [SerializeField] Button equipButton;
-        [SerializeField] Button buyButton;
-        [SerializeField] Text craftCostText;
+        [SerializeField] Text weaponText;
 
-        public WeaponType weaponType;
-        WeaponData weaponData;
+        public Items.WeaponData weaponItemData;
+
+        public void SetItemInfo()
+        {
+            weaponText.text = weaponItemData.Name;
+        }
 
         // Use this for initialization
         void Start ()
         {
             equipButton.onClick.AddListener(EquipWeapon);
-            buyButton.onClick.AddListener(BuyWeapon);
-
-            InventoryMenu.Instance.notifyPlayerChange += SetVisibleButtons;
-            SetVisibleButtons();
-
-            SetPurchaseCost();
-        }
-
-        private void SetPurchaseCost()
-        {
-            var selectedWeapon = GetPlayerWeaponData();
-            var thisWeapon = GetSelectedWeapon(selectedWeapon);
-
-            craftCostText.text = thisWeapon.WeaponCost.ToString();
-        }
-        private void SetVisibleButtons()
-        {
-            var selectedWeapon = GetPlayerWeaponData();
-            var thisWeapon = GetSelectedWeapon(selectedWeapon);
-
-            if (thisWeapon.Available)
-            {
-                buyButton.gameObject.SetActive(false);
-                equipButton.gameObject.SetActive(true);
-            }
-            else
-            {
-                buyButton.gameObject.SetActive(true);
-                equipButton.gameObject.SetActive(false);
-            }
         }
 
         void EquipWeapon()
         {
-            var selectedWeapon = GetPlayerWeaponData();
-            selectedWeapon.CurrentPlayerWeapon = GetSelectedWeapon(selectedWeapon);
+            var selectedPlayer = InventoryMenu.Instance.CurrentPlayer;
+            if (selectedPlayer == 1) PlayerDatabase.Instance.playerOneEquipedWeapon = weaponItemData;
+            else if (selectedPlayer == 2) PlayerDatabase.Instance.playerTwoEquipedWeapon = weaponItemData;
 
-            SetVisibleButtons();
-
-            InventoryMenu.Instance.ChangeEquipedWeaponText(weaponData);
-        }
-
-        private PlayerWeaponData GetSelectedPlayerWeapon(int player, PlayerDatabase playerdata)
-        {
-            switch (player)
-            {
-                case 0:
-                    return playerdata.PlayerOneWeaponData;
-
-                case 1:
-                    return playerdata.PlayerTwoWeaponData;
-
-                case 2:
-                    return playerdata.PlayerThreeWeaponData;
-
-                case 3:
-                    return playerdata.PlayerFourWeaponData;
-            }
-            return null;
-        }
-        private WeaponData GetSelectedWeapon(PlayerWeaponData playerdata)
-        {
-            switch (weaponType)
-            {
-                case WeaponType.Rifle:
-                    weaponData = playerdata.AvailableWeaponsP.rifleData;
-                    break;
-                case WeaponType.Laser:
-                    weaponData = playerdata.AvailableWeaponsP.laserData;
-                    break;
-                case WeaponType.Shotgun:
-                    weaponData = playerdata.AvailableWeaponsP.shotgunData;
-                    break;
-                case WeaponType.RocketLuncher:
-                    weaponData = playerdata.AvailableWeaponsP.rocketData;
-                    break;
-            }
-
-            return weaponData; 
-        }
-
-        void BuyWeapon()
-        {
-            //Check for enought points
-            var selectedWeapon = GetPlayerWeaponData();
-            var thisWeapon = GetSelectedWeapon(selectedWeapon);
-
-            var data = PlayerDatabase.Instance;
-            var weaponCost = thisWeapon.WeaponCost;
-
-            if(data.PlayersCrystals >= weaponCost)
-            {
-                data.PlayersCrystals -= weaponCost;
-                thisWeapon.Available = true;
-                InventoryMenu.Instance.SetPlayerCrystalsValueText();
-            }
-
-            SetVisibleButtons();
-        }
-
-        private PlayerWeaponData GetPlayerWeaponData()
-        {
-            int player = InventoryMenu.Instance.CurrentPlayer;
-            var playerdata = PlayerDatabase.Instance;
-
-            var selectedWeapon = GetSelectedPlayerWeapon(player, playerdata);
-            return selectedWeapon;
+            InventoryMenu.Instance.ChangeEquipedWeaponText(weaponItemData);
         }
 
         private void OnDestroy()
         {
-            InventoryMenu.Instance.notifyPlayerChange -= SetVisibleButtons;
+        //    InventoryMenu.Instance.notifyPlayerChange -= SetVisibleButtons;
         }
     }
 

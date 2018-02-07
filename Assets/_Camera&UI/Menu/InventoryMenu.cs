@@ -9,7 +9,7 @@ using Shields;
 
 public class InventoryMenu : MonoBehaviour {
 
-    int currentPlayer = 0;
+    int currentPlayer = 1;
     public int CurrentPlayer
     {
         get
@@ -58,7 +58,7 @@ public class InventoryMenu : MonoBehaviour {
         }
     }
 
-    public delegate void OnPlayerChange();
+    public delegate void OnPlayerChange(int no);
     public OnPlayerChange notifyPlayerChange;
 
     public void Awake()
@@ -72,8 +72,8 @@ public class InventoryMenu : MonoBehaviour {
     {
         nextPlayerButton.onClick.AddListener(NextPlayer);
         prevPlayerButton.onClick.AddListener(PrevPlayer);
-        updateWeaponButton.onClick.AddListener(UpdateWeapon);
-        updateShieldButton.onClick.AddListener(UpdateShield);
+       // updateWeaponButton.onClick.AddListener(UpdateWeapon);
+      //  updateShieldButton.onClick.AddListener(UpdateShield);
         nextItemButton.onClick.AddListener(NextItem);
         prevItemButton.onClick.AddListener(PrevItem);
         UpdateInventoryGUI();
@@ -97,53 +97,53 @@ public class InventoryMenu : MonoBehaviour {
 
     }
 
-    private void UpdateWeapon()
-    {
-        int updateCost = 1000;
-        int updateScale = 10;
-        var data = PlayerDatabase.Instance;
+    //private void UpdateWeapon()
+    //{
+    //    int updateCost = 1000;
+    //    int updateScale = 10;
+    //    var data = PlayerDatabase.Instance;
 
-        if (data.PlayersCrystals > updateCost)
-        {
-            data.PlayersCrystals -= updateCost;
+    //    if (data.PlayersCrystals > updateCost)
+    //    {
+    //        data.PlayersCrystals -= updateCost;
 
-            var pd = PlayerDatabase.Instance.GetPlayerWeaponData(currentPlayer);
+    //        var pd = PlayerDatabase.Instance.GetPlayerWeaponData(currentPlayer);
 
-            var updatedRange = pd.Range + 5;
-            var updatedDamage = pd.DamagePerBullet + 1;
-            var updatedAmmo = pd.MaxAmmo + (int)(0.1f * pd.MaxAmmo);
-            //var updatedSpeed = Math.Round(pd.SecondsBetweenShoot - 0.05f, 3);
+    //        var updatedRange = pd.Range + 5;
+    //        var updatedDamage = pd.DamagePerBullet + 1;
+    //        var updatedAmmo = pd.MaxAmmo + (int)(0.1f * pd.MaxAmmo);
+    //        //var updatedSpeed = Math.Round(pd.SecondsBetweenShoot - 0.05f, 3);
 
-            pd.DamagePerBullet = Mathf.Clamp(updatedDamage, 0, pd.DefaultDamagePerBullet * updateScale);
-            pd.Range = Mathf.Clamp(updatedRange, 0, pd.DefaultRange * updateScale);
-            pd.MaxAmmo = Mathf.Clamp(updatedAmmo, 0, pd.DefaultMaxAmmo * updateScale);
-            //pd.SecondsBetweenShoot = Mathf.Clamp((float)updatedSpeed, 0.01f, 999);
+    //        pd.DamagePerBullet = Mathf.Clamp(updatedDamage, 0, pd.DefaultDamagePerBullet * updateScale);
+    //        pd.Range = Mathf.Clamp(updatedRange, 0, pd.DefaultRange * updateScale);
+    //        pd.MaxAmmo = Mathf.Clamp(updatedAmmo, 0, pd.DefaultMaxAmmo * updateScale);
+    //        //pd.SecondsBetweenShoot = Mathf.Clamp((float)updatedSpeed, 0.01f, 999);
 
-            ChangeEquipedWeaponText(pd);
+    //        ChangeEquipedWeaponText(pd);
 
-            SetPlayerCrystalsValueText();
-        }
-    }
-    private void UpdateShield()
-    {
-        int updateCost = 1000;
-        int updateScale = 10;
-        var data = PlayerDatabase.Instance;
+    //        SetPlayerCrystalsValueText();
+    //    }
+    //}
+    //private void UpdateShield()
+    //{
+    //    int updateCost = 1000;
+    //    int updateScale = 10;
+    //    var data = PlayerDatabase.Instance;
 
-        if (data.PlayersCrystals > updateCost)
-        {
-            data.PlayersCrystals -= updateCost;
+    //    if (data.PlayersCrystals > updateCost)
+    //    {
+    //        data.PlayersCrystals -= updateCost;
 
-            var pd = PlayerDatabase.Instance.GetPlayerShieldData(currentPlayer);
+    //        var pd = PlayerDatabase.Instance.GetPlayerShieldData(currentPlayer);
 
-            var updatedEnergy = pd.MaxEnergy + 10;
+    //        var updatedEnergy = pd.MaxEnergy + 10;
          
-            pd.MaxEnergy = Mathf.Clamp(updatedEnergy, 0, pd.DefaultEnergy * updateScale);
+    //        pd.MaxEnergy = Mathf.Clamp(updatedEnergy, 0, pd.DefaultEnergy * updateScale);
 
-            ChangeEquipedShieldText(pd);
-            SetPlayerCrystalsValueText();
-        }
-    }
+    //       // ChangeEquipedShieldText(pd);
+    //        SetPlayerCrystalsValueText();
+    //    }
+    //}
 
     public void SetPlayerCrystalsValueText()
     {
@@ -153,73 +153,51 @@ public class InventoryMenu : MonoBehaviour {
     public void UpdateInventoryGUI()
     {
         ChangePlayerNameText();
-        var pd = PlayerDatabase.Instance.GetPlayerWeaponData(currentPlayer);
-        ChangeEquipedWeaponText(pd);
-        var ps = PlayerDatabase.Instance.GetPlayerShieldData(currentPlayer);
-        ChangeEquipedShieldText(ps);
+        if(currentPlayer == 1) ChangeEquipedWeaponText(PlayerDatabase.Instance.playerOneEquipedWeapon);
+        else if (currentPlayer == 2) ChangeEquipedWeaponText(PlayerDatabase.Instance.playerTwoEquipedWeapon);
+
+        if (currentPlayer == 1) ChangeEquipedShieldText(PlayerDatabase.Instance.playerOneEquipedShield);
+        else if (currentPlayer == 2) ChangeEquipedShieldText(PlayerDatabase.Instance.playerTwoEquipedShield);
     }
     private void PrevPlayer()
     {
         currentPlayer--;
-        if (currentPlayer == -1)
-            currentPlayer = WorldData.NumberOfPlayers - 1;
+        if (currentPlayer == 0)
+            currentPlayer = WorldData.NumberOfPlayers;
 
-        notifyPlayerChange();
+        notifyPlayerChange(currentPlayer);
         UpdateInventoryGUI();
     }
     private void NextPlayer()
     {
         currentPlayer++;
-        if (currentPlayer == WorldData.NumberOfPlayers)
-            currentPlayer = 0;
+        if (currentPlayer == WorldData.NumberOfPlayers+1)
+            currentPlayer = 1;
 
-        notifyPlayerChange();
+        notifyPlayerChange(currentPlayer);
         UpdateInventoryGUI();
     }
 
     private void ChangePlayerNameText()
     {
-        playerNameText.text = "PLAYER " + (currentPlayer+1).ToString();
+        playerNameText.text = "PLAYER " + (currentPlayer).ToString();
     }
-    public void ChangeEquipedWeaponText(WeaponData weaponData)
+    public void ChangeEquipedWeaponText(Items.WeaponData weaponData)
     {
         if (weaponData == null) return;
 
-        ChangeName(weaponData);
-
-        damageValueText.text = weaponData.DamagePerBullet.ToString();
+        damageValueText.text = weaponData.Damage.ToString();
         rangeValueText.text = weaponData.Range.ToString();
-        fireSpeedValueText.text = weaponData.SecondsBetweenShoot.ToString();
-        ammoValueText.text = weaponData.MaxAmmo.ToString();
+        fireSpeedValueText.text = weaponData.TimeBetweenShoot.ToString();
+        ammoValueText.text = weaponData.Ammo.ToString();
+        weaponNameText.text = weaponData.Name;
     }
-    private void ChangeName(WeaponData weaponData)
-    {
-        if (weaponData.name.Contains("Rifle"))
-            weaponNameText.text = "R I F L E";
-        else if (weaponData.name.Contains("Shotgun"))
-            weaponNameText.text = "S H O T G U N";
-        else if (weaponData.name.Contains("Rocket"))
-            weaponNameText.text = "R O C K E T  L U N C H E R";
-        else if (weaponData.name.Contains("Laser"))
-            weaponNameText.text = "L A S E R";
-    }
-
-    public void ChangeEquipedShieldText(ShieldData shieldData)
+    public void ChangeEquipedShieldText(Items.ShieldData shieldData)
     {
         if (shieldData == null) return;
 
-        ChangeName(shieldData);
-
-        maxEneryText.text = shieldData.MaxEnergy.ToString();
-    }
-    private void ChangeName(ShieldData shieldData)
-    {
-        if (shieldData.name.Contains("Absorb"))
-            shieldNameText.text = "A B S O R B  S H I E L D";
-        else if (shieldData.name.Contains("Reflect"))
-            shieldNameText.text = "R E F L E C T  S H I E L D";
-        else if (shieldData.name.Contains("Heal"))
-            shieldNameText.text = "H E A L I N G  S H I E L D";
+        maxEneryText.text = shieldData.Energy.ToString();
+        shieldNameText.text = shieldData.Name;
     }
 }
 

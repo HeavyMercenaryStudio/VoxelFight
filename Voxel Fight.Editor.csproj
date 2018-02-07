@@ -123,6 +123,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\ExportAssetBundles.cs" />
     <Compile Include="Assets\InControl\Editor\EditorTextures.cs" />
     <Compile Include="Assets\InControl\Editor\EditorUtility.cs" />
     <Compile Include="Assets\InControl\Editor\InControlBuilder.cs" />
@@ -237,8 +238,9 @@
     <None Include="Assets\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
     <None Include="Assets\Stagit\SkyboxEarthPlanets\readme.txt" />
     <None Include="Assets\_Characters\_Enemy\glow.shader" />
-    <None Include="Assets\_Levels\DebugScene\Barrier\BarierShader.shader" />
     <None Include="Assets\_Levels\Menu\Earth\Text3D.shader" />
+    <None Include="Assets\_Shields\Effects\Material&amp;Shaders\BarierShader.shader" />
+    <None Include="Assets\_Shields\Effects\Material&amp;Shaders\BarierShader2.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

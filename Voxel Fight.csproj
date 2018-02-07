@@ -547,6 +547,8 @@
     <Compile Include="Assets\_Camera&amp;UI\Menu\Menu.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Menu\Mission.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Menu\RotatePlanet.cs" />
+    <Compile Include="Assets\_Camera&amp;UI\Menu\SceneLoading.cs" />
+    <Compile Include="Assets\_Camera&amp;UI\Menu\WorldSettings.cs" />
     <Compile Include="Assets\_Characters\GunEndPointMark.cs" />
     <Compile Include="Assets\_Characters\IDamageable.cs" />
     <Compile Include="Assets\_Characters\_Enemy\Enemy.cs" />
@@ -570,30 +572,34 @@
     <Compile Include="Assets\_Core\WorldMenager.cs" />
     <Compile Include="Assets\_Levels\DebugScene\DebugSettings.cs" />
     <Compile Include="Assets\_Levels\DebugScene\GetCrystal.cs" />
+    <Compile Include="Assets\_Levels\DebugScene\Item.cs" />
+    <Compile Include="Assets\_Levels\DebugScene\ItemGenerator.cs" />
+    <Compile Include="Assets\_Levels\DebugScene\ItemPanel.cs" />
+    <Compile Include="Assets\_Levels\DebugScene\Layers.cs" />
     <Compile Include="Assets\_Levels\MapGenerationTestDEbug\DestrictiveWall.cs" />
     <Compile Include="Assets\_Levels\MazeMode\EnemySpawner.cs" />
+    <Compile Include="Assets\_Levels\MazeMode\InteractiveMapPlane.cs" />
+    <Compile Include="Assets\_Levels\MazeMode\Map.cs" />
     <Compile Include="Assets\_Levels\MazeMode\MazeExit.cs" />
     <Compile Include="Assets\_Levels\MazeMode\MazeGen.cs" />
     <Compile Include="Assets\_Levels\MazeMode\MazeInfinityMode.cs" />
+    <Compile Include="Assets\_Levels\Menu\LoadingScene\FakeLoading.cs" />
     <Compile Include="Assets\_Levels\Menu\MakePath\MakePath.cs" />
     <Compile Include="Assets\_Levels\Menu\Missions\MissionScript.cs" />
     <Compile Include="Assets\_Shields\AbsorbShield.cs" />
+    <Compile Include="Assets\_Shields\BoostShield.cs" />
     <Compile Include="Assets\_Shields\HealShield.cs" />
-    <Compile Include="Assets\_Shields\PlayerShieldData.cs" />
     <Compile Include="Assets\_Shields\ReflectShield.cs" />
     <Compile Include="Assets\_Shields\Shield.cs" />
-    <Compile Include="Assets\_Shields\ShieldData.cs" />
     <Compile Include="Assets\_Shields\ShieldItem.cs" />
     <Compile Include="Assets\_Shields\ShieldObject.cs" />
     <Compile Include="Assets\_Weapons\Laser.cs" />
-    <Compile Include="Assets\_Weapons\PlayerWeaponData.cs" />
     <Compile Include="Assets\_Weapons\Projectile.cs" />
     <Compile Include="Assets\_Weapons\Riffle.cs" />
     <Compile Include="Assets\_Weapons\RocketLuncher.cs" />
     <Compile Include="Assets\_Weapons\RocketProjectile.cs" />
     <Compile Include="Assets\_Weapons\Shotgun.cs" />
     <Compile Include="Assets\_Weapons\Weapon.cs" />
-    <Compile Include="Assets\_Weapons\WeaponData.cs" />
     <Compile Include="Assets\_Weapons\WeaponItem.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -642,8 +648,9 @@
     <None Include="Assets\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
     <None Include="Assets\Stagit\SkyboxEarthPlanets\readme.txt" />
     <None Include="Assets\_Characters\_Enemy\glow.shader" />
-    <None Include="Assets\_Levels\DebugScene\Barrier\BarierShader.shader" />
     <None Include="Assets\_Levels\Menu\Earth\Text3D.shader" />
+    <None Include="Assets\_Shields\Effects\Material&amp;Shaders\BarierShader.shader" />
+    <None Include="Assets\_Shields\Effects\Material&amp;Shaders\BarierShader2.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

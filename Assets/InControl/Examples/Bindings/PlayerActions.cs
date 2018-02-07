@@ -58,11 +58,6 @@
 			playerActions.Up.AddDefaultBinding( InputControlType.DPadUp );
 			playerActions.Down.AddDefaultBinding( InputControlType.DPadDown );
 
-			playerActions.Up.AddDefaultBinding( Mouse.PositiveY );
-			playerActions.Down.AddDefaultBinding( Mouse.NegativeY );
-			playerActions.Left.AddDefaultBinding( Mouse.NegativeX );
-			playerActions.Right.AddDefaultBinding( Mouse.PositiveX );
-
 			playerActions.ListenOptions.IncludeUnknownControllers = true;
 			playerActions.ListenOptions.MaxAllowedBindings = 4;
 			//playerActions.ListenOptions.MaxAllowedBindingsPerType = 1;

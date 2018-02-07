@@ -1,4 +1,5 @@
 ﻿using CameraUI;
+using System.Collections.Generic;
 
 namespace Data { 
 
@@ -32,6 +33,34 @@ namespace Data {
             set
             {
                 inifinityModeSize = value;
+            }
+        }
+
+        static Dictionary<int,float> playerHealth = new Dictionary<int, float>();
+        public static Dictionary<int, float> PlayerHealth
+        {
+            get
+            {
+                return playerHealth;
+            }
+
+            set
+            {
+                playerHealth = value;
+            }
+        }
+
+        static int sceneIndex;
+        public static int SceneIndex
+        {
+            get
+            {
+                return sceneIndex;
+            }
+
+            set
+            {
+                sceneIndex = value;
             }
         }
 

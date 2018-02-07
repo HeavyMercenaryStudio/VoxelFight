@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 2634003426
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: rifleprojectiles
+      Dependencies: {}
