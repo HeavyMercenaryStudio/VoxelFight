@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Data;
 using System;
+using Items;
 
 namespace Weapons {
 
@@ -19,33 +20,74 @@ namespace Weapons {
     public class WeaponItem : MonoBehaviour {
 
         [SerializeField] Button equipButton;
+        [SerializeField] Button sellButton;
         [SerializeField] Text weaponText;
 
-        public Items.WeaponData weaponItemData;
+        private Items.WeaponData weaponItemData;
+        public WeaponData WeaponItemData
+        {
+            get
+            {
+                return weaponItemData;
+            }
+
+            set
+            {
+                weaponItemData = value;
+            }
+        }
+
+        int weaponCost;
 
         public void SetItemInfo()
         {
-            weaponText.text = weaponItemData.Name;
+            weaponText.text = WeaponItemData.Name;
         }
 
         // Use this for initialization
         void Start ()
         {
             equipButton.onClick.AddListener(EquipWeapon);
+            sellButton.onClick.AddListener(SellWeapon);
+
+            weaponCost = (int)((weaponItemData.Ammo + weaponItemData.Damage + weaponItemData.Dispersion + weaponItemData.Range +
+                         weaponItemData.Speed + weaponItemData.TimeBetweenShoot)/6);
+
+            var txt = sellButton.GetComponentInChildren<Text>();
+            txt.text = "SELL \n" + weaponCost + "$";
         }
 
         void EquipWeapon()
         {
             var selectedPlayer = InventoryMenu.Instance.CurrentPlayer;
-            if (selectedPlayer == 1) PlayerDatabase.Instance.playerOneEquipedWeapon = weaponItemData;
-            else if (selectedPlayer == 2) PlayerDatabase.Instance.playerTwoEquipedWeapon = weaponItemData;
+            var data = PlayerDatabase.Instance;
+            data.PlayersItemList[selectedPlayer - 1].PlayerEquipedWeapon = weaponItemData;
 
-            InventoryMenu.Instance.ChangeEquipedWeaponText(weaponItemData);
+            InventoryMenu.Instance.ChangeEquipedWeaponText(WeaponItemData);
+
+            SetItemHighlight();
         }
 
-        private void OnDestroy()
+        private void SellWeapon()
         {
-        //    InventoryMenu.Instance.notifyPlayerChange -= SetVisibleButtons;
+            var selectedPlayer = InventoryMenu.Instance.CurrentPlayer;
+            var data = PlayerDatabase.Instance;
+            if (data.PlayersItemList[selectedPlayer - 1].PlayerEquipedWeapon == weaponItemData)
+                return;
+
+            data.PlayersItemList[selectedPlayer - 1].PlayerWeapons.Remove(weaponItemData);
+            data.PlayersCrystals += weaponCost;
+            InventoryMenu.Instance.SetPlayerCrystalsValueText();
+
+            Destroy(transform.parent.gameObject);
+        }
+
+        public void SetItemHighlight()
+        {
+            var panel = FindObjectOfType<ItemPanel>();
+            panel.ResetWeaponContent();
+            var bg = equipButton.transform.parent.parent;
+            bg.GetComponent<Image>().color = Color.green;
         }
     }
 

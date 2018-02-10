@@ -548,7 +548,6 @@
     <Compile Include="Assets\_Camera&amp;UI\Menu\Mission.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Menu\RotatePlanet.cs" />
     <Compile Include="Assets\_Camera&amp;UI\Menu\SceneLoading.cs" />
-    <Compile Include="Assets\_Camera&amp;UI\Menu\WorldSettings.cs" />
     <Compile Include="Assets\_Characters\GunEndPointMark.cs" />
     <Compile Include="Assets\_Characters\IDamageable.cs" />
     <Compile Include="Assets\_Characters\_Enemy\Enemy.cs" />

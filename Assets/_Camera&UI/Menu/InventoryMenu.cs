@@ -153,11 +153,10 @@ public class InventoryMenu : MonoBehaviour {
     public void UpdateInventoryGUI()
     {
         ChangePlayerNameText();
-        if(currentPlayer == 1) ChangeEquipedWeaponText(PlayerDatabase.Instance.playerOneEquipedWeapon);
-        else if (currentPlayer == 2) ChangeEquipedWeaponText(PlayerDatabase.Instance.playerTwoEquipedWeapon);
 
-        if (currentPlayer == 1) ChangeEquipedShieldText(PlayerDatabase.Instance.playerOneEquipedShield);
-        else if (currentPlayer == 2) ChangeEquipedShieldText(PlayerDatabase.Instance.playerTwoEquipedShield);
+        var data = PlayerDatabase.Instance.PlayersItemList[currentPlayer-1];
+        ChangeEquipedWeaponText(data.PlayerEquipedWeapon);
+        ChangeEquipedShieldText(data.PlayerEquipedShield);
     }
     private void PrevPlayer()
     {

@@ -25,7 +25,7 @@ public class Item : MonoBehaviour {
         itemData = ItemGenerator.GenerateRandomItem();
     }
 
-    private void SetItemsData(Collider other)
+    private void SetItemsData(Collider other)   
     {
         ItemData eqipedItem = new ItemData();
         if (itemData is WeaponData)
@@ -134,6 +134,8 @@ public class Item : MonoBehaviour {
 
     private void EquipItem()
     {
+        if (connectedPlayer.isPlayerDisabled) return;
+
         if(itemData is WeaponData)
         {
             EquipWeapon();
@@ -157,9 +159,11 @@ public class Item : MonoBehaviour {
         yield return new WaitForSeconds(0.1f);
 
         var shield = (ShieldData)itemData;
+        var data = PlayerDatabase.Instance;
+        var no = connectedPlayer.GetPlayerNumber() - 1;
 
-        if (connectedPlayer.GetPlayerNumber() == 1) PlayerDatabase.Instance.playerOneShieldItem.Add(shield);
-        else if (connectedPlayer.GetPlayerNumber() == 2) PlayerDatabase.Instance.playerTwoShieldItem.Add(shield);
+        data.PlayersItemList[no].PlayerShields.Add(shield);
+        data.PlayersItemList[no].PlayerEquipedShield = shield;
 
         switch (shield.ShieldType)
         {
@@ -177,7 +181,6 @@ public class Item : MonoBehaviour {
                 break;
 
         }
-
         var shieldComponent = connectedPlayer.GetComponent<Shields.Shield>();
 
         shieldComponent.MaxEnergy = shield.Energy;
@@ -197,9 +200,12 @@ public class Item : MonoBehaviour {
         yield return new WaitForSeconds(0.1f);
 
         var weapon = (WeaponData)itemData;
+        var data = PlayerDatabase.Instance;
+        var no = connectedPlayer.GetPlayerNumber() - 1;
 
-        if(connectedPlayer.GetPlayerNumber() == 1) PlayerDatabase.Instance.playerOneWeaponsItem.Add(weapon);
-        else if (connectedPlayer.GetPlayerNumber() == 2) PlayerDatabase.Instance.playerTwoWeaponsItem.Add(weapon);
+        data.PlayersItemList[no].PlayerWeapons.Add(weapon);
+        data.PlayersItemList[no].PlayerEquipedWeapon = weapon;
+
 
         switch (weapon.WeaponType)
         {
@@ -250,7 +256,6 @@ public class Item : MonoBehaviour {
     {
         if (other.gameObject.layer == Layers.PLAYER)
         {
-            if (!connectedPlayer) return;
             canvas.gameObject.SetActive(false);
         }
     }

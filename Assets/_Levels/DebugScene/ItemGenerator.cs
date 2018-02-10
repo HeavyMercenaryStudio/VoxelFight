@@ -153,11 +153,13 @@ namespace Items
         public int Speed;
         public GameObject Projectile;
         public GameObject Muzzle;
+        public bool equiped;
     }
     public class ShieldData : ItemData
     {
         public ShieldType ShieldType;
         public float Energy;
         public GameObject ShieldPrefab;
+        public bool equiped;
     }
 }

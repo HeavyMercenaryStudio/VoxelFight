@@ -1,8 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Items;
 using Weapons;
 using Shields;
+
+public class PlayerItemData
+{
+    public WeaponData PlayerEquipedWeapon;
+    public ShieldData PlayerEquipedShield;
+    public List<WeaponData> PlayerWeapons = new List<WeaponData>();
+    public List<ShieldData> PlayerShields = new List<ShieldData>();
+
+    public void FirstLoad()
+    {
+        var weapon = ItemGenerator.DefaultWeapon();
+        PlayerEquipedWeapon = weapon;
+        PlayerWeapons.Add(weapon);
+
+        var shield = ItemGenerator.DefaultShield();
+        PlayerShields.Add(shield);
+        PlayerEquipedShield = shield;
+    }
+}
+
+
 
 public class PlayerDatabase : MonoBehaviour
 {
@@ -20,15 +42,7 @@ public class PlayerDatabase : MonoBehaviour
         }
     }
 
-    public Items.WeaponData playerOneEquipedWeapon;
-    public Items.ShieldData playerOneEquipedShield;
-    public Items.WeaponData playerTwoEquipedWeapon;
-    public Items.ShieldData playerTwoEquipedShield;
-
-    public List<Items.WeaponData> playerOneWeaponsItem = new List<Items.WeaponData>();
-    public List<Items.ShieldData> playerOneShieldItem = new List<Items.ShieldData>();
-    public List<Items.WeaponData> playerTwoWeaponsItem = new List<Items.WeaponData>();
-    public List<Items.ShieldData> playerTwoShieldItem = new List<Items.ShieldData>();
+    public PlayerItemData[] PlayersItemList;
 
     void Awake()
     {
@@ -39,31 +53,7 @@ public class PlayerDatabase : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
 
-       
         
-
-        if (playerOneWeaponsItem.Count == 0)
-        {
-            playerOneWeaponsItem.Add(Items.ItemGenerator.DefaultWeapon());
-            playerOneEquipedWeapon = playerOneWeaponsItem[0];
-        }
-        if (playerOneShieldItem.Count == 0)
-        {
-            playerOneShieldItem.Add(Items.ItemGenerator.DefaultShield());
-            playerOneEquipedShield = playerOneShieldItem[0];
-        }
-        if (playerTwoWeaponsItem.Count == 0)
-        {
-            playerTwoWeaponsItem.Add(Items.ItemGenerator.DefaultWeapon());
-            playerTwoEquipedWeapon = playerTwoWeaponsItem[0];
-        }
-        if (playerTwoShieldItem.Count == 0)
-        {
-            playerTwoShieldItem.Add(Items.ItemGenerator.DefaultShield());
-            playerTwoEquipedShield = playerTwoShieldItem[0];
-        }
-
-
     }
 
     private int playersCrystals;
@@ -83,16 +73,7 @@ public class PlayerDatabase : MonoBehaviour
 
     public void AddWeapon(GameObject player, int index)
     {
-        switch (index)
-        {
-            case 0:
-                SelectWeapon(playerOneEquipedWeapon, player);
-                break;
-
-            case 1:
-                SelectWeapon(playerTwoEquipedWeapon, player);
-                break;
-        }
+        SelectWeapon(PlayersItemList[index].PlayerEquipedWeapon, player);
     }
     private void SelectWeapon(Items.WeaponData weaponData, GameObject player)
     {
@@ -126,16 +107,7 @@ public class PlayerDatabase : MonoBehaviour
 
     public void AddShield(GameObject player, int index)
     {
-        switch (index)
-        {
-            case 0:
-                SelectShield(playerOneEquipedShield, player);
-                break;
-
-            case 1:
-                SelectShield(playerTwoEquipedShield, player);
-                break;
-        }
+        SelectShield(PlayersItemList[index].PlayerEquipedShield, player);
     }
     private void SelectShield(Items.ShieldData shieldData, GameObject player)
     {

@@ -13,6 +13,7 @@ namespace Weapons {
         {
             MuzzleEffect ();
 
+            gunEndPoint.localRotation = Quaternion.identity;
             GameObject bulet = Instantiate (Bullet, gunEndPoint.position, Quaternion.identity) as GameObject;
             var proj = bulet.GetComponent<RocketProjectile> ();
             proj.SetDamage (Damage);

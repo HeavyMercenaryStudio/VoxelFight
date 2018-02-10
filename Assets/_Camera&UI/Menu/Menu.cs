@@ -62,6 +62,20 @@ namespace CameraUI {
                 backToMainMenuButon.gameObject.SetActive (false);
                 characterPanelButon.gameObject.SetActive(false);
                 missionsPanelButon.gameObject.SetActive(false);
+
+                var data = PlayerDatabase.Instance;
+                data.PlayersItemList = new PlayerItemData[4];
+
+                for (int i = 0; i < data.PlayersItemList.Length; i++){
+                    data.PlayersItemList[i] = new PlayerItemData();
+                    data.PlayersItemList[i].FirstLoad();
+                }
+
+                for (int i = 1; i <= WorldData.NumberOfPlayers; i++){
+                    WorldData.PlayerHealth.Add(i, 100);
+                }
+                WorldData.InifinityModeSize = 11;
+
             }
         }
         private void AddButtonsListeners()

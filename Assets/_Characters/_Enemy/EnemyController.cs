@@ -23,6 +23,7 @@ namespace Characters {
         [SerializeField] float movementSpeed; // movement speed of enemy
         [SerializeField] float attackRadius; // radius area to start attacking target
 
+
         private Weapon enemyWeapon; // weapons used by enemy
         private NavMeshAgent agent; // nav mesh agent used to navigate 
 
