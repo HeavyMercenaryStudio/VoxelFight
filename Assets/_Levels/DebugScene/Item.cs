@@ -124,20 +124,24 @@ public class Item : MonoBehaviour {
         {
             if (!connectedPlayer) return;
 
-            if (Input.GetButtonDown("Equip" + connectedPlayer.GetPlayerNumber()))
-            {
-                EquipItem();
+            var no = connectedPlayer.GetPlayerNumber();
+            if (Input.GetButtonDown("Equip" + no))
+            { 
+                EquipItem(other);
                 connectedPlayer.isPlayerDisabled = true;
             }
         }
     }
 
-    private void EquipItem()
+    private void EquipItem(Collider other)
     {
         if (connectedPlayer.isPlayerDisabled) return;
 
-        if(itemData is WeaponData)
+        var no = connectedPlayer.GetPlayerNumber();
+        if (itemData is WeaponData)
         {
+            PlayerDatabase.Instance.PlayersItemList[no - 1].PlayerEquipedWeapon.Ammo = 
+                other.GetComponent<Weapons.Weapon>().GetCurrentAmmo();
             EquipWeapon();
         }
         else if (itemData is ShieldData)
@@ -233,7 +237,7 @@ public class Item : MonoBehaviour {
         weaponComponet.BulletSpeed = weapon.Speed;
         weaponComponet.Bullet = weapon.Projectile;
         weaponComponet.Muzzle = weapon.Muzzle;
-
+        weaponComponet.soundEnabled = true;
         connectedPlayer.Weapon = weaponComponet;
 
         connectedPlayer.isPlayerDisabled = false;

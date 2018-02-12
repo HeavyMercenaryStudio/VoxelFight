@@ -21,6 +21,9 @@ namespace Weapons {
 
             foreach (Collider c in hitColliders)
             {
+                var missionObjectve = other.GetComponent<WorldObjects.MissionObjective>();
+                if (missionObjectve && shooter.layer == Layers.PLAYER) return;
+
                 Component destroyable = c.GetComponent(typeof(IDamageable));
                 if (destroyable)
                 { // if target is destroyable

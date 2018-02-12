@@ -18,8 +18,6 @@ namespace Characters {
         [SerializeField] int playerNumber; // player nubmer
         [SerializeField] float maxHealth; // max player health
         [SerializeField] GameObject bloodPrefab; // after hit prefab 
-        [SerializeField] SoundMenager audioClips; //sounds of player 
-
 
         public delegate void OnPlayerDead();
         public static event OnPlayerDead notifyPlayerDead;
@@ -45,6 +43,12 @@ namespace Characters {
         {
             Weapon.Realod (ammoPerSecond);
             playerGUI.UpdateAmmoText (Weapon.GetCurrentAmmo());
+        } // fill player ammo 
+        public void RenownEnergy(float value)
+        {
+            shield.Renown(value);
+            playerGUI.UpdateAmmoText(Weapon.GetCurrentAmmo());
+            playerGUI.UpdateEnergyInfo(shield.CurrentEnergy);
         } // fill player ammo 
 
         public int GetPlayerNumber()
@@ -94,6 +98,8 @@ namespace Characters {
 
             SetHealthAsPercentage(WorldData.PlayerHealth[playerNumber]);
             StartCoroutine(UpdateGUI());
+
+            weapon.soundEnabled = true;
         }
         IEnumerator UpdateGUI()
         {
@@ -158,10 +164,13 @@ namespace Characters {
 
         private void UpdateAmmo()
         {
-            if (AudioMenager.Instance != null) AudioMenager.Instance.PlayClip (audioClips.GetShootClip ());
             playerGUI.UpdateAmmoText (Weapon.GetCurrentAmmo ()); // if its player
         }
 
-        
+        private void OnDestroy()
+        {
+            PlayerDatabase.Instance.PlayersItemList[playerNumber - 1].PlayerEquipedWeapon.Ammo = 
+            GetComponent<Weapons.Weapon>().GetCurrentAmmo();
+        }
     }
 }

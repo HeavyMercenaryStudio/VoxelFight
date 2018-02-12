@@ -575,6 +575,7 @@
     <Compile Include="Assets\_Levels\DebugScene\ItemGenerator.cs" />
     <Compile Include="Assets\_Levels\DebugScene\ItemPanel.cs" />
     <Compile Include="Assets\_Levels\DebugScene\Layers.cs" />
+    <Compile Include="Assets\_Levels\DebugScene\flatoingtext\FloatingText.cs" />
     <Compile Include="Assets\_Levels\MapGenerationTestDEbug\DestrictiveWall.cs" />
     <Compile Include="Assets\_Levels\MazeMode\EnemySpawner.cs" />
     <Compile Include="Assets\_Levels\MazeMode\InteractiveMapPlane.cs" />

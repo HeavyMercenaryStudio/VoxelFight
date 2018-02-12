@@ -35,6 +35,7 @@ namespace Characters {
             agent.speed = movementSpeed;
             
             enemyWeapon = GetComponent<Weapon> (); // get weapon
+            enemyWeapon.soundEnabled = false;
 
             StartCoroutine(ThinkTime());
         }

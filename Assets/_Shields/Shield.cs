@@ -9,7 +9,7 @@ namespace Shields {
         [SerializeField] GameObject shieldPrefab;
 
         float currentEnergy;
-        float energyLostPerSecond = 0.5f;
+        float energyLostPerSecond = 0.25f;
         float energyGetPerSecond = 0.5f;
         GameObject shield;
 
@@ -20,6 +20,10 @@ namespace Shields {
             {
                 return currentEnergy/MaxEnergy;
             }
+        }
+        public float GetCurrentEnergy()
+        {
+            return currentEnergy;
         }
 
         bool active;
@@ -75,6 +79,12 @@ namespace Shields {
         public bool GetFireButtonDown()
         {
             return fireButtonDown;
+        }
+
+        public void Renown(float value)
+        {
+            float energy = currentEnergy + (value / 100f * maxEnergy);
+            currentEnergy = Mathf.Clamp(energy, 0, maxEnergy);
         }
 
         // Use this for initialization

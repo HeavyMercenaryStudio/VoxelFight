@@ -20,9 +20,21 @@ namespace Audio {
             return hitClips[n];
         }
 
-        public AudioClip GetShootClip()
+        public AudioClip GetMachineWeaponClip()
         {
             return shootClips[0];
+        }
+        public AudioClip GetLaserWeaponClip()
+        {
+            return shootClips[1];
+        }
+        public AudioClip GetRocketSoundClip()
+        {
+            return shootClips[2];
+        }
+        public AudioClip GetShotgunSoundClip()
+        {
+            return shootClips[3];
         }
 
         public AudioClip GetMenuClip()

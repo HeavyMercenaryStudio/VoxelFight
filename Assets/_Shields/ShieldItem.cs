@@ -20,6 +20,7 @@ namespace Shields
     {
         [SerializeField] Button equipButton;
         [SerializeField] Button sellButton;
+        [SerializeField] Button fillButton;
         [SerializeField] Text shieldText;
 
         private Items.ShieldData shieldItemData;
@@ -47,12 +48,26 @@ namespace Shields
         {
             equipButton.onClick.AddListener(EquipShield);
             sellButton.onClick.AddListener(SellShield);
+            fillButton.onClick.AddListener(FillWeapon);
+
 
             shieldCost = (int)shieldItemData.Energy;
             var txt = sellButton.GetComponentInChildren<Text>();
             txt.text = "SELL \n" + shieldCost + "$";
         }
+        private void FillWeapon()
+        {
+            var data = PlayerDatabase.Instance;
+            if (data.PlayersCrystals <= 0) return;
 
+            data.PlayersCrystals -= 100;
+            InventoryMenu.Instance.UpdateInventoryGUI();
+            InventoryMenu.Instance.SetPlayerCrystalsValueText();
+
+            var amount = 0.05f * ShieldItemData.Energy;
+            amount = Mathf.Clamp(amount, 20, 100);
+            ShieldItemData.Energy += (int)amount;
+        }
         private void SellShield()
         {
             var selectedPlayer = InventoryMenu.Instance.CurrentPlayer;

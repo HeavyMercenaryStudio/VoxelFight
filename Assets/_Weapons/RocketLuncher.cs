@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Audio;
+using UnityEngine;
 
 namespace Weapons { 
 
@@ -12,6 +13,9 @@ namespace Weapons {
         public override void Shoot()
         {
             MuzzleEffect ();
+
+            if (AudioMenager.Instance != null && soundEnabled)
+                AudioMenager.Instance.PlayClip(audioClips.GetRocketSoundClip());
 
             gunEndPoint.localRotation = Quaternion.identity;
             GameObject bulet = Instantiate (Bullet, gunEndPoint.position, Quaternion.identity) as GameObject;

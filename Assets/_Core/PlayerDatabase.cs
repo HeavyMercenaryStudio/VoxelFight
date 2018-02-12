@@ -44,6 +44,9 @@ public class PlayerDatabase : MonoBehaviour
 
     public PlayerItemData[] PlayersItemList;
 
+    public delegate void CrystalValueChange(int crystals);
+    public CrystalValueChange crystalValueChanged;
+
     void Awake()
     {
         if (instance == null)
@@ -52,8 +55,6 @@ public class PlayerDatabase : MonoBehaviour
             Destroy(this.gameObject);
 
         DontDestroyOnLoad(this.gameObject);
-
-        
     }
 
     private int playersCrystals;
@@ -68,9 +69,16 @@ public class PlayerDatabase : MonoBehaviour
         {
             playersCrystals = value;
             PlayerPrefs.SetInt("PlayerCrystals", playersCrystals);
+            if(crystalValueChanged != null)
+                crystalValueChanged(value);
         }
     }
 
+    public void Start()
+    {
+       if(crystalValueChanged != null)
+            crystalValueChanged(playersCrystals);
+    }
     public void AddWeapon(GameObject player, int index)
     {
         SelectWeapon(PlayersItemList[index].PlayerEquipedWeapon, player);

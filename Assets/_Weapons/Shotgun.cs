@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Audio;
+using UnityEngine;
 
 namespace Weapons { 
 
@@ -22,7 +23,10 @@ namespace Weapons {
         public override void Shoot()
         {
             MuzzleEffect (); // add muzzle effect
-            
+
+            if (AudioMenager.Instance != null && soundEnabled)
+                AudioMenager.Instance.PlayClip(audioClips.GetShotgunSoundClip());
+
             gunEndPoint.localRotation = Quaternion.identity; //reset rotation...
             gunEndPoint.Rotate(gunEndPoint.up, -angle/2); //...
 

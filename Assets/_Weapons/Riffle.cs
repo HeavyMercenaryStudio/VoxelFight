@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Audio;
+using UnityEngine;
 
 namespace Weapons { 
 
@@ -9,6 +10,9 @@ namespace Weapons {
     {
         public override void Shoot()
         {
+            if (AudioMenager.Instance != null && soundEnabled)
+                AudioMenager.Instance.PlayClip(audioClips.GetMachineWeaponClip());
+
             AddDispersion ();
 
             MuzzleEffect ();

@@ -33,9 +33,14 @@ namespace Weapons {
 	    public void OnTriggerEnter(Collider other)
 	    {
             if (other.gameObject == null) return;
+            if (shooter == null) Destroy(gameObject);
+
             if (other.gameObject.layer == shooter.layer || other.gameObject.layer == gameObject.layer)
                 return; // friend fire off
 
+            var missionObjectve = other.GetComponent<WorldObjects.MissionObjective>();
+            if (missionObjectve && shooter.layer == Layers.PLAYER) return;
+            
 
             Component destroyable = other.GetComponent (typeof (IDamageable));
             

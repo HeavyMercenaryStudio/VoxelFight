@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Audio;
+using UnityEngine;
 
 namespace Weapons { 
 
@@ -42,8 +43,11 @@ namespace Weapons {
             MuzzleEffect ();
             RaycastHit hit;
 
+            if (AudioMenager.Instance != null && soundEnabled)
+                AudioMenager.Instance.PlayClip(audioClips.GetLaserWeaponClip());
+
             //cast raycast every attack speed second
-             laserLine.SetPosition(0, gunEndPoint.position);
+            laserLine.SetPosition(0, gunEndPoint.position);
             if (Physics.Raycast(gunEndPoint.position, gunEndPoint.forward, out hit, Range, ~(1 << Layers.INTERACTIVE_OBJECT)))
             {
                 SetLasetPosition(hit.point); //set line render point to hit position

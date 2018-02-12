@@ -19,6 +19,7 @@ namespace Weapons {
         protected Transform gunEndPoint; // spawn bullet at this position
         [SerializeField] private GameObject bullet;  // bulet prefab
         [SerializeField] private GameObject muzzle;  // muzzle effect prefab
+        [SerializeField] protected Audio.SoundMenager audioClips; //sounds of player 
 
         int currentAmmo;
         float lastShoot;
@@ -121,6 +122,7 @@ namespace Weapons {
             }
         }
 
+        public bool soundEnabled;
         public virtual void SetFireButtonDown(bool value){
             fireButtonDown = value;
         }
@@ -142,6 +144,8 @@ namespace Weapons {
         {
             currentAmmo = maxAmmo;
             gunEndPoint = GetComponentInChildren<GunEndPointMark>().transform;
+
+            audioClips = Resources.Load<Audio.SoundMenager>("WeaponSounds");
         }
 
         public bool TryShoot()
@@ -165,8 +169,6 @@ namespace Weapons {
         {
         
         }
-        
-       
 
     }
 }
