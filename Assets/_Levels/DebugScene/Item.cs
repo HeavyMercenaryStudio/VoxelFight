@@ -160,7 +160,7 @@ public class Item : MonoBehaviour {
     }
     IEnumerator AddShield()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
 
         var shield = (ShieldData)itemData;
         var data = PlayerDatabase.Instance;
@@ -201,7 +201,7 @@ public class Item : MonoBehaviour {
     }
     IEnumerator AddWeapon()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
 
         var weapon = (WeaponData)itemData;
         var data = PlayerDatabase.Instance;
