@@ -117,13 +117,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Voxel Fight.Plugins.csproj">
+      <Project>{88211413-518D-9F1B-A9F1-74252A2DC73C}</Project>
+      <Name>Voxel Fight.Plugins</Name>
+    </ProjectReference>
     <ProjectReference Include="Voxel Fight.csproj">
       <Project>{B5088EDD-F388-83E6-CEAE-275A78D1B9DD}</Project>
       <Name>Voxel Fight</Name>
     </ProjectReference>
+    <ProjectReference Include="Voxel Fight.Editor.Plugins.csproj">
+      <Project>{7C0B64C1-E5F1-10A7-0599-814F26711C6D}</Project>
+      <Name>Voxel Fight.Editor.Plugins</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\ExportAssetBundles.cs" />
+    <Compile Include="Assets\FXAA\Scripts\Editor\FXAAEditor.cs" />
     <Compile Include="Assets\InControl\Editor\EditorTextures.cs" />
     <Compile Include="Assets\InControl\Editor\EditorUtility.cs" />
     <Compile Include="Assets\InControl\Editor\InControlBuilder.cs" />
@@ -193,6 +202,8 @@
     <Compile Include="Assets\PostProcessing\Editor\Utils\ReflectionUtils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\FXAA\Shaders\Fxaa3.shader" />
+    <None Include="Assets\FXAA\Shaders\Fxaa3_9.cginc" />
     <None Include="Assets\InControl\Readme\CHANGELOG.txt" />
     <None Include="Assets\InControl\Readme\README.txt" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
@@ -236,6 +247,34 @@
     <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
     <None Include="Assets\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
+    <None Include="Assets\Standard Assets\Effects\AmbientOcclusion\Resources\AmbientOcclusion.cginc" />
+    <None Include="Assets\Standard Assets\Effects\AmbientOcclusion\Resources\AmbientOcclusion.shader" />
+    <None Include="Assets\Standard Assets\Effects\AmbientOcclusion\Resources\Common.cginc" />
+    <None Include="Assets\Standard Assets\Effects\AmbientOcclusion\Resources\Composition.cginc" />
+    <None Include="Assets\Standard Assets\Effects\AmbientOcclusion\Resources\SeparableBlur.cginc" />
+    <None Include="Assets\Standard Assets\Effects\AntiAliasing\FXAA\Resources\FXAA.shader" />
+    <None Include="Assets\Standard Assets\Effects\AntiAliasing\FXAA\Resources\FXAA3.cginc" />
+    <None Include="Assets\Standard Assets\Effects\AntiAliasing\SMAA\Resources\SMAA.cginc" />
+    <None Include="Assets\Standard Assets\Effects\AntiAliasing\SMAA\Resources\SMAA.shader" />
+    <None Include="Assets\Standard Assets\Effects\Bloom\Resources\Bloom.cginc" />
+    <None Include="Assets\Standard Assets\Effects\Bloom\Resources\Bloom.shader" />
+    <None Include="Assets\Standard Assets\Effects\DepthOfField\Resources\BokehSplatting.shader" />
+    <None Include="Assets\Standard Assets\Effects\DepthOfField\Resources\DepthOfField.shader" />
+    <None Include="Assets\Standard Assets\Effects\DepthOfField\Resources\MedianFilter.shader" />
+    <None Include="Assets\Standard Assets\Effects\LensAberrations\Resources\LensAberrations.shader" />
+    <None Include="Assets\Standard Assets\Effects\MotionBlur\Resources\Common.cginc" />
+    <None Include="Assets\Standard Assets\Effects\MotionBlur\Resources\FrameBlending.shader" />
+    <None Include="Assets\Standard Assets\Effects\MotionBlur\Resources\Prefilter.cginc" />
+    <None Include="Assets\Standard Assets\Effects\MotionBlur\Resources\Reconstruction.cginc" />
+    <None Include="Assets\Standard Assets\Effects\MotionBlur\Resources\Reconstruction.shader" />
+    <None Include="Assets\Standard Assets\Effects\ScreenSpaceReflection\Resources\ScreenSpaceRaytrace.cginc" />
+    <None Include="Assets\Standard Assets\Effects\ScreenSpaceReflection\Resources\ScreenSpaceReflection.shader" />
+    <None Include="Assets\Standard Assets\Effects\TemporalAntiAliasing\Resources\TemporalAntiAliasing.cginc" />
+    <None Include="Assets\Standard Assets\Effects\TemporalAntiAliasing\Resources\TemporalAntiAliasing.shader" />
+    <None Include="Assets\Standard Assets\Effects\TonemappingColorGrading\Resources\HistogramCompute.compute" />
+    <None Include="Assets\Standard Assets\Effects\TonemappingColorGrading\Resources\HistogramRender.shader" />
+    <None Include="Assets\Standard Assets\Effects\TonemappingColorGrading\Resources\TonemappingColorGrading.cginc" />
+    <None Include="Assets\Standard Assets\Effects\TonemappingColorGrading\Resources\TonemappingColorGrading.shader" />
     <None Include="Assets\_Characters\_Player\Default_OverlayNoZTest.shader" />
     <None Include="Assets\_Characters\_Player\StandardOutline.shader" />
     <None Include="Assets\_Characters\glow.shader" />
