@@ -10,6 +10,12 @@ namespace Weapons {
     {
         [SerializeField] float explosionRadius = 8;
    
+        public void Start()
+        {
+            base.Start();
+            Name = "ROCKET LUNCHER";
+        }
+
         public override void Shoot()
         {
             MuzzleEffect ();
@@ -25,6 +31,7 @@ namespace Weapons {
             proj.SetShooter (this.gameObject);
             proj.SetExplosionRadius(explosionRadius);
             proj.GetComponent<Rigidbody> ().velocity = gunEndPoint.forward * BulletSpeed;
+            proj.transform.rotation = Quaternion.LookRotation(gunEndPoint.forward);
 
         }
 

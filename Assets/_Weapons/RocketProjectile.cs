@@ -7,6 +7,7 @@ namespace Weapons {
     public class RocketProjectile :  Projectile{
 
         float explosionRadius;
+
         public void SetExplosionRadius(float radius)
         {
             explosionRadius = radius;
@@ -33,8 +34,16 @@ namespace Weapons {
 
             if (other.gameObject.layer != Layers.INTERACTIVE_OBJECT){
                 Hit();
-                Destroy(this.gameObject);
+                DestroyObject();
             }
+        }
+
+        public override void DestroyObject()
+        {
+            var particle = GetComponentInChildren<ParticleSystem>();
+            particle.transform.SetParent(null);
+            Destroy(particle, 0.5f);
+            Destroy(this.gameObject);
         }
 
         private void OnDrawGizmos()

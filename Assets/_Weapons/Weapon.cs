@@ -21,6 +21,8 @@ namespace Weapons {
         [SerializeField] private GameObject muzzle;  // muzzle effect prefab
         [SerializeField] protected Audio.SoundMenager audioClips; //sounds of player 
 
+        public string Name = "WEAPON";
+
         int currentAmmo;
         float lastShoot;
         bool fireButtonDown; // if fire button is clicked ///

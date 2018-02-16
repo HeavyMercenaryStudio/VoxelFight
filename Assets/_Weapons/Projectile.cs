@@ -74,7 +74,12 @@ namespace Weapons {
             //Check distance to shooter and destroy if above
             float distance =  (this.transform.position - shooter.transform.position).magnitude;
             if (distance > destroyRange)
-                Destroy (gameObject);
+                DestroyObject();
+        }
+
+        public virtual void DestroyObject()
+        {
+            Destroy(gameObject);
         }
     }
 }

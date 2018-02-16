@@ -236,11 +236,12 @@
     <None Include="Assets\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
     <None Include="Assets\PostProcessing\Utilities\CustomMotionTexture\Shaders\CustomMotionVectorTexture.shader" />
-    <None Include="Assets\Stagit\SkyboxEarthPlanets\readme.txt" />
-    <None Include="Assets\_Characters\_Enemy\glow.shader" />
-    <None Include="Assets\_Levels\Menu\Earth\Text3D.shader" />
-    <None Include="Assets\_Shields\Effects\Material&amp;Shaders\BarierShader.shader" />
-    <None Include="Assets\_Shields\Effects\Material&amp;Shaders\BarierShader2.shader" />
+    <None Include="Assets\_Characters\_Player\Default_OverlayNoZTest.shader" />
+    <None Include="Assets\_Characters\_Player\StandardOutline.shader" />
+    <None Include="Assets\_Characters\glow.shader" />
+    <None Include="Assets\_Levels\Menu\Text3D\Text3D.shader" />
+    <None Include="Assets\_Shields\Material&amp;Shaders\BarierShader.shader" />
+    <None Include="Assets\_Shields\Material&amp;Shaders\BarierShader2.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

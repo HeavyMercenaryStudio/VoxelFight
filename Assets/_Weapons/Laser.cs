@@ -29,6 +29,7 @@ namespace Weapons {
         private new void Start()
         {
             base.Start();
+            Name = "LASER";
             GameObject laser = Instantiate(Bullet, gunEndPoint.position, Quaternion.identity) as GameObject;
             gunEndPoint.localRotation = Quaternion.identity; 
             laserHitParticleEffect = laser.transform.GetChild(0).gameObject;

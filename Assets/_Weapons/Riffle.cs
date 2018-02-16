@@ -8,6 +8,13 @@ namespace Weapons {
     /// </summary>
     public class Riffle : Weapon
     {
+        public new void Start()
+        {
+            base.Start();
+            Name = "RIFLE";
+        }
+
+
         public override void Shoot()
         {
             if (AudioMenager.Instance != null && soundEnabled)

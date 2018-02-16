@@ -21,7 +21,7 @@ namespace Characters {
 
         public delegate void OnPlayerDead();
         public static event OnPlayerDead notifyPlayerDead;
-        public bool isPlayerDisabled;
+        private bool isPlayerDisabled;
 
         public float GetHealthAsPercentage()
         {
@@ -87,6 +87,21 @@ namespace Characters {
             set
             {
                 shield = value;
+            }
+        }
+
+        public bool IsPlayerDisabled
+        {
+            get
+            {
+                return isPlayerDisabled;
+            }
+
+            set
+            {
+                isPlayerDisabled = value;
+                shield.SetFireButtonDown(false);
+                weapon.SetFireButtonDown(false);
             }
         }
 

@@ -18,6 +18,7 @@ namespace Weapons {
         {
             base.Start ();
             anglePerBullet = angle / shotgunBullets; // calculate angle to shoot bullets
+            Name = "SHOTGUN";
         }
 
         public override void Shoot()
