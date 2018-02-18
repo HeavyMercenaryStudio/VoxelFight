@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\ExportAssetBundles.cs" />
+    <Compile Include="Assets\Editor\WayPointsEditor.cs" />
     <Compile Include="Assets\FXAA\Scripts\Editor\FXAAEditor.cs" />
     <Compile Include="Assets\InControl\Editor\EditorTextures.cs" />
     <Compile Include="Assets\InControl\Editor\EditorUtility.cs" />

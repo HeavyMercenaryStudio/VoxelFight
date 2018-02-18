@@ -19,14 +19,13 @@ namespace Menagers {
         GameGui GAME_GUI;
 
         [SerializeField] List<GameObject> players;
-
-        Vector3 playerSpawnPosition = new Vector3 (-20, 4, 0);
+        [SerializeField] Transform playerSpawnPoint;
 
         private void Awake()
         {
             List<Transform> targets = new List<Transform> (); // create new list 
             for (int i = 0; i < WorldData.NumberOfPlayers; i++){// instatiate new players... 
-              GameObject player = Instantiate (players[i], playerSpawnPosition + new Vector3(i * 5, 0, 0), Quaternion.identity);
+              GameObject player = Instantiate (players[i], playerSpawnPoint.position + new Vector3(i * 5, 0, 0), Quaternion.identity);
 
               PlayerDatabase.Instance.AddWeapon(player, i);
               PlayerDatabase.Instance.AddShield(player, i);

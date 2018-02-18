@@ -581,6 +581,8 @@
     <Compile Include="Assets\_Enviorment\Item\ItemGenerator.cs" />
     <Compile Include="Assets\_Enviorment\Item\ItemPanel.cs" />
     <Compile Include="Assets\_Enviorment\Platform\RepairStation.cs" />
+    <Compile Include="Assets\_Levels\DebugScene\CityDebug\Vehicle.cs" />
+    <Compile Include="Assets\_Levels\DebugScene\CityDebug\WayPoints.cs" />
     <Compile Include="Assets\_Levels\DebugScene\DebugSettings.cs" />
     <Compile Include="Assets\_Levels\MazeMode\DestrictiveWall.cs" />
     <Compile Include="Assets\_Levels\MazeMode\MazeExit.cs" />
