@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using CameraUI;
 using Data;
+using System;
 
 public class Map : MonoBehaviour {
 
@@ -13,6 +14,13 @@ public class Map : MonoBehaviour {
 
     void Start()
     {
+        StartCoroutine(LoadMap());
+    }
+
+    private IEnumerator LoadMap()
+    {
+        yield return new WaitForSeconds(0.1f);
+
         var players = FindObjectOfType<CameraFollow>().GetPlayers();
         playersMarks = new Renderer[players.Length];
         for (int i = 0; i < players.Length; i++)
@@ -25,7 +33,6 @@ public class Map : MonoBehaviour {
         StartCoroutine(UpdateMap());
     }
 
-    
     IEnumerator UpdateMap()
     {
         while (true)
