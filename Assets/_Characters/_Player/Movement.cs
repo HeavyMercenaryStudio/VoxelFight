@@ -1,5 +1,4 @@
-﻿using BindingsExample;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,8 +12,6 @@ namespace Characters
     [RequireComponent (typeof (Rigidbody))]
     public class Movement : MonoBehaviour
     {
-        PlayerActions playerActions;
-
         [SerializeField] float movementSpeed = 10f; // speed of player
 
         float currentMovementSpeed;
@@ -34,8 +31,6 @@ namespace Characters
         private void Start()
         {
             currentMovementSpeed = movementSpeed;
-
-            playerActions = PlayerActions.CreateWithDefaultBindings();
 
             rigibody = GetComponent<Rigidbody> ();
             controller = GetComponent<PlayerController> ();
@@ -79,7 +74,7 @@ namespace Characters
         private void RotateWithJoy(float horizontal, float vertical)
         {
             // get input of analog
-            Vector3 turnDir = new Vector3 (playerActions.Move.X, 0f, playerActions.Move.Y);
+            Vector3 turnDir = new Vector3 (Input.GetAxis("JoystickHorizontal"), 0f, Input.GetAxis("JoystickVertical"));
 
             if (turnDir.magnitude > 0.1f) //if magniture of input vector ...
             {

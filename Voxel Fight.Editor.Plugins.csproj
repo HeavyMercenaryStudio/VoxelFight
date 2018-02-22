@@ -148,8 +148,6 @@
   <ItemGroup>
     <None Include="Assets\FXAA\Shaders\Fxaa3.shader" />
     <None Include="Assets\FXAA\Shaders\Fxaa3_9.cginc" />
-    <None Include="Assets\InControl\Readme\CHANGELOG.txt" />
-    <None Include="Assets\InControl\Readme\README.txt" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\HistogramRender.shader" />
     <None Include="Assets\PostProcessing\Editor Resources\Monitors\ParadeRender.shader" />
