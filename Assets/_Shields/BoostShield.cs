@@ -21,6 +21,7 @@ namespace Shields {
         {
             base.Start();
             controller = GetComponent<Movement>();
+            Name = "SPEED SHIELD";
         }
     }
 }

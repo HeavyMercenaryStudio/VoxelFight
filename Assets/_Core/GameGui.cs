@@ -26,6 +26,8 @@ namespace CameraUI {
         {
             backToMenuButton.onClick.AddListener (BackToMenu);
             PlayerDatabase.Instance.crystalValueChanged += UpdateCrystalText;
+
+            UpdateCrystalText(PlayerDatabase.Instance.PlayersCrystals);
         }
         private void BackToMenu()
         {
@@ -42,7 +44,7 @@ namespace CameraUI {
         }
         private void ShowMissionEndPanel()
         {
-            wavePanel.SetActive (false); //hide wave panel
+           if(wavePanel) wavePanel.SetActive (false); //hide wave panel
             missionEndPanel.SetActive (true); //show mission result panel
 
             StartCoroutine (ReturnToMenu ());

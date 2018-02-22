@@ -98,6 +98,16 @@ namespace Menagers {
         {
             GAME_GUI.Defeat (); // Update GUI panel
         }
+
+        public GameObject Item;
+	    void Update(){
+
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                Instantiate(Item, Vector3.zero, Quaternion.identity);
+            }
+
+	    }
     }
 
 }

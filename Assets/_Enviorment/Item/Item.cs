@@ -39,7 +39,7 @@ public class Item : MonoBehaviour {
             weaponData.Range = weapon.Range;
             weaponData.TimeBetweenShoot = weapon.SecondsBetweenShoot;
             weaponData.Dispersion = weapon.Dispersion;
-            weaponData.Name = weapon.GetType().ToString();
+            weaponData.Name = weapon.Name;
             eqipedItem = weaponData;
         }
         else if (itemData is ShieldData)
@@ -262,10 +262,10 @@ public class Item : MonoBehaviour {
         if (other.gameObject.layer == Layers.PLAYER)
         {
             canvas.gameObject.SetActive(false);
-            connectedPlayer.IsPlayerDisabled = false;
+            if(connectedPlayer) connectedPlayer.IsPlayerDisabled = false;
         }
     }
-
+            
     void OnDestroy()
     {
         if(connectedPlayer)

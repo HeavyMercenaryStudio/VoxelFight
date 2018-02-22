@@ -75,10 +75,10 @@ namespace Items
                 case WeaponType.Rifle:
                     weapon.Name = "RIFLE";
                     weapon.Ammo = Random.Range(1200, 2000); // TODO Consider about ranges of weapons
-                    weapon.Damage = Random.Range(10, 20); // TODO Consider about ranges of weapons
+                    weapon.Damage = Random.Range(30, 50); // TODO Consider about ranges of weapons
                     weapon.Dispersion = Random.Range(0, 10); // TODO Consider about ranges of weapons
-                    weapon.Range = Random.Range(10, 125); // TODO Consider about ranges of weapons
-                    weapon.TimeBetweenShoot = Random.Range(0.1f, 0.3f); // TODO Consider about ranges of weapons
+                    weapon.Range = Random.Range(50, 125); // TODO Consider about ranges of weapons
+                    weapon.TimeBetweenShoot = Random.Range(0.15f, 0.3f); // TODO Consider about ranges of weapons
                     weapon.Speed = 75;
                     weapon.Projectile = LoadItemPrefab("Weapons/Rifle");
                     weapon.Muzzle = LoadItemPrefab("Weapons/Muzzle");
@@ -89,18 +89,18 @@ namespace Items
                     weapon.Damage = Random.Range(0.5f, 5f); // TODO Consider about ranges of weapons
                     weapon.Dispersion = Random.Range(0, 0); // TODO Consider about ranges of weapons
                     weapon.Range = Random.Range(10, 125); // TODO Consider about ranges of weapons
-                    weapon.TimeBetweenShoot = Random.Range(0.01f, 0.04f); // TODO Consider about ranges of weapons
+                    weapon.TimeBetweenShoot = 0.01f;
                     weapon.Speed = 0;
                     weapon.Projectile = LoadItemPrefab("Weapons/Laser");
                     weapon.Muzzle = LoadItemPrefab("Weapons/Muzzle");
                     break;
                 case WeaponType.Shotgun:
                     weapon.Name = "SHOTGUN";
-                    weapon.Ammo = Random.Range(100, 1000); // TODO Consider about ranges of weapons
-                    weapon.Damage = Random.Range(0.5f, 15f); // TODO Consider about ranges of weapons
+                    weapon.Ammo = Random.Range(100, 500); // TODO Consider about ranges of weapons
+                    weapon.Damage = Random.Range(0.5f, 5f); // TODO Consider about ranges of weapons
                     weapon.Dispersion = Random.Range(0, 15); // TODO Consider about ranges of weapons
-                    weapon.Range = Random.Range(10, 125); // TODO Consider about ranges of weapons
-                    weapon.TimeBetweenShoot = Random.Range(0.1f, 0.5f); // TODO Consider about ranges of weapons
+                    weapon.Range = Random.Range(25, 125); // TODO Consider about ranges of weapons
+                    weapon.TimeBetweenShoot = Random.Range(0.2f, 0.8f); // TODO Consider about ranges of weapons
                     weapon.Speed = 100;
                     weapon.Projectile = LoadItemPrefab("Weapons/Shotgun");
                     weapon.Muzzle = LoadItemPrefab("Weapons/Muzzle");
