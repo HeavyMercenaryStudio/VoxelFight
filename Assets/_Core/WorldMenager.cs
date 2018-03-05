@@ -35,10 +35,10 @@ namespace Menagers {
             var CamF = GameObject.FindObjectOfType<CameraFollow> ();
             CamF.SetTransformTargets (targets); // Set targets to camera follow
 
+            GAME_GUI = GameObject.FindObjectOfType<GameGui>(); // FIND game gui panel on map
         }
 
         void Start () {
-            GAME_GUI = GameObject.FindObjectOfType<GameGui> (); // FIND game gui panel on map
 
             PlayerController.notifyPlayerDead += OnPlayerDead; // add listener whe player dead
 //MissionObjective.notifyOnObjectiveDestroy += OnObjectiveDestroyed; //add listener when mission obejctive destoryed 

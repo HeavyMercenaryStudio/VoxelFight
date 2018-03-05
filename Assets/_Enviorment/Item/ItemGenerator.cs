@@ -75,6 +75,7 @@ namespace Items
                 case WeaponType.Rifle:
                     weapon.Name = "RIFLE";
                     weapon.Ammo = Random.Range(1200, 2000); // TODO Consider about ranges of weapons
+                    weapon.MinRefillAmmo = 25;
                     weapon.Damage = Random.Range(30, 50); // TODO Consider about ranges of weapons
                     weapon.Dispersion = Random.Range(0, 10); // TODO Consider about ranges of weapons
                     weapon.Range = Random.Range(50, 125); // TODO Consider about ranges of weapons
@@ -86,9 +87,10 @@ namespace Items
                 case WeaponType.Laser:
                     weapon.Name = "LASER";
                     weapon.Ammo = Random.Range(3000, 10000); // TODO Consider about ranges of weapons
+                    weapon.MinRefillAmmo = 200;
                     weapon.Damage = Random.Range(0.5f, 5f); // TODO Consider about ranges of weapons
                     weapon.Dispersion = Random.Range(0, 0); // TODO Consider about ranges of weapons
-                    weapon.Range = Random.Range(10, 125); // TODO Consider about ranges of weapons
+                    weapon.Range = Random.Range(50, 125); // TODO Consider about ranges of weapons
                     weapon.TimeBetweenShoot = 0.01f;
                     weapon.Speed = 0;
                     weapon.Projectile = LoadItemPrefab("Weapons/Laser");
@@ -97,7 +99,8 @@ namespace Items
                 case WeaponType.Shotgun:
                     weapon.Name = "SHOTGUN";
                     weapon.Ammo = Random.Range(100, 500); // TODO Consider about ranges of weapons
-                    weapon.Damage = Random.Range(0.5f, 5f); // TODO Consider about ranges of weapons
+                    weapon.MinRefillAmmo = 5;
+                    weapon.Damage = Random.Range(2f, 15f); // TODO Consider about ranges of weapons
                     weapon.Dispersion = Random.Range(0, 15); // TODO Consider about ranges of weapons
                     weapon.Range = Random.Range(25, 125); // TODO Consider about ranges of weapons
                     weapon.TimeBetweenShoot = Random.Range(0.2f, 0.8f); // TODO Consider about ranges of weapons
@@ -108,6 +111,7 @@ namespace Items
                 case WeaponType.RocketLuncher:
                     weapon.Name = "ROCKET LUNCHER";
                     weapon.Ammo = Random.Range(20, 250); // TODO Consider about ranges of weapons
+                    weapon.MinRefillAmmo = 1;
                     weapon.Damage = Random.Range(20f, 40f); // TODO Consider about ranges of weapons
                     weapon.Dispersion = Random.Range(0, 0); // TODO Consider about ranges of weapons
                     weapon.Range = Random.Range(25, 125); // TODO Consider about ranges of weapons
@@ -127,6 +131,7 @@ namespace Items
 
             weapon.Name = "RIFLE";
             weapon.Ammo = 750;
+            weapon.MinRefillAmmo = 20;
             weapon.Damage = 10;
             weapon.Dispersion = 5;
             weapon.Range = 25;
@@ -147,6 +152,7 @@ namespace Items
         public WeaponType WeaponType;
         public float TimeBetweenShoot;
         public int Ammo;
+        public int MinRefillAmmo;
         public float Damage;
         public float Range;
         public int Dispersion;

@@ -22,6 +22,7 @@ namespace Weapons {
         [SerializeField] protected Audio.SoundMenager audioClips; //sounds of player 
 
         public string Name = "WEAPON";
+        public int minRefillAmmo;
 
         int currentAmmo;
         float lastShoot;
@@ -136,9 +137,9 @@ namespace Weapons {
             return currentAmmo;
         }
 
-        public void Realod(int ammoPercentage)
+        public void Realod()
         {
-            currentAmmo +=  (int)(5 + (ammoPercentage/100f * maxAmmo));
+            currentAmmo += minRefillAmmo;
         }
         public void Start()
         {

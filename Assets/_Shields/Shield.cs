@@ -111,7 +111,7 @@ namespace Shields {
 
         private void Update()
         {
-            if (!active)
+            if (!active && !fireButtonDown)
             {
                 RenownEnergy();
             }
