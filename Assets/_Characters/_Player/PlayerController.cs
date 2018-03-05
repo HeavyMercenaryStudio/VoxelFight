@@ -39,9 +39,9 @@ namespace Characters {
             playerGUI.UpdateHealthInfo (GetHealthAsPercentage ());
 
         } // heal player by amount of health percentage
-        public void ReloadMe(int ammoPerSecond)
+        public void ReloadMe()
         {
-            Weapon.Realod (ammoPerSecond);
+            Weapon.Realod ();
             playerGUI.UpdateAmmoText (Weapon.GetCurrentAmmo());
         } // fill player ammo 
         public void RenownEnergy(float value)

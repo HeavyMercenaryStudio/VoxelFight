@@ -33,6 +33,8 @@ namespace Core {
             gameGui = GameObject.FindObjectOfType<GameGui> ();
 
             Enemy.onEnemyDeath += DecreseEnemiesCount;
+
+            NextWave();
         }
 
         private void CopyDefaultWave()
@@ -139,6 +141,12 @@ namespace Core {
                 else // else continue spawning
                     numberOfEnemies++;
             }
+        }
+
+        void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, defaultWave.R);
         }
    
     }

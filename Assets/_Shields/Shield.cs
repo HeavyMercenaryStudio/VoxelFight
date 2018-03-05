@@ -8,6 +8,8 @@ namespace Shields {
         [SerializeField] float maxEnergy;
         [SerializeField] GameObject shieldPrefab;
 
+        public string Name = "SHIELD";
+
         float currentEnergy;
         float energyLostPerSecond = 0.25f;
         float energyGetPerSecond = 0.5f;
@@ -109,7 +111,7 @@ namespace Shields {
 
         private void Update()
         {
-            if (!active)
+            if (!active && !fireButtonDown)
             {
                 RenownEnergy();
             }

@@ -11,9 +11,7 @@ namespace WorldObjects {
     public class RepairStation : MonoBehaviour, IDamageable
      {
         [SerializeField] float interruptTime; // disable time
-        [SerializeField] int ammoPeecenatgePerSecond; // ammo to fill per second
         [SerializeField] float healthPercentagePerSecond; // health to fill per second
-        [SerializeField] float energyPercentagePerSecond;
         [SerializeField] Material materialToChange;
         [SerializeField] int repairCostPerSecond = 10;
         [SerializeField] GameObject popupText;
@@ -23,7 +21,7 @@ namespace WorldObjects {
 
         Canvas canvas;
         
-        void Start()
+        void Awake()
         {
             canvas = FindObjectOfType<CameraUI.GameGui>().GetComponentInChildren<Canvas>();
         }
@@ -66,13 +64,13 @@ namespace WorldObjects {
             if (player && Time.time > lastHealth && !isInterruped) //only every second if player stay on platform
             {
                 player.HealMe(healthPercentagePerSecond); // ADD percentage health
-                player.ReloadMe(ammoPeecenatgePerSecond); //add ammo
+                player.ReloadMe(); //add ammo
                // player.RenownEnergy(energyPercentagePerSecond);
 
                 data.PlayersCrystals -= repairCostPerSecond;
                 SpawnPopupText(other);
 
-                lastHealth = Time.time + 1f; //heal every second
+                lastHealth = Time.time + 2f; //heal every 2second
                 materialToChange.color = Color.green; //set color of platform
             }
         }
@@ -80,8 +78,6 @@ namespace WorldObjects {
         private void SpawnPopupText(Collider other)
         {
             GameObject popup = Instantiate(popupText, canvas.transform);
-            var pos = Camera.main.WorldToScreenPoint(other.transform.position);
-            popupText.transform.position = pos;
         }
 
         void OnTriggerExit(Collider other)

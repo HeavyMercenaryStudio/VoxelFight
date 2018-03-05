@@ -11,7 +11,8 @@ namespace Shields {
         public new void Start()
         {
             base.Start();
-            controller = GetComponent<PlayerController>();    
+            controller = GetComponent<PlayerController>();
+            Name = "HEALING SHIELD";
         }
         public override void DefenseUp()
         {

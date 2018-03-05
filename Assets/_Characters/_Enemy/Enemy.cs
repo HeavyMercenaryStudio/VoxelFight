@@ -27,7 +27,7 @@ namespace Characters
 
         float currentHealthPoints; // current hit points
 
-        float bloodDestroyTime = 5f;
+        float bloodDestroyTime = 25f;
         float explosionDestroyTime = 1f;
 
         void Start()

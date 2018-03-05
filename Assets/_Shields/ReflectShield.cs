@@ -8,6 +8,12 @@ namespace Shields {
 
         Color reflectColor = Color.blue;
 
+        public new void Start()
+        {
+            base.Start();
+            Name = "REFLECTIVE SHIELD";
+        }
+
         public override void ShieldHitted(GameObject projectile)
         {
             var renderes = projectile.GetComponentsInChildren<Renderer>();

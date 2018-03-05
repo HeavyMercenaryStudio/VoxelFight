@@ -106,6 +106,7 @@ public class PlayerDatabase : MonoBehaviour
         weaponComponet.Damage = weaponData.Damage;
         weaponComponet.SecondsBetweenShoot = weaponData.TimeBetweenShoot;
         weaponComponet.MaxAmmo = weaponData.Ammo;
+        weaponComponet.minRefillAmmo = weaponData.MinRefillAmmo;
         weaponComponet.Range = weaponData.Range;
         weaponComponet.Dispersion = weaponData.Dispersion;
         weaponComponet.BulletSpeed = weaponData.Speed;
