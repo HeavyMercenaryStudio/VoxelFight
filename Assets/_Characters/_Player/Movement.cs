@@ -71,11 +71,10 @@ namespace Characters
             rigibody.MovePosition (moveVector); // set the player's position to this new position
         }
 
-        BindingsExample.PlayerActions playerAction;
         private void RotateWithJoy(float horizontal, float vertical)
         {
             // get input of analog
-            Vector3 turnDir = new Vector3 (playerAction.Move.X, 0f, playerAction.Move.Y);
+            Vector3 turnDir = new Vector3 (Input.GetAxis("JoystickHorizontal"), 0f, Input.GetAxis("JoystickVertical"));
 
             if (turnDir.magnitude > 0.1f) //if magniture of input vector ...
             {

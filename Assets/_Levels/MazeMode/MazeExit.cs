@@ -9,15 +9,9 @@ public class MazeExit : MonoBehaviour {
 
     List<PlayerController> players = new List<PlayerController>();
 
-    GameGui gameGUI;
     PlayerController[] allPlayers;
 
     void Start()
-    {
-        gameGUI = FindObjectOfType<GameGui>();
-        GetPlayers();
-    }
-    private void GetPlayers()
     {
        allPlayers = FindObjectsOfType<PlayerController>();
     }
@@ -37,13 +31,16 @@ public class MazeExit : MonoBehaviour {
             if (players.Count == alivePlayersCount) { 
    
                 var infM = FindObjectOfType<MazeInfinityMode>();
+                var gameGUI = FindObjectOfType<GameGui>();
+
                 if (infM)
                 {
                     gameGUI.VictoryWithNoReturn();
                     infM.LoadNextLvl();
                     SetPlayersHealth();
                 }
-                else gameGUI.Victory();
+                else
+                    gameGUI.Victory();
 
             }
         }
