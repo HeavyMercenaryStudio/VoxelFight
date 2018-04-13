@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WorldObjects;
 using Weapons;
+using UnityEngine.SceneManagement;
 
 namespace Menagers {
     
@@ -96,7 +97,9 @@ namespace Menagers {
 
         void OnDefeat()
         {
-            GAME_GUI.Defeat (); // Update GUI panel
+            GAME_GUI.Defeat (); // Update GUI 
+            SceneManager.LoadScene("Menu"); // load menu scene
+
         }
 
         public GameObject Item;

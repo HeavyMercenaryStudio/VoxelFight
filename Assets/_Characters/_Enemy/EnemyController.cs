@@ -76,7 +76,7 @@ namespace Characters {
             gun.transform.LookAt (targetPos);
 
             targetPos.y = 0;
-            this.transform.LookAt (targetPos);
+            transform.LookAt (targetPos);
         }
         private void Update()
         {

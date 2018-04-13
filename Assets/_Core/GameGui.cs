@@ -38,16 +38,16 @@ namespace CameraUI {
         {
             ShowMissionEndPanel ();
 
-            var textComp = missionEndPanel.GetComponentInChildren<Text> (); // get mission text...
-            textComp.text = defeadText; // set it to mission result text
-            textComp.color = Color.red;
+            if (missionEndPanel) { 
+                var textComp = missionEndPanel.GetComponentInChildren<Text> (); // get mission text...
+                textComp.text = defeadText; // set it to mission result text
+                textComp.color = Color.red;
+            }
         }
         private void ShowMissionEndPanel()
         {
            if(wavePanel) wavePanel.SetActive (false); //hide wave panel
-            missionEndPanel.SetActive (true); //show mission result panel
-
-            StartCoroutine (ReturnToMenu ());
+           if(missionEndPanel) missionEndPanel.SetActive (true); //show mission result panel
         }
         public void Victory()
         {
@@ -69,13 +69,7 @@ namespace CameraUI {
 
             WorldData.NextMission.SetCompleted(); // Set next mission avaible to play
         }
-        private IEnumerator ReturnToMenu()
-        {
-
-            yield return new WaitForSeconds (2);
-
-            SceneManager.LoadScene ("Menu"); // load menu scene
-        }
+        
 
         public void UpdateCrystalText(int value)
         {

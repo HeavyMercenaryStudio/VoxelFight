@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="Assets\FXAA\Scripts\FXAA.cs" />
     <Compile Include="Assets\FXAA\Scripts\FXAAPostEffectsBase.cs" />
+    <Compile Include="Assets\MapEdge.cs" />
     <Compile Include="Assets\ModeScript.cs" />
     <Compile Include="Assets\Oblivion.cs" />
     <Compile Include="Assets\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
